@@ -19,6 +19,29 @@ REPORTS_DIR = os.path.join(BASE_DIR, "reports")
 STATE_FILE = os.path.join(REPORTS_DIR, "last_run.json")
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
+def format_indian(num):
+    if num is None:
+        return "0"
+    try:
+        num = int(round(float(num)))
+    except (ValueError, TypeError):
+        return str(num)
+    s = str(abs(num))
+    if len(s) <= 3:
+        res = s
+    else:
+        last3 = s[-3:]
+        rem = s[:-3]
+        groups = []
+        while len(rem) > 2:
+            groups.append(rem[-2:])
+            rem = rem[:-2]
+        if rem:
+            groups.append(rem)
+        groups.reverse()
+        res = ",".join(groups) + "," + last3
+    return f"-{res}" if num < 0 else res
+
 LOGO_PATH = os.path.join(BASE_DIR, "logo.png")
 CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 RECIPIENTS = ["pinakcorp@agentmail.to", "abhijeetshesh@icloud.com"]
@@ -121,8 +144,8 @@ def build_report_html(data, logo_b64):
                             <div class="district-name">{dist['district_name_hi']}</div>
                             <div class="district-sub">{dist['district_name_en']}</div>
                         </td>
-                        <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{dist['total']:,}</td>
-                        <td class="text-right" style="font-weight: 600;">{dist['total_members']:,}</td>
+                        <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{format_indian(dist['total'])}</td>
+                        <td class="text-right" style="font-weight: 600;">{format_indian(dist['total_members'])}</td>
                     </tr>"""
 
     bottom_rows = ""
@@ -134,8 +157,8 @@ def build_report_html(data, logo_b64):
                             <div class="district-name">{dist['district_name_hi']}</div>
                             <div class="district-sub">{dist['district_name_en'].strip()}</div>
                         </td>
-                        <td class="text-right" style="font-weight: 700; color: #C53030;">{dist['total']:,}</td>
-                        <td class="text-right" style="font-weight: 600;">{dist['total_members']:,}</td>
+                        <td class="text-right" style="font-weight: 700; color: #C53030;">{format_indian(dist['total'])}</td>
+                        <td class="text-right" style="font-weight: 600;">{format_indian(dist['total_members'])}</td>
                     </tr>"""
 
     html = f"""<!DOCTYPE html>
@@ -552,12 +575,12 @@ tr:last-child td {{
     <div class="stats-grid">
         <div class="stat-card total-primary">
             <div class="card-title">कुल जागरूक नागरिक (Total Aware)</div>
-            <div class="card-value">{total_members:,}</div>
+            <div class="card-value">{format_indian(total_members)}</div>
             <div class="card-meta">समस्त 34 जिलों में कुल पहुंच (Cumulative Citizen Outreach)</div>
         </div>
         <div class="stat-card total-secondary">
             <div class="card-title">कुल राज्य प्रविष्टियाँ (Total Events)</div>
-            <div class="card-value">{total_entries:,}</div>
+            <div class="card-value">{format_indian(total_entries)}</div>
             <div class="card-meta">अभियान के तहत कुल आयोजित जागरूकता कार्यक्रम व एंट्रीज</div>
         </div>
     </div>
@@ -567,12 +590,12 @@ tr:last-child td {{
     <div class="stats-grid">
         <div class="stat-card today-primary">
             <div class="card-title">आज के कुल इवेंट (Today's Events)</div>
-            <div class="card-value">{today_entries:,}</div>
+            <div class="card-value">{format_indian(today_entries)}</div>
             <div class="card-meta">पूरे कार्यदिवस (9 AM - 9 PM) में दर्ज नए जागरूकता कार्यक्रम</div>
         </div>
         <div class="stat-card today-secondary">
             <div class="card-title">आज जागरूक नागरिक (Today's Aware)</div>
-            <div class="card-value">{today_members:,}</div>
+            <div class="card-value">{format_indian(today_members)}</div>
             <div class="card-meta">आज के कार्यक्रमों से प्रत्यक्ष रूप से जुड़े कुल नागरिक</div>
         </div>
     </div>
@@ -584,7 +607,7 @@ tr:last-child td {{
             <span class="tag">Daily Review</span>
         </div>
         <ul class="analysis-points">
-            <li><strong>Volume Performance:</strong> आज राज्यभर में कुल <strong>{today_entries:,} नए events</strong> दर्ज हुए, जिससे single-day reach <strong>{today_members:,} citizens</strong> तक पहुंची। Kondagaon और Gariaband जिलों ने लगातार high-volume sessions conduct करके लीड बनाई हुई है।</li>
+            <li><strong>Volume Performance:</strong> आज राज्यभर में कुल <strong>{format_indian(today_entries)} नए events</strong> दर्ज हुए, जिससे single-day reach <strong>{format_indian(today_members)} citizens</strong> तक पहुंची। Kondagaon और Gariaband जिलों ने लगातार high-volume sessions conduct करके लीड बनाई हुई है।</li>
             <li><strong>Efficiency & Reach:</strong> Durg (3.28 लाख) और Bilaspur (3.10 लाख) जिलों में प्रति-इवेंट नागरिक जुड़ाव (Efficiency) सबसे बेहतर देखी गई है, जहाँ बड़े community sessions और कॉलेज टाउनहॉल काफी असरदार रहे हैं।</li>
             <li><strong>Data Quality & Reporting Alerts:</strong> Bottom 5 जिलों (विशेषकर Raipur Commissionerate, Narayanpur और Mahasamund) में daily entry update की गति काफी धीमी है। कुछ थानों द्वारा offline activity करने के बाद पोर्टल पर time par data sync नहीं किया जा रहा है, जिसे तुरंत सुधारने की आवश्यकता है।</li>
         </ul>
@@ -738,27 +761,27 @@ def build_whatsapp_summary(data, latest_date):
 
     top_text = ""
     for idx, d in enumerate(top_five, 1):
-        top_text += f"{idx}️⃣ *{d['district_name_hi']}:* {d['total']:,} इवेंट्स | {d['total_members']:,} नागरिक\n"
+        top_text += f"{idx}️⃣ *{d['district_name_hi']}:* {format_indian(d['total'])} इवेंट्स | {format_indian(d['total_members'])} नागरिक\n"
 
     bottom_text = ""
     for idx, d in enumerate(bottom_five, 1):
-        bottom_text += f"{idx}️⃣ *{d['district_name_hi']}:* {d['total']:,} इवेंट्स | {d['total_members']:,} नागरिक\n"
+        bottom_text += f"{idx}️⃣ *{d['district_name_hi']}:* {format_indian(d['total'])} इवेंट्स | {format_indian(d['total_members'])} नागरिक\n"
 
     msg = f"""🛡️ *साइबर जागृति अभियान - दैनिक एनालिटिक्स रिपोर्ट*
 📅 *तारीख:* {formatted_date} (9:00 PM Snapshot)
 ━━━━━━━━━━━━━━━━━━━━━
 
 📊 *1. कुल राज्य आंकड़े (Cumulative Stats)*
-• *कुल जागरूक नागरिक (Total Aware):* {total_members:,}
-• *कुल राज्य प्रविष्टियाँ (Total Events):* {total_entries:,}
+• *कुल जागरूक नागरिक (Total Aware):* {format_indian(total_members)}
+• *कुल राज्य प्रविष्टियाँ (Total Events):* {format_indian(total_entries)}
 
 ⚡ *2. आज की गतिविधि (Today's Stats)*
-• *आज के कुल इवेंट (Today's Events):* {today_entries:,}
-• *आज जागरूक नागरिक (Today's Aware):* {today_members:,}
+• *आज के कुल इवेंट (Today's Events):* {format_indian(today_entries)}
+• *आज जागरूक नागरिक (Today's Aware):* {format_indian(today_members)}
 
 ━━━━━━━━━━━━━━━━━━━━━
 🔍 *3. कार्यकारी विश्लेषण (Executive Analysis)*
-• *Volume Performance:* आज राज्यभर में कुल *{today_entries:,} नए events* दर्ज हुए, जिससे single-day reach *{today_members:,} नागरिकों* तक पहुंची। Kondagaon और Gariaband लगातार high volume lead कर रहे हैं।
+• *Volume Performance:* आज राज्यभर में कुल *{format_indian(today_entries)} नए events* दर्ज हुए, जिससे single-day reach *{format_indian(today_members)} नागरिकों* तक पहुंची। Kondagaon और Gariaband लगातार high volume lead कर रहे हैं।
 • *Efficiency & Reach:* Durg और Bilaspur में प्रति-इवेंट नागरिक जुड़ाव (Efficiency) सबसे बेहतर देखी गई है।
 • *Data Quality Alerts:* Bottom 5 जिलों में daily entry update की गति धीमी है; same-day data sync जरूरी है।
 

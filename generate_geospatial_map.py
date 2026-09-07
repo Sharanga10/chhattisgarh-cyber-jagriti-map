@@ -2841,9 +2841,6 @@ def main():
             el.innerHTML = `${{prefix}}<span class="odo-num-val">${{numStr}}</span>${{suffix ? ` <span class="odo-unit-suffix">${{suffix}}</span>` : ''}}`;
         }}
 
-            el.innerHTML = `${{prefix}}<span class="odo-num-val">${{numStr}}</span>${{suffix ? ` <span class="odo-unit-suffix">${{suffix}}</span>` : ''}}`;
-        }}
-
         // Authoritative State Master Counters (Never downgraded by local district filters)
         let stateMasterEvents = {total_events};
         let stateMasterReach = {total_reach};
@@ -3048,19 +3045,22 @@ def main():
         async function checkLiveFeed(isManual = false) {{
             try {{
                 const endpoints = [
-                    'https://atom-leonard-formula-starting.trycloudflare.com/live_feed.json?t=' + Date.now(),
+                    './live_feed.json?t=' + Date.now(),
+                    'live_feed.json?t=' + Date.now(),
                     'http://localhost:8080/live_feed.json?t=' + Date.now(),
                     '/api/feed?t=' + Date.now(),
-                    'live_feed.json?t=' + Date.now(),
                     'https://raw.githubusercontent.com/Kodanda10/chhattisgarh-cyber-jagriti-map/main/live_feed.json?t=' + Date.now()
                 ];
                 let feed = null;
                 for (const ep of endpoints) {{
                     try {{
-                        const res = await fetch(ep);
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 2000);
+                        const res = await fetch(ep, {{ signal: controller.signal }});
+                        clearTimeout(timeoutId);
                         if (res.ok) {{
                             feed = await res.json();
-                            break;
+                            if (feed && feed.total_events) break;
                         }}
                     }} catch (e) {{}}
                 }}

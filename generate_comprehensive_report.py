@@ -24,7 +24,7 @@ import json
 import base64
 import sqlite3
 import subprocess
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Import independent Data Audit Agent
 from data_audit_agent import DataAuditAgent, get_audited_events_query_filter
@@ -39,6 +39,29 @@ RECIPIENTS = ["pinakcorp@agentmail.to", "abhijeetshesh@icloud.com"]
 
 os.makedirs(REPORTS_DIR, exist_ok=True)
 os.makedirs(ARTIFACT_DIR, exist_ok=True)
+
+def format_indian(num):
+    if num is None:
+        return "0"
+    try:
+        num = int(round(float(num)))
+    except (ValueError, TypeError):
+        return str(num)
+    s = str(abs(num))
+    if len(s) <= 3:
+        res = s
+    else:
+        last3 = s[-3:]
+        rem = s[:-3]
+        groups = []
+        while len(rem) > 2:
+            groups.append(rem[-2:])
+            rem = rem[:-2]
+        if rem:
+            groups.append(rem)
+        groups.reverse()
+        res = ",".join(groups) + "," + last3
+    return f"-{res}" if num < 0 else res
 
 def sync_latest_events_from_portal(db_path=DB_PATH):
     """Automatically pulls any new incoming events from portal into SQLite in 1-2 seconds."""
@@ -156,7 +179,7 @@ def export_master_csv(db_path=DB_PATH):
     print(f"[*] Master CSV updated with {len(rows):,} events ({os.path.getsize(csv_path):,} bytes).")
     return csv_path
 
-def generate_comprehensive_report(target_date=None):
+def generate_comprehensive_report(target_date=None, dispatch_email=True):
     if target_date is None:
         now = datetime.now()
         target_date = (now - timedelta(days=1)).strftime("%Y-%m-%d") if now.hour < 21 else now.strftime("%Y-%m-%d")
@@ -904,12 +927,12 @@ def generate_comprehensive_report(target_date=None):
             <div class="stats-grid">
                 <div class="stat-card total-primary">
                     <div class="card-title">कुल जागरूक नागरिक</div>
-                    <div class="card-value">{tot_members:,}</div>
+                    <div class="card-value">{format_indian(tot_members)}</div>
                     <div class="card-meta">प्रदेश के सभी 34 जिलों में अब तक जुड़े कुल लोग</div>
                 </div>
                 <div class="stat-card total-secondary">
                     <div class="card-title">कुल आयोजित इवेंट</div>
-                    <div class="card-value">{tot_events:,}</div>
+                    <div class="card-value">{format_indian(tot_events)}</div>
                     <div class="card-meta">पोर्टल पर दर्ज हुए कुल जागरूकता कार्यक्रम</div>
                 </div>
             </div>
@@ -919,12 +942,12 @@ def generate_comprehensive_report(target_date=None):
             <div class="stats-grid">
                 <div class="stat-card today-primary">
                     <div class="card-title">आज के कुल इवेंट</div>
-                    <div class="card-value">{today_events:,}</div>
+                    <div class="card-value">{format_indian(today_events)}</div>
                     <div class="card-meta">पूरे दिन (सुबह 9 से रात 9 बजे तक) में दर्ज नए इवेंट</div>
                 </div>
                 <div class="stat-card today-secondary">
                     <div class="card-title">आज जागरूक हुए नागरिक</div>
-                    <div class="card-value">{today_members:,}</div>
+                    <div class="card-value">{format_indian(today_members)}</div>
                     <div class="card-meta">आज के कार्यक्रमों से सीधे जुड़े कुल नागरिक</div>
                 </div>
             </div>
@@ -936,7 +959,7 @@ def generate_comprehensive_report(target_date=None):
                     <span class="tag">आज का सारांश</span>
                 </div>
                 <ul class="analysis-points">
-                    <li><strong>आज की प्रगति:</strong> आज पूरे दिन में राज्य भर में <strong>{today_events:,} नए जागरूकता इवेंट</strong> आयोजित किए गए, जिनसे <strong>{today_members:,} नागरिक</strong> सीधे जुड़े। अभियान में अब तक कुल <strong>33.4 लाख से अधिक नागरिक</strong> जुड़ चुके हैं।</li>
+                    <li><strong>आज की प्रगति:</strong> आज पूरे दिन में राज्य भर में <strong>{format_indian(today_events)} नए जागरूकता इवेंट</strong> आयोजित किए गए, जिनसे <strong>{format_indian(today_members)} नागरिक</strong> सीधे जुड़े। अभियान में अब तक कुल <strong>33.4 लाख से अधिक नागरिक</strong> जुड़ चुके हैं।</li>
                     <li><strong>बड़े और छोटे कार्यक्रम:</strong> बिलासपुर, दुर्ग और बेमेतरा जिलों में 100 से अधिक लोगों वाले बड़े सामूहिक कार्यक्रम ज्यादा हुए। वहीं दूसरी ओर कोंडागांव और गरियाबंद ने गांवों और मोहल्लों में छोटे-छोटे समूह बनाकर घर-घर तक संपर्क साधा।</li>
                     <li><strong>जिलों में ध्यान देने योग्य बातें:</strong> रायपुर कमिश्नरेट, नारायणपुर और सारंगढ़-बिलाईगढ़ में इवेंट दर्ज करने की गति अभी धीमी है। इन जिलों में फील्ड टीमों द्वारा कार्यक्रम के उसी दिन पोर्टल पर एंट्री पूरी कराने से सही आंकड़े तुरंत दिख सकेंगे।</li>
                 </ul>
@@ -965,8 +988,8 @@ def generate_comprehensive_report(target_date=None):
                             <tr>
                                 <td><span class="rank rank-top">{idx}</span></td>
                                 <td><div class="district-name">{hi}</div></td>
-                                <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{cnt:,}</td>
-                                <td class="text-right" style="font-weight: 600;">{mem:,}</td>
+                                <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{format_indian(cnt)}</td>
+                                <td class="text-right" style="font-weight: 600;">{format_indian(mem)}</td>
                             </tr>"""
 
     page1_html += """
@@ -995,8 +1018,8 @@ def generate_comprehensive_report(target_date=None):
                             <tr>
                                 <td><span class="rank rank-bottom">{idx}</span></td>
                                 <td><div class="district-name">{hi}</div></td>
-                                <td class="text-right" style="font-weight: 700; color: #C53030;">{cnt:,}</td>
-                                <td class="text-right" style="font-weight: 600;">{mem:,}</td>
+                                <td class="text-right" style="font-weight: 700; color: #C53030;">{format_indian(cnt)}</td>
+                                <td class="text-right" style="font-weight: 600;">{format_indian(mem)}</td>
                             </tr>"""
 
     page1_html += f"""
@@ -1034,7 +1057,7 @@ def generate_comprehensive_report(target_date=None):
             bar_h = max(bar_h, 7)  # Ensure visibility for Week 1
             
             reach_lakh = w["members"] / 100000.0
-            reach_str = f"{reach_lakh:.2f}L" if reach_lakh >= 1.0 else f"{w['members']:,}"
+            reach_str = f"{reach_lakh:.2f}L" if reach_lakh >= 1.0 else format_indian(w['members'])
 
             if is_current:
                 bar_class = "v-bar active"
@@ -1049,11 +1072,11 @@ def generate_comprehensive_report(target_date=None):
 
             val_html = f"""
                 <div class="v-val-label" style="color: {val_color};">
-                    {w["events"]:,}
+                    {format_indian(w["events"])}
                     <span class="v-val-reach" style="color: {sub_color};">{reach_str} लोग</span>
                 </div>
             """
-            bar_html = f'<div class="{bar_class}" style="height: {bar_h}px;" title="{w["events"]:,} इवेंट | {w["members"]:,} नागरिक"></div>'
+            bar_html = f'<div class="{bar_class}" style="height: {bar_h}px;" title="{format_indian(w["events"])} इवेंट | {format_indian(w["members"])} नागरिक"></div>'
 
         cols_html += f"""
             <div class="v-chart-col">
@@ -1108,7 +1131,7 @@ def generate_comprehensive_report(target_date=None):
             <div class="table-card">
                 <div class="table-title" style="color: #1A365D;">
                     <span>तालिका 1: उपस्थिति के अनुसार इवेंट का विवरण</span>
-                    <span class="badge badge-info">कुल विश्लेषित इवेंट: {tot_events:,}</span>
+                    <span class="badge badge-info">कुल विश्लेषित इवेंट: {format_indian(tot_events)}</span>
                 </div>
                 <table>
                     <thead>
@@ -1129,9 +1152,9 @@ def generate_comprehensive_report(target_date=None):
                         <tr>
                             <td style="font-weight: 700; color: #2D3748;">{b_name_clean}</td>
                             <td style="color: #4A5568;">{b_cat}</td>
-                            <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{b_events:,}</td>
+                            <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{format_indian(b_events)}</td>
                             <td class="text-right" style="font-weight: 600;">{b_pct_ev:.1f}%</td>
-                            <td class="text-right" style="font-weight: 700; color: #1A202C;">{b_cits:,} <span style="font-size: 10px; color: #718096; font-weight: 500;">({b_pct_cit:.1f}%)</span></td>
+                            <td class="text-right" style="font-weight: 700; color: #1A202C;">{format_indian(b_cits)} <span style="font-size: 10px; color: #718096; font-weight: 500;">({b_pct_cit:.1f}%)</span></td>
                         </tr>"""
 
     page2_html += f"""
@@ -1191,13 +1214,13 @@ def generate_comprehensive_report(target_date=None):
         page3_html += f"""
                         <tr>
                             <td style="font-weight: 700; color: #1A202C;">{d_hi}</td>
-                            <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{d_tot:,}</td>
-                            <td class="text-right">{d_u10:,}</td>
+                            <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{format_indian(d_tot)}</td>
+                            <td class="text-right">{format_indian(d_u10)}</td>
                             <td class="text-right" style="color: {'#C53030' if d_pct_u10 > 30 else '#4A5568'}; font-weight: 600;">{d_pct_u10:.1f}%</td>
-                            <td class="text-right">{d_10_100:,}</td>
-                            <td class="text-right" style="font-weight: 700; color: #22543D;">{d_o100:,}</td>
+                            <td class="text-right">{format_indian(d_10_100)}</td>
+                            <td class="text-right" style="font-weight: 700; color: #22543D;">{format_indian(d_o100)}</td>
                             <td class="text-right" style="color: {'#22543D' if d_pct_o100 > 15 else '#4A5568'}; font-weight: 600;">{d_pct_o100:.1f}%</td>
-                            <td class="text-right" style="font-weight: 700;">{d_mem:,}</td>
+                            <td class="text-right" style="font-weight: 700;">{format_indian(d_mem)}</td>
                         </tr>"""
 
     page3_html += f"""
@@ -1234,8 +1257,8 @@ def generate_comprehensive_report(target_date=None):
                             <td><span class="rank rank-top">{idx}</span></td>
                             <td style="font-weight: 700; color: #1A202C;">{t_name}</td>
                             <td style="color: #4A5568; font-weight: 500;">{t_dist}</td>
-                            <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{t_cnt:,}</td>
-                            <td class="text-right" style="font-weight: 700;">{t_reach:,}</td>
+                            <td class="text-right" style="font-weight: 700; color: #2B6CB0;">{format_indian(t_cnt)}</td>
+                            <td class="text-right" style="font-weight: 700;">{format_indian(t_reach)}</td>
                             <td class="text-right" style="font-weight: 600; color: {'#22543D' if t_avg > 40 else '#4A5568'};">{t_avg}</td>
                         </tr>"""
 
@@ -1368,11 +1391,14 @@ end tell
     with open(scpt_path, "w") as f:
         f.write(applescript)
 
-    res_mail = subprocess.run(["osascript", scpt_path], capture_output=True, text=True)
-    if res_mail.returncode != 0:
-        print(f"Warning: Mail dispatch reported: {res_mail.stderr}")
+    if dispatch_email:
+        res_mail = subprocess.run(["osascript", scpt_path], capture_output=True, text=True)
+        if res_mail.returncode != 0:
+            print(f"Warning: Mail dispatch reported: {res_mail.stderr}")
+        else:
+            print("[4/4] Email successfully dispatched with updated PDF attachment!")
     else:
-        print("[4/4] Email successfully dispatched with updated PDF attachment!")
+        print("[4/4] Email dispatch skipped (test mode).")
 
     print("\nAll tasks completed successfully!")
     return pdf_path, formatted_date

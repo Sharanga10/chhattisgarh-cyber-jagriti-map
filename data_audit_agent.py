@@ -89,13 +89,14 @@ class DataAuditAgent:
             "temporal_audit": {},
             "quality_audit": {},
             "normalization_audit": {},
+            "district_audit": {},
             "quarantined_event_ids": [],
             "warnings": [],
             "action_taken": []
         }
 
     def fetch_live_ground_truth(self):
-        """Step 1: Check live portal counters for external verification."""
+        """Step 1: Check live portal counters & district metrics for external verification."""
         try:
             login_url = "https://cyberjagriti.policemitanrpr.com/api/login/check"
             res = requests.post(login_url, json={"username": "admin", "***REMOVED***": "***REMOVED***"}, timeout=15)
@@ -110,7 +111,11 @@ class DataAuditAgent:
             dash_url = "https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard"
             dash_res = requests.get(dash_url, headers={"Authorization": token}, timeout=15)
             if dash_res.status_code == 200:
-                return dash_res.json().get("counter", {})
+                dash_data = dash_res.json()
+                return {
+                    "counter": dash_data.get("counter", {}),
+                    "districts": dash_data.get("districts", [])
+                }
         except Exception as e:
             self.results["warnings"].append(f"Live API ground truth check failed: {str(e)}")
         return None
@@ -130,15 +135,18 @@ class DataAuditAgent:
         cur = conn.cursor()
 
         # ----------------------------------------------------
-        # Audit 1: Ground Truth Reconciliation
+        # Audit 1: Ground Truth Reconciliation (Statewide)
         # ----------------------------------------------------
-        print("\n[Audit 1/4] Reconciling Ground Truth Telemetry...")
+        print("\n[Audit 1/5] Reconciling Ground Truth Statewide Telemetry...")
         cur.execute("SELECT COUNT(*), SUM(total_members) FROM events")
         db_total_events, db_total_members = cur.fetchone()
         db_total_events = db_total_events or 0
         db_total_members = db_total_members or 0
 
-        portal_counter = self.fetch_live_ground_truth()
+        portal_data = self.fetch_live_ground_truth()
+        portal_counter = portal_data.get("counter", {}) if portal_data else None
+        portal_districts = portal_data.get("districts", []) if portal_data else []
+
         if portal_counter:
             portal_entries = portal_counter.get("total_entries", 0)
             portal_members = portal_counter.get("total_members", 0)
@@ -163,6 +171,7 @@ class DataAuditAgent:
                 "db_members": db_total_members,
                 "note": "Offline verification against local store"
             }
+            print(f"    Local Database: {db_total_events:,} events | {db_total_members:,} citizens")
             print(f"    Local Database: {db_total_events:,} events | {db_total_members:,} citizens")
 
         # ----------------------------------------------------
@@ -224,7 +233,9 @@ class DataAuditAgent:
         # ----------------------------------------------------
         # Audit 4: Entity Normalization (Thanas & Districts)
         # ----------------------------------------------------
-        print("\n[Audit 4/4] Verifying Entity Normalization (Thanas & Districts)...")
+        # Audit 4: Entity Normalization (Thanas & Districts)
+        # ----------------------------------------------------
+        print("\n[Audit 4/5] Verifying Entity Normalization (Thanas & Districts)...")
         cur.execute("SELECT DISTINCT district_name_hi FROM events WHERE district_name_hi != ''")
         recorded_districts = [r[0].strip() for r in cur.fetchall()]
         print(f"    Total Active Districts: {len(recorded_districts)} / 34")
@@ -241,11 +252,95 @@ class DataAuditAgent:
         }
 
         # ----------------------------------------------------
+        # Audit 5: Per-District Ground Truth & Feed Alignment
+        # ----------------------------------------------------
+        print("\n[Audit 5/5] Cross-Verifying District Ground Truth & Live Feed Parity...")
+        district_mismatches = []
+        feed_mismatches = []
+
+        feed_json_path = os.path.join(BASE_DIR, "live_feed.json")
+        feed_districts_by_id = {}
+        if os.path.exists(feed_json_path):
+            try:
+                with open(feed_json_path, "r", encoding="utf-8") as f:
+                    fj = json.load(f)
+                    for fd in fj.get("districts", []):
+                        feed_districts_by_id[int(fd.get("id", 0))] = fd
+            except Exception as e:
+                self.results["warnings"].append(f"Failed to read live_feed.json: {e}")
+
+        district_audit_records = []
+        if portal_districts:
+            for pd in portal_districts:
+                did = int(pd.get("district_id", 0))
+                dname_en = pd.get("district_name_en", "").strip()
+                dname_hi = pd.get("district_name_hi", "").strip()
+                portal_ev = int(pd.get("total", 0))
+                portal_mem = int(pd.get("total_members", 0))
+
+                # Database count for this district
+                cur.execute("SELECT COUNT(*), SUM(total_members) FROM events WHERE district_id = ?", (did,))
+                db_ev, db_mem = cur.fetchone()
+                db_ev = db_ev or 0
+                db_mem = db_mem or 0
+
+                ev_delta = abs(portal_ev - db_ev)
+                if ev_delta > 50:
+                    district_mismatches.append({
+                        "id": did, "name": dname_hi, "portal_events": portal_ev,
+                        "db_events": db_ev, "delta": ev_delta
+                    })
+
+                feed_target_id = 27 if did in (27, 34) else did
+                if feed_districts_by_id and feed_target_id in feed_districts_by_id:
+                    fd = feed_districts_by_id[feed_target_id]
+                    fd_ev = int(fd.get("events", 0))
+                    if did not in (27, 34):
+                        feed_delta = abs(portal_ev - fd_ev)
+                        if feed_delta > 50:
+                            feed_mismatches.append({
+                                "id": did, "name": dname_hi, "portal_events": portal_ev,
+                                "feed_events": fd_ev, "delta": feed_delta
+                            })
+
+                district_audit_records.append({
+                    "id": did,
+                    "name": dname_hi,
+                    "portal_events": portal_ev,
+                    "db_events": db_ev,
+                    "delta": ev_delta
+                })
+
+            print(f"    Verified {len(portal_districts)} districts against Portal Ground Truth.")
+            if district_mismatches:
+                print(f"    [!] Detected {len(district_mismatches)} district count divergence(s) > 50:")
+                for dm in district_mismatches[:5]:
+                    print(f"        - {dm['name']} (ID {dm['id']}): Portal={dm['portal_events']}, DB={dm['db_events']} (Delta: {dm['delta']})")
+            else:
+                print("    All 33/34 Police districts are in telemetry alignment.")
+
+            if feed_mismatches:
+                print(f"    [!] Detected {len(feed_mismatches)} live_feed.json disparity alert(s):")
+                for fm in feed_mismatches[:5]:
+                    print(f"        - Feed {fm['name']} (ID {fm['id']}): Portal={fm['portal_events']}, Feed={fm['feed_events']}")
+            elif feed_districts_by_id:
+                print("    Live Map Feed (live_feed.json) is fully aligned with Ground Truth.")
+
+        self.results["district_audit"] = {
+            "districts_audited": len(portal_districts),
+            "district_mismatches": district_mismatches,
+            "feed_mismatches": feed_mismatches
+        }
+
+        # ----------------------------------------------------
         # Gatekeeper Verdict
         # ----------------------------------------------------
         if db_total_events == 0:
             self.results["status"] = "BLOCKED"
             self.results["verdict_message"] = "डेटाबेस रिक्त है (Database empty)."
+        elif district_mismatches or feed_mismatches:
+            self.results["status"] = "WARNING_MISMATCH"
+            self.results["verdict_message"] = f"डेटा में विसंगति पाई गई: {len(district_mismatches)} जिले असंतुलित हैं।"
         elif quarantined_ids:
             self.results["status"] = "AUTO_HEALED"
             self.results["verdict_message"] = f"डेटा सत्यापित एवं उपचारित: {len(quarantined_ids)} विसंगतिपूर्ण प्रविष्टियों को रिपोर्ट से सुरक्षित रूप से पृथक किया गया।"
