@@ -2265,6 +2265,18 @@ def main():
             zoomControl: false
         }});
 
+        // Dedicated Custom Panes for Absolute Layer Stacking Hierarchy
+        map.createPane('districtsPane');
+        map.getPane('districtsPane').style.zIndex = 400; // District polygons and borders at base
+
+        map.createPane('thanasPane');
+        map.getPane('thanasPane').style.zIndex = 500;   // Thana red bubbles ALWAYS ABOVE geography borders
+        map.getPane('thanasPane').style.pointerEvents = 'auto';
+
+        map.createPane('labelsPane');
+        map.getPane('labelsPane').style.zIndex = 550;   // Devanagari centroid name badges on top
+        map.getPane('labelsPane').style.pointerEvents = 'none';
+
         // Docked Reset View Button directly above Zoom (+/-) Controls
         const ResetViewControl = L.Control.extend({{
             options: {{ position: 'bottomright' }},
@@ -2319,11 +2331,12 @@ def main():
             return '#e11d48';                      // Crimson Rose
         }}
 
-        // District Polygon Styling
+        // District Polygon Styling (Strictly confined to districtsPane)
         function styleFeature(feature) {{
             const events = feature.properties.events || 0;
             const matches = matchesCurrentFilter(events);
             return {{
+                pane: 'districtsPane',
                 fillColor: getColor(events),
                 weight: 1.8,
                 opacity: matches ? 0.95 : 0.25,
@@ -2342,8 +2355,9 @@ def main():
             return true;
         }}
 
-        // Interactive GeoJSON Layer with Rich Tooltip (NO rogue leader lines!)
+        // Interactive GeoJSON Layer with Rich Tooltip (Confined to districtsPane)
         let geojsonLayer = L.geoJson(GEO_DATA, {{
+            pane: 'districtsPane',
             style: styleFeature,
             onEachFeature: (feature, layer) => {{
                 const p = feature.properties;
@@ -2413,7 +2427,7 @@ def main():
             }}
         }}).addTo(map);
 
-        // Permanent Crisp District Centroid Badges Layer
+        // Permanent Crisp District Centroid Badges Layer (Confined to labelsPane)
         const labelsLayer = L.layerGroup();
         DISTRICTS_DATA.forEach(d => {{
             const labelIcon = L.divIcon({{
@@ -2422,20 +2436,21 @@ def main():
                 iconSize: [70, 20],
                 iconAnchor: [35, 10]
             }});
-            L.marker([d.lat, d.lng], {{ icon: labelIcon, interactive: false }}).addTo(labelsLayer);
+            L.marker([d.lat, d.lng], {{ icon: labelIcon, pane: 'labelsPane', interactive: false }}).addTo(labelsLayer);
         }});
 
-        // Frontline Thana Hub Markers Layer
+        // Frontline Thana Hub Markers Layer (Confined to thanasPane - ALWAYS floating ABOVE districts)
         const thanasLayer = L.layerGroup().addTo(map);
         THANA_POINTS.forEach(t => {{
             const radius = Math.min(Math.max(Math.sqrt(t.events) * 0.65, 4), 16);
             const circle = L.circleMarker([t.lat, t.lng], {{
+                pane: 'thanasPane',
                 radius: radius,
                 fillColor: '#ef4444',
                 color: '#ffffff',
-                weight: 1.5,
+                weight: 1.8,
                 opacity: 0.95,
-                fillOpacity: 0.88
+                fillOpacity: 0.9
             }});
 
             const reachFormatted = t.reach >= 100000 ? (t.reach / 100000).toFixed(2) + ' लाख' : t.reach.toLocaleString();
@@ -2471,12 +2486,12 @@ def main():
                 }},
                 mouseout: (e) => {{
                     const l = e.target;
-                    l.setStyle({{ weight: 1.5, color: '#ffffff', fillOpacity: 0.88 }});
+                    l.setStyle({{ weight: 1.8, color: '#ffffff', fillOpacity: 0.9 }});
                 }},
                 click: (e) => {{
                     const matchingDist = DISTRICTS_DATA.find(d => d.name_hi === t.district || d.name_en === t.district);
                     if (matchingDist) {{
-                        openDistrictDrawer(matchingDist);
+                        openDistrictModal(matchingDist);
                     }}
                 }}
             }});
