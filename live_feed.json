@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-07 17:19:32",
-  "total_events": 84305,
-  "total_reach": 3758285,
+  "timestamp": "2026-09-07 17:23:09",
+  "total_events": 84540,
+  "total_reach": 3766309,
   "avg_attendance": 44.6,
   "districts_count": 33,
   "status": "ONLINE",
@@ -14,8 +14,8 @@
       "lng": 82.072,
       "division": "Raipur",
       "flank": "right",
-      "events": 21788,
-      "reach": 604825,
+      "events": 22023,
+      "reach": 612849,
       "avg_attendance": 27.8,
       "top_thanas": [
         {
@@ -25,8 +25,8 @@
         },
         {
           "name": "2026-09-07",
-          "events": 1741,
-          "reach": 42367
+          "events": 1976,
+          "reach": 50391
         },
         {
           "name": "फिंगेश्वर",
@@ -42,7 +42,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 17045
+          "count": 17280
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
