@@ -1,11 +1,60 @@
 {
-  "timestamp": "2026-09-07 16:41:28",
-  "total_events": 82689,
-  "total_reach": 3719280,
-  "avg_attendance": 45.0,
+  "timestamp": "2026-09-07 16:58:02",
+  "total_events": 83434,
+  "total_reach": 3737662,
+  "avg_attendance": 44.8,
   "districts_count": 33,
   "status": "ONLINE",
   "districts": [
+    {
+      "id": 2,
+      "name_en": "Gariaband",
+      "name_hi": "गरियाबंद",
+      "lat": 20.958,
+      "lng": 82.072,
+      "division": "Raipur",
+      "flank": "right",
+      "events": 20917,
+      "reach": 584202,
+      "avg_attendance": 27.9,
+      "top_thanas": [
+        {
+          "name": "Devbhog",
+          "events": 2160,
+          "reach": 56441
+        },
+        {
+          "name": "फिंगेश्वर",
+          "events": 1375,
+          "reach": 38349
+        },
+        {
+          "name": "राजिम",
+          "events": 919,
+          "reach": 32053
+        },
+        {
+          "name": "Chhura",
+          "events": 918,
+          "reach": 71409
+        }
+      ],
+      "top_topics": [
+        {
+          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
+          "count": 16174
+        },
+        {
+          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
+          "count": 4273
+        },
+        {
+          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
+          "count": 428
+        }
+      ],
+      "rank": 1
+    },
     {
       "id": 1,
       "name_en": "Kondagaon",
@@ -51,55 +100,6 @@
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
           "count": 1239
-        }
-      ],
-      "rank": 1
-    },
-    {
-      "id": 2,
-      "name_en": "Gariaband",
-      "name_hi": "गरियाबंद",
-      "lat": 20.958,
-      "lng": 82.072,
-      "division": "Raipur",
-      "flank": "right",
-      "events": 20172,
-      "reach": 565820,
-      "avg_attendance": 28.0,
-      "top_thanas": [
-        {
-          "name": "Devbhog",
-          "events": 2160,
-          "reach": 56441
-        },
-        {
-          "name": "फिंगेश्वर",
-          "events": 1375,
-          "reach": 38349
-        },
-        {
-          "name": "राजिम",
-          "events": 919,
-          "reach": 32053
-        },
-        {
-          "name": "Chhura",
-          "events": 918,
-          "reach": 71409
-        }
-      ],
-      "top_topics": [
-        {
-          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 15429
-        },
-        {
-          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
-          "count": 4273
-        },
-        {
-          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
-          "count": 428
         }
       ],
       "rank": 2
