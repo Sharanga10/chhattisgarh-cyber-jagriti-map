@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-08 02:00:38",
-  "total_events": 92020,
-  "total_reach": 4000212,
+  "timestamp": "2026-09-08 02:15:29",
+  "total_events": 92032,
+  "total_reach": 4000417,
   "avg_attendance": 43.5,
   "districts_count": 33,
   "status": "ONLINE",
@@ -63,8 +63,8 @@
       "lng": 82.072,
       "division": "Raipur",
       "flank": "right",
-      "events": 21886,
-      "reach": 585417,
+      "events": 21898,
+      "reach": 585622,
       "avg_attendance": 26.7,
       "top_thanas": [
         {
@@ -91,7 +91,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 17143
+          "count": 17155
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
