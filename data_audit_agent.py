@@ -245,10 +245,20 @@ class DataAuditAgent:
         cleaned_thanas = set(clean_thana_name(t) for t in raw_thanas)
         print(f"    Total Distinct Thana Names: {len(raw_thanas)} raw -> normalized into {len(cleaned_thanas)} clean units")
 
+        # Check for malformed station names (e.g. date strings in place of station name)
+        cur.execute("SELECT COUNT(*) FROM events WHERE police_station GLOB '[0-9][0-9][0-9][0-9]*'")
+        date_as_station_count = cur.fetchone()[0]
+        if date_as_station_count > 0:
+            print(f"    [!] ALERT: Detected {date_as_station_count} records with date as police station name!")
+            self.results["warnings"].append(f"Detected {date_as_station_count} events where police_station is formatted as a date.")
+        else:
+            print("    Police station integrity: Verified (No date string artifacts detected).")
+
         self.results["normalization_audit"] = {
             "districts_covered": len(recorded_districts),
             "raw_thanas_count": len(raw_thanas),
-            "normalized_thanas_count": len(cleaned_thanas)
+            "normalized_thanas_count": len(cleaned_thanas),
+            "date_station_corruptions": date_as_station_count
         }
 
         # ----------------------------------------------------

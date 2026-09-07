@@ -222,19 +222,19 @@ def deep_event_ingestion(session, token, verbose=True):
 
             new_records.append((
                 eid,
-                item.get("police_station", ""),
+                item.get("subject", ""),
+                (item.get("police_station") or "").strip(),
+                int(item.get("district", 0)) if str(item.get("district", "")).isdigit() else 0,
+                (item.get("district_name_en") or "").strip(),
+                (item.get("district_name_hi") or "").strip(),
+                (item.get("officer_name") or "").strip(),
+                (item.get("designation") or "").strip(),
+                (item.get("officer_contact_no") or "").strip(),
                 item.get("date", ""),
                 item.get("time", ""),
-                item.get("location", ""),
-                item.get("photo_1", ""),
-                item.get("photo_2", ""),
-                item.get("photo_3", ""),
-                item.get("photo_4", ""),
-                item.get("photo_5", ""),
-                item.get("pdf", ""),
-                item.get("district_name_hi", ""),
-                item.get("district_name_en", ""),
-                item.get("created_at", ""),
+                item.get("date_time", ""),
+                (item.get("village_name") or "").strip(),
+                (item.get("panchayat_name") or "").strip(),
                 members,
                 item.get("remarks", ""),
                 item.get("cyber_topic", ""),
@@ -247,7 +247,13 @@ def deep_event_ingestion(session, token, verbose=True):
         page += 1
 
     if new_records:
-        cur.executemany("INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", new_records)
+        cur.executemany("""
+            INSERT OR REPLACE INTO events (
+                id, subject, police_station, district_id, district_name_en, district_name_hi,
+                officer_name, designation, officer_contact_no, event_date, event_time, upload_datetime,
+                village_name, panchayat_name, total_members, remarks, cyber_topic, week_id, week_name, topic
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        """, new_records)
         conn.commit()
         conn.close()
 

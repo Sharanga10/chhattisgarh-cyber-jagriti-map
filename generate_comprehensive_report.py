@@ -339,6 +339,7 @@ def generate_comprehensive_report(target_date=None, dispatch_email=True):
             WHEN police_station IN ('Dhanora', 'धनोरा') THEN 'धनोरा'
             WHEN police_station IN ('Pharasgaon', 'फरसगांव') THEN 'फरसगांव'
             WHEN police_station IN ('Borigumma', 'बोरीगुम्मा') THEN 'बोरीगुम्मा'
+            WHEN police_station IN ('Chhura', 'छुरा') THEN 'छुरा'
             ELSE police_station
         END AS clean_thana,
         district_name_hi AS district,
@@ -346,7 +347,9 @@ def generate_comprehensive_report(target_date=None, dispatch_email=True):
         SUM(total_members) AS total_reach,
         ROUND(AVG(total_members), 1) AS avg_per_event
     FROM events
-    WHERE police_station != '' AND police_station IS NOT NULL AND {filter_clause}
+    WHERE police_station != '' AND police_station IS NOT NULL 
+      AND police_station NOT GLOB '[0-9][0-9][0-9][0-9]*'
+      AND {filter_clause}
     GROUP BY clean_thana, district_name_hi
     ORDER BY total_events DESC
     LIMIT 10;
@@ -1262,11 +1265,15 @@ def generate_comprehensive_report(target_date=None, dispatch_email=True):
                             <td class="text-right" style="font-weight: 600; color: {'#22543D' if t_avg > 40 else '#4A5568'};">{t_avg}</td>
                         </tr>"""
 
+    t1_name, t1_dist, t1_cnt, t1_reach, t1_avg = thana_rows[0] if len(thana_rows) > 0 else ("", "", 0, 0, 0)
+    t2_name, t2_dist, t2_cnt, t2_reach, t2_avg = thana_rows[1] if len(thana_rows) > 1 else ("", "", 0, 0, 0)
+    t3_name, t3_dist, t3_cnt, t3_reach, t3_avg = thana_rows[2] if len(thana_rows) > 2 else ("", "", 0, 0, 0)
+
     page3_html += f"""
                     </tbody>
                 </table>
                 <div class="insight-box">
-                    <strong>थाना स्तर पर विशेष उपलब्धि:</strong> गरियाबंद के <em>देवभोग</em> (2,399 इवेंट) तथा कोंडागांव के <em>विश्रामपुरी</em> (1,727 इवेंट) निरंतर सक्रियता में अग्रणी हैं। वहीं बिलासपुर के <em>पुलिस लाइन</em> ने 1,686 बड़े आयोजनों के माध्यम से 1.62 लाख नागरिकों तक पहुंच बनाकर 96.1 का उच्चतम प्रति-इवेंट औसत हासिल किया।
+                    <strong>थाना स्तर पर विशेष उपलब्धि:</strong> {t1_dist} का <em>{t1_name}</em> ({format_indian(t1_cnt)} इवेंट) तथा {t2_dist} का <em>{t2_name}</em> ({format_indian(t2_cnt)} इवेंट) एवं {t3_dist} का <em>{t3_name}</em> ({format_indian(t3_cnt)} इवेंट) सक्रियता में राज्य के शीर्ष थाने हैं। {t1_name} ने {format_indian(t1_reach)} नागरिकों तक व्यापक पहुंच बनाई है।
                 </div>
             </div>
         </div>
