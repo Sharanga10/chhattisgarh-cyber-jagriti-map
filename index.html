@@ -786,7 +786,7 @@
             left: 50%;
             transform: translateX(-50%) translateY(-20px);
             background: rgba(15, 23, 42, 0.96);
-            border: 1px solid rgba(239, 68, 68, 0.4);
+            border: 1px solid rgba(16, 185, 129, 0.5);
             color: #ffffff;
             padding: 8px 18px;
             border-radius: 8px;
@@ -800,11 +800,13 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            cursor: pointer;
         }
 
         .toast-notification.show {
             transform: translateX(-50%) translateY(0);
             opacity: 1;
+            pointer-events: auto;
         }
 
         /* Deep-Dive Slide-Over Drawer */
@@ -1674,9 +1676,10 @@
         </div>
 
         <!-- Toast Notification for Live Status -->
-        <div class="toast-notification" id="toastSync">
-            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e;"></span>
-            <span>लाइव सिंक सक्रिय: 91,199 कार्यक्रम पूर्णतः सत्यापित एवं अपडेटेड हैं।</span>
+        <div class="toast-notification" id="toastSync" role="status" aria-live="polite" title="क्लिक करके बंद करें (Click to dismiss)">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; flex-shrink:0;"></span>
+            <span style="flex:1;">लाइव सिंक सक्रिय: 91,199 कार्यक्रम पूर्णतः सत्यापित एवं अपडेटेड हैं।</span>
+            <span style="opacity:0.6; font-size:11px; margin-left:6px; cursor:pointer;" title="बंद करें">✕</span>
         </div>
 
         <!-- Slide-Over Deep-Dive Modal -->
@@ -2429,9 +2432,17 @@
         const toastSync = document.getElementById('toastSync');
         let toastTimeout = null;
 
-        function showSyncToast(msg, duration = 4000) {
+        if (toastSync) {
+            toastSync.addEventListener('click', () => {
+                toastSync.classList.remove('show');
+                if (toastTimeout) clearTimeout(toastTimeout);
+            });
+        }
+
+        function showSyncToast(msg, duration = 3000) {
+            if (!toastSync) return;
             if (msg) {
-                const msgSpan = toastSync.querySelector('span:last-child');
+                const msgSpan = toastSync.querySelector('span:nth-child(2)');
                 if (msgSpan) msgSpan.textContent = msg;
             }
             toastSync.classList.add('show');
@@ -2465,7 +2476,7 @@
                 if (!feed) {
                     if (isManual) {
                         const curTotal = DISTRICTS_DATA.reduce((a, b) => a + b.events, 0);
-                        showSyncToast(`लाइव पोर्टल सिंक सक्रिय: ${formatIN(curTotal)} कार्यक्रम पूर्णतः सत्यापित हैं।`);
+                        showSyncToast(`लाइव पोर्टल सिंक सक्रिय: ${formatIN(curTotal)} कार्यक्रम पूर्णतः सत्यापित हैं।`, 3000);
                     }
                     return;
                 }
@@ -2475,10 +2486,10 @@
                     const nEn = (nd.name_en || '').toLowerCase().trim();
                     const nHi = (nd.name_hi || '').trim();
                     return DISTRICTS_DATA.find(d => {
-                        if (d.id === nid) return true;
+                        if (nid && d.id === nid) return true;
                         if (d.portal_ids && d.portal_ids.includes(nid)) return true;
                         const dEn = d.name_en.toLowerCase().trim();
-                        if (nEn && (dEn === nEn || dEn.includes(nEn) || nEn.includes(dEn))) return true;
+                        if (nEn && dEn === nEn) return true;
                         if (nHi && d.name_hi === nHi) return true;
                         return false;
                     });
@@ -2549,9 +2560,18 @@
 
                     updateStateHeaderKPIs();
                     updateDrawerFilterStats();
-                    showSyncToast(`नया लाइव डाटा प्राप्त: ${formatIN(stateMasterEvents)} कुल कार्यक्रम (${feed.timestamp || 'अभी'})` );
-                } else if (isManual) {
-                    showSyncToast(`लाइव सिंक 100% सत्यापित: ${formatIN(stateMasterEvents)} कार्यक्रम एवं ${(stateMasterReach / 100000).toFixed(2)} लाख नागरिक पूर्णतः अपडेटेड हैं।`);
+
+                    // Subtle indicator pulse on live map badge (silent background sync)
+                    const liveDot = document.querySelector('.live-badge');
+                    if (liveDot) {
+                        liveDot.style.boxShadow = '0 0 14px #22c55e';
+                        setTimeout(() => { liveDot.style.boxShadow = ''; }, 1200);
+                    }
+                }
+
+                // Toast notifications ONLY appear when user manually clicks "लाइव सिंक" button
+                if (isManual) {
+                    showSyncToast(`लाइव सिंक 100% सत्यापित: ${formatIN(stateMasterEvents)} कार्यक्रम एवं ${(stateMasterReach / 100000).toFixed(2)} लाख नागरिक पूर्णतः अपडेटेड हैं।`, 3000);
                 }
             } catch (err) {
                 console.error("[LiveFeed Sync Error]", err);
