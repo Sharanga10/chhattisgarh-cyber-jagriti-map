@@ -1822,50 +1822,115 @@ def main():
 
         .mobile-telemetry-strip {{
             display: none;
-            align-items: center;
-            justify-content: space-around;
-            height: 38px;
-            background: rgba(9, 13, 26, 0.96);
-            border-bottom: 1px solid var(--hairline-border);
-            padding: 0 10px;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: 6px;
+            padding: 8px 10px;
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(10, 15, 30, 0.98);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             z-index: 550;
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
         }}
 
         .m-kpi-pill {{
+            flex: 1 1 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 3px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            text-align: center;
+            min-width: 0;
+            box-sizing: border-box;
+        }}
+
+        .m-kpi-val-row {{
             display: flex;
             align-items: baseline;
-            gap: 4px;
-            font-size: 12px;
-            font-weight: 700;
+            justify-content: center;
+            gap: 2px;
+            font-size: 15px;
+            font-weight: 800;
             color: #ffffff;
             font-feature-settings: "tnum";
-            padding: 3px 8px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            line-height: 1.15;
+            white-space: nowrap;
         }}
 
         .m-kpi-pill .odo-unit-suffix {{
-            font-size: 0.7em;
-            color: var(--text-secondary);
+            font-size: 10.5px;
+            color: #38bdf8;
+            font-weight: 700;
+            margin-left: 2px;
+        }}
+
+        .m-kpi-label {{
+            font-size: 10px;
             font-weight: 600;
-            margin-left: 3px;
+            color: rgba(203, 213, 225, 0.85);
+            margin-top: 2px;
+            white-space: nowrap;
+            letter-spacing: 0.1px;
+            text-align: center;
+        }}
+
+        /* Drawer / Sidebar Filter Statistics Bar */
+        .drawer-filter-stats-bar {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 6px 10px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            font-size: 11px;
+        }}
+
+        .drawer-filter-badge {{
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 10.5px;
+            white-space: nowrap;
+        }}
+
+        .drawer-filter-summary {{
+            color: #e2e8f0;
+            font-weight: 600;
+            font-size: 11px;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }}
 
         /* Mobile & Tablet Responsive Media Queries */
         @media (max-width: 900px) {{
             header {{
-                height: 52px;
+                height: 54px;
                 padding: 6px 14px;
             }}
 
             .campaign-logo-img {{
-                height: 38px;
+                height: 40px;
             }}
 
             .brand-title {{
-                font-size: 15px;
+                font-size: 16px;
+                font-weight: 800;
             }}
 
             .brand-subtitle {{
@@ -1873,8 +1938,8 @@ def main():
             }}
 
             .brand-tag-live {{
-                font-size: 9px;
-                padding: 3px 8px;
+                font-size: 9.5px;
+                padding: 3px 9px;
             }}
 
             .jumbo-kpi-container {{
@@ -1886,7 +1951,8 @@ def main():
             }}
 
             .app-workspace {{
-                height: calc(100vh - 90px);
+                height: calc(100vh - 114px);
+                height: calc(100dvh - 114px);
             }}
 
             .callout-flank-left, .callout-flank-right {{
@@ -1989,24 +2055,48 @@ def main():
         @media (max-width: 480px) {{
             header {{
                 padding: 6px 10px;
+                height: 52px;
             }}
 
             .brand-title {{
-                font-size: 14px;
+                font-size: 14.5px;
+            }}
+
+            .mobile-telemetry-strip {{
+                padding: 6px 8px;
+                gap: 5px;
             }}
 
             .m-kpi-pill {{
-                font-size: 11px;
-                padding: 2px 6px;
+                padding: 5px 3px;
+                border-radius: 8px;
+            }}
+
+            .m-kpi-val-row {{
+                font-size: 14.5px;
+            }}
+
+            .m-kpi-pill .odo-unit-suffix {{
+                font-size: 10px;
+            }}
+
+            .m-kpi-label {{
+                font-size: 9.5px;
+            }}
+
+            .app-workspace {{
+                height: calc(100vh - 110px);
+                height: calc(100dvh - 110px);
             }}
 
             .filter-segmented-bar {{
-                padding: 6px 12px;
+                padding: 6px 10px;
+                gap: 4px;
             }}
 
             .pill-btn {{
-                padding: 3px 8px;
-                font-size: 10px;
+                padding: 4px 8px;
+                font-size: 10.5px;
             }}
         }}
     </style>
@@ -2048,16 +2138,25 @@ def main():
         </div>
     </header>
 
-    <!-- Mobile Micro-Telemetry Strip (Docked directly beneath Header on mobile <= 900px) -->
+    <!-- Mobile Executive Telemetry Strip (Spacious, bold 3-card layout on mobile <= 900px) -->
     <div class="mobile-telemetry-strip" id="mobileTelemetryStrip">
-        <div class="m-kpi-pill odometer-val" id="mKpiEvents" data-raw-val="{total_events}">
-            <span class="odo-num-val">{total_events:,}</span> <span class="odo-unit-suffix">कार्यक्रम</span>
+        <div class="m-kpi-pill">
+            <div class="m-kpi-val-row odometer-val" id="mKpiEvents" data-raw-val="{total_events}">
+                <span class="odo-num-val">{total_events:,}</span>
+            </div>
+            <div class="m-kpi-label">कुल कार्यक्रम</div>
         </div>
-        <div class="m-kpi-pill odometer-val" id="mKpiReach" data-raw-val="{total_reach/100000:.2f}">
-            <span class="odo-num-val">{total_reach/100000:.2f}L</span> <span class="odo-unit-suffix">नागरिक</span>
+        <div class="m-kpi-pill">
+            <div class="m-kpi-val-row odometer-val" id="mKpiReach" data-raw-val="{total_reach/100000:.2f}">
+                <span class="odo-num-val">{total_reach/100000:.2f}</span> <span class="odo-unit-suffix">लाख</span>
+            </div>
+            <div class="m-kpi-label">जागरूक नागरिक</div>
         </div>
-        <div class="m-kpi-pill odometer-val" id="mKpiAvg" data-raw-val="{avg_state_att}">
-            <span class="odo-num-val">{avg_state_att}</span> <span class="odo-unit-suffix">औसत</span>
+        <div class="m-kpi-pill">
+            <div class="m-kpi-val-row odometer-val" id="mKpiAvg" data-raw-val="{avg_state_att}">
+                <span class="odo-num-val">{avg_state_att}</span>
+            </div>
+            <div class="m-kpi-label">औसत उपस्थिति</div>
         </div>
     </div>
 
@@ -2223,6 +2322,10 @@ def main():
                 <div class="sidebar-title-row">
                     <span class="sidebar-heading">33 जिलों की आधिकारिक रैंकिंग</span>
                     <span class="sidebar-counter odometer-val" id="sidebarCounter" data-raw-val="33">33 जिले सक्रिय</span>
+                </div>
+                <div class="drawer-filter-stats-bar" id="drawerFilterStatsBar">
+                    <span class="drawer-filter-badge" id="drawerFilterBadge">सभी 33 जिले</span>
+                    <span class="drawer-filter-summary" id="drawerFilterSummary">कुल {total_events:,} कार्यक्रम • {total_reach/100000:.2f} लाख नागरिक</span>
                 </div>
                 <div class="search-container">
                     <span class="search-icon-svg">🔍</span>
@@ -2700,8 +2803,31 @@ def main():
             el.innerHTML = `${{prefix}}<span class="odo-num-val">${{numStr}}</span>${{suffix ? ` <span class="odo-unit-suffix">${{suffix}}</span>` : ''}}`;
         }}
 
-        // Dynamic State-Level / Filtered KPI Recalculator
-        function updateDynamicKPIs() {{
+        // Authoritative State Master Counters (Never downgraded by local district filters)
+        let stateMasterEvents = {total_events};
+        let stateMasterReach = {total_reach};
+        let stateMasterAvgAtt = {avg_state_att};
+
+        // Update Executive Header & Mobile Telemetry Bar with Official State Metrics
+        function updateStateHeaderKPIs() {{
+            const reachLakh = parseFloat((stateMasterReach / 100000).toFixed(2));
+
+            // Desktop Jumbo Header
+            animateOdometer(document.getElementById('kpiTotalEvents'), stateMasterEvents, 700);
+            animateOdometer(document.getElementById('kpiTotalReach'), reachLakh, 700, {{ suffix: 'लाख' }});
+            animateOdometer(document.getElementById('kpiAvgAtt'), stateMasterAvgAtt, 700, {{ isDecimal: true }});
+
+            // Mobile Executive Telemetry Bar
+            const mEvEl = document.getElementById('mKpiEvents');
+            if (mEvEl) animateOdometer(mEvEl, stateMasterEvents, 700);
+            const mRchEl = document.getElementById('mKpiReach');
+            if (mRchEl) animateOdometer(mRchEl, reachLakh, 700, {{ suffix: 'लाख' }});
+            const mAvgEl = document.getElementById('mKpiAvg');
+            if (mAvgEl) animateOdometer(mAvgEl, stateMasterAvgAtt, 700, {{ isDecimal: true }});
+        }}
+
+        // Update Pull-Up Drawer / Sidebar Filter Statistics Bar
+        function updateDrawerFilterStats() {{
             const filteredDistricts = DISTRICTS_DATA.filter(d => {{
                 if (!matchesCurrentFilter(d.events)) return false;
                 if (searchQuery) {{
@@ -2711,31 +2837,41 @@ def main():
                 return true;
             }});
 
-            let totalEv = 0;
-            let totalRch = 0;
+            let fEv = 0;
+            let fRch = 0;
             filteredDistricts.forEach(d => {{
-                totalEv += d.events;
-                totalRch += d.reach;
+                fEv += d.events;
+                fRch += d.reach;
             }});
-            const avgAtt = totalEv > 0 ? parseFloat((totalRch / totalEv).toFixed(1)) : 0;
-            const reachLakh = parseFloat((totalRch / 100000).toFixed(2));
-
-            animateOdometer(document.getElementById('kpiTotalEvents'), totalEv, 700);
-            animateOdometer(document.getElementById('kpiTotalReach'), reachLakh, 700, {{ suffix: 'लाख' }});
-            animateOdometer(document.getElementById('kpiAvgAtt'), avgAtt, 700, {{ isDecimal: true }});
-
-            // Mobile telemetry bar counters with rolling odometer
-            const mEvEl = document.getElementById('mKpiEvents');
-            if (mEvEl) animateOdometer(mEvEl, totalEv, 700, {{ suffix: 'कार्यक्रम' }});
-            const mRchEl = document.getElementById('mKpiReach');
-            if (mRchEl) animateOdometer(mRchEl, reachLakh, 700, {{ suffix: 'L नागरिक' }});
-            const mAvgEl = document.getElementById('mKpiAvg');
-            if (mAvgEl) animateOdometer(mAvgEl, avgAtt, 700, {{ isDecimal: true, suffix: 'औसत' }});
+            const fReachLakh = parseFloat((fRch / 100000).toFixed(2));
 
             const sidebarCounterEl = document.getElementById('sidebarCounter');
             if (sidebarCounterEl) {{
                 animateOdometer(sidebarCounterEl, filteredDistricts.length, 500, {{ suffix: 'जिले सक्रिय' }});
             }}
+
+            const badgeEl = document.getElementById('drawerFilterBadge');
+            const summaryEl = document.getElementById('drawerFilterSummary');
+
+            if (activeFilter === 'all' && !searchQuery) {{
+                if (badgeEl) badgeEl.textContent = 'सभी 33 जिले';
+                if (summaryEl) summaryEl.textContent = `कुल ${{stateMasterEvents.toLocaleString('en-IN')}} कार्यक्रम • ${{(stateMasterReach/100000).toFixed(2)}} लाख नागरिक`;
+            }} else {{
+                let filterLabel = activeFilter;
+                if (activeFilter === '10k') filterLabel = '> 10,000';
+                else if (activeFilter === '5k-10k') filterLabel = '5,000–10k';
+                else if (activeFilter === '1k-5k') filterLabel = '1,000–5k';
+                else if (activeFilter === '500-1k') filterLabel = '500–1,000';
+                else if (activeFilter === 'under500') filterLabel = '< 500';
+
+                if (badgeEl) badgeEl.textContent = searchQuery ? `खोज: "${{searchQuery}}"` : `फ़िल्टर: ${{filterLabel}}`;
+                if (summaryEl) summaryEl.textContent = `${{filteredDistricts.length}} जिले • ${{fEv.toLocaleString('en-IN')}} कार्यक्रम • ${{fReachLakh}} लाख नागरिक`;
+            }}
+        }}
+
+        // Dynamic State-Level / Filtered KPI Recalculator (Preserves State Master Totals)
+        function updateDynamicKPIs() {{
+            updateDrawerFilterStats();
         }}
 
         // Open Deep-Dive Modal
@@ -2962,11 +3098,16 @@ def main():
                 }});
             }}
 
-            if (anyChanged) {{
-                updateDynamicKPIs();
-                showSyncToast(`नया लाइव डाटा प्राप्त: ${{feed.total_events.toLocaleString('en-IN')}} कुल कार्यक्रम (${{feed.timestamp}})`);
+            if (anyChanged || (feed.total_events && feed.total_events !== stateMasterEvents)) {{
+                if (feed.total_events) stateMasterEvents = feed.total_events;
+                if (feed.total_reach) stateMasterReach = feed.total_reach;
+                stateMasterAvgAtt = stateMasterEvents > 0 ? parseFloat((stateMasterReach / stateMasterEvents).toFixed(1)) : 0;
+
+                updateStateHeaderKPIs();
+                updateDrawerFilterStats();
+                showSyncToast(`नया लाइव डाटा प्राप्त: ${{stateMasterEvents.toLocaleString('en-IN')}} कुल कार्यक्रम (${{feed.timestamp || 'अभी'}})` );
             }} else if (isManual) {{
-                showSyncToast(`लाइव सिंक 100% सत्यापित: ${{feed.total_events.toLocaleString('en-IN')}} कार्यक्रम एवं ${{(feed.total_reach / 100000).toFixed(2)}} लाख नागरिक पूर्णतः अपडेटेड हैं।`);
+                showSyncToast(`लाइव सिंक 100% सत्यापित: ${{stateMasterEvents.toLocaleString('en-IN')}} कार्यक्रम एवं ${{(stateMasterReach / 100000).toFixed(2)}} लाख नागरिक पूर्णतः अपडेटेड हैं।`);
             }}
         }}
 
@@ -3057,7 +3198,8 @@ def main():
         renderCalloutFlanks();
         renderSidebarList();
         setTimeout(() => {{
-            updateDynamicKPIs();
+            updateStateHeaderKPIs();
+            updateDrawerFilterStats();
         }}, 200);
     </script>
 </body>
