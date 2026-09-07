@@ -286,7 +286,37 @@ def start_local_server(port=8080):
     t = threading.Thread(target=serve, daemon=True)
     t.start()
 
-def run_two_tier_daemon(pulse_sec=6, deep_sync_sec=300, git_push_sec=300, serve_port=8080):
+def start_cloudflare_tunnel(port=8080):
+    bin_path = os.path.join(BASE_DIR, "bin", "cloudflared")
+    if not os.path.exists(bin_path):
+        import shutil
+        bin_path = shutil.which("cloudflared")
+    if not bin_path or not os.path.exists(bin_path):
+        print("[!] cloudflared binary not found in bin/ or PATH. Tunnel disabled.", flush=True)
+        return None
+
+    cmd = [bin_path, "tunnel", "--url", f"http://localhost:{port}"]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    tunnel_url = None
+    start_time = time.time()
+    
+    for line in iter(proc.stdout.readline, ''):
+        if "trycloudflare.com" in line:
+            import re
+            m = re.search(r'https://[a-zA-Z0-9-]+\.trycloudflare\.com', line)
+            if m:
+                tunnel_url = m.group(0)
+                break
+        if time.time() - start_time > 15:
+            break
+            
+    if tunnel_url:
+        print(f"[*] Cloudflare Live Edge Tunnel: {tunnel_url}/live_feed.json", flush=True)
+        with open(os.path.join(BASE_DIR, "tunnel_url.txt"), "w") as f:
+            f.write(tunnel_url)
+    return tunnel_url
+
+def run_two_tier_daemon(pulse_sec=6, deep_sync_sec=300, git_push_sec=300, serve_port=8080, enable_tunnel=False):
     print("="*68, flush=True)
     print("CYBER JAGRITI ABHIYAN - TWO-TIER UNDER-THE-RADAR LIVE SYNC DAEMON", flush=True)
     print(f"Tier 1 (Fast Pulse): Every {pulse_sec}s (2KB Dashboard Summary -> live_feed.json)", flush=True)
@@ -295,6 +325,8 @@ def run_two_tier_daemon(pulse_sec=6, deep_sync_sec=300, git_push_sec=300, serve_
     print("Connection: Persistent HTTP Keep-Alive (Zero TLS Handshake Spikes)", flush=True)
     if serve_port:
         start_local_server(serve_port)
+    if enable_tunnel and serve_port:
+        start_cloudflare_tunnel(serve_port)
     print("="*68, flush=True)
 
     session = get_stealth_session()
@@ -348,6 +380,7 @@ if __name__ == "__main__":
     parser.add_argument("--pulse", type=int, default=6, help="Pulse interval in seconds (default: 6s)")
     parser.add_argument("--deep", type=int, default=300, help="Deep sync interval in seconds (default: 300s / 5m)")
     parser.add_argument("--serve", type=int, nargs="?", const=8080, default=8080, help="Serve locally on port (default: 8080)")
+    parser.add_argument("--tunnel", action="store_true", help="Spawn Cloudflare live edge tunnel for public 5s streaming")
     args = parser.parse_args()
 
     if args.once:
@@ -357,6 +390,6 @@ if __name__ == "__main__":
         deep_event_ingestion(session, token, verbose=True)
         git_push_batch(verbose=True)
     elif args.daemon:
-        run_two_tier_daemon(pulse_sec=args.pulse, deep_sync_sec=args.deep, git_push_sec=args.deep, serve_port=args.serve)
+        run_two_tier_daemon(pulse_sec=args.pulse, deep_sync_sec=args.deep, git_push_sec=args.deep, serve_port=args.serve, enable_tunnel=args.tunnel)
     else:
-        run_two_tier_daemon(pulse_sec=6, deep_sync_sec=300, git_push_sec=300, serve_port=8080)
+        run_two_tier_daemon(pulse_sec=6, deep_sync_sec=300, git_push_sec=300, serve_port=8080, enable_tunnel=args.tunnel)
