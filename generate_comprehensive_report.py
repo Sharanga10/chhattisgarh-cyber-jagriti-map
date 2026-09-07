@@ -215,6 +215,7 @@ def generate_comprehensive_report(target_date=None, dispatch_email=True):
     tot_events, tot_members = cur.fetchone()
     tot_events = tot_events or 0
     tot_members = tot_members or 0
+    tot_members_lakh = f"{(tot_members / 100000.0):.2f}"
 
     # Today's stats
     cur.execute(f"SELECT COUNT(*), SUM(total_members) FROM events WHERE event_date = ? AND {filter_clause}", (target_date,))
@@ -262,6 +263,13 @@ def generate_comprehensive_report(target_date=None, dispatch_email=True):
             "events": cnt,
             "members": mem
         })
+
+    w3 = next((w for w in weekly_stats if w["wnum"] == 3), {"events": 0, "members": 0})
+    w4 = next((w for w in weekly_stats if w["wnum"] == 4), {"events": 0, "members": 0})
+    w3_events_str = format_indian(w3["events"])
+    w3_reach_lakh = f"{(w3['members'] / 100000.0):.2f}"
+    w4_events_str = format_indian(w4["events"])
+    w4_reach_lakh = f"{(w4['members'] / 100000.0):.2f}"
 
     # Table 1: Attendance Size Buckets
     buckets_sql = f"""
@@ -962,7 +970,7 @@ def generate_comprehensive_report(target_date=None, dispatch_email=True):
                     <span class="tag">आज का सारांश</span>
                 </div>
                 <ul class="analysis-points">
-                    <li><strong>आज की प्रगति:</strong> आज पूरे दिन में राज्य भर में <strong>{format_indian(today_events)} नए जागरूकता इवेंट</strong> आयोजित किए गए, जिनसे <strong>{format_indian(today_members)} नागरिक</strong> सीधे जुड़े। अभियान में अब तक कुल <strong>33.4 लाख से अधिक नागरिक</strong> जुड़ चुके हैं।</li>
+                    <li><strong>आज की प्रगति:</strong> आज पूरे दिन में राज्य भर में <strong>{format_indian(today_events)} नए जागरूकता इवेंट</strong> आयोजित किए गए, जिनसे <strong>{format_indian(today_members)} नागरिक</strong> सीधे जुड़े। अभियान में अब तक कुल <strong>{tot_members_lakh} लाख से अधिक नागरिक</strong> ({format_indian(tot_members)}) जुड़ चुके हैं।</li>
                     <li><strong>बड़े और छोटे कार्यक्रम:</strong> बिलासपुर, दुर्ग और बेमेतरा जिलों में 100 से अधिक लोगों वाले बड़े सामूहिक कार्यक्रम ज्यादा हुए। वहीं दूसरी ओर कोंडागांव और गरियाबंद ने गांवों और मोहल्लों में छोटे-छोटे समूह बनाकर घर-घर तक संपर्क साधा।</li>
                     <li><strong>जिलों में ध्यान देने योग्य बातें:</strong> रायपुर कमिश्नरेट, नारायणपुर और सारंगढ़-बिलाईगढ़ में इवेंट दर्ज करने की गति अभी धीमी है। इन जिलों में फील्ड टीमों द्वारा कार्यक्रम के उसी दिन पोर्टल पर एंट्री पूरी कराने से सही आंकड़े तुरंत दिख सकेंगे।</li>
                 </ul>
@@ -1111,7 +1119,7 @@ def generate_comprehensive_report(target_date=None, dispatch_email=True):
                     {labels_html}
                 </div>
                 <div class="insight-box" style="margin-top: 8px;">
-                    <strong>शेड्यूल विश्लेषण:</strong> अभियान के पहले 3 सप्ताह सफलतापूर्वक पूर्ण हो चुके हैं। तीसरे सप्ताह (डिजिटल अरेस्ट एवं वरिष्ठ नागरिक) में सर्वाधिक 37,916 इवेंट और 20.06 लाख नागरिक जुड़े। वर्तमान में चौथा सप्ताह (महिला सुरक्षा एवं स्मार्टफोन प्राइवेसी) जारी है, जिसमें आज तक 22,367 इवेंट दर्ज हो चुके हैं।
+                    <strong>शेड्यूल विश्लेषण:</strong> अभियान के पहले 3 सप्ताह सफलतापूर्वक पूर्ण हो चुके हैं। तीसरे सप्ताह (डिजिटल अरेस्ट एवं वरिष्ठ नागरिक) में सर्वाधिक {w3_events_str} इवेंट और {w3_reach_lakh} लाख नागरिक जुड़े। वर्तमान में चौथा सप्ताह (महिला सुरक्षा एवं स्मार्टफोन प्राइवेसी) जारी है, जिसमें आज तक {w4_events_str} इवेंट और {w4_reach_lakh} लाख नागरिक दर्ज हो चुके हैं।
                 </div>
             </div>
     """
@@ -1375,9 +1383,9 @@ body {{ background: #F7F2E1; padding: 15px; }}
 साइबर जागृति अभियान (Cyber Jagriti Abhiyan) की अद्यतन 3-पेजीय दैनिक प्रशासनिक रिपोर्ट ({formatted_date}) संलग्न है।
 
 रिपोर्ट में शामिल अनुभाग:
-• पृष्ठ 1: आज का सारांश (Daily Highlights): कुल 33.68 लाख नागरिक, आज के 22,367 इवेंट
-• पृष्ठ 2: 7-सप्ताहिक अभियान कैलेंडर एवं प्रगति वर्टिकल बार-ग्राफ तथा उपस्थिति दायरा
-• पृष्ठ 3: जिला-वार छोटे बनाम बड़े इवेंट तथा शीर्ष 10 सक्रिय थाने
+• पृष्ठ 1: आज का सारांश (Daily Highlights): कुल {tot_members_lakh} लाख नागरिक ({format_indian(tot_members)}), आज के {format_indian(today_events)} इवेंट ({format_indian(today_members)} नागरिक)
+• पृष्ठ 2: 7-सप्ताहिक अभियान कैलेंडर, प्रगति वर्टिकल बार-ग्राफ तथा उपस्थिति दायरा
+• पृष्ठ 3: जिला-वार छोटे बनाम बड़े इवेंट तथा शीर्ष 10 सक्रिय थाने (रैंक 1: {t1_name} - {t1_dist}, {format_indian(t1_cnt)} इवेंट)
 
 सादर,
 साइबर जागृति अभियान - छत्तीसगढ़ पुलिस
