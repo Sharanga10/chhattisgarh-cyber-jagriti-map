@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-07 19:34:09",
-  "total_events": 89172,
-  "total_reach": 3904202,
+  "timestamp": "2026-09-07 19:39:11",
+  "total_events": 89305,
+  "total_reach": 3907172,
   "avg_attendance": 43.8,
   "districts_count": 33,
   "status": "ONLINE",
@@ -14,14 +14,14 @@
       "lng": 82.072,
       "division": "Raipur",
       "flank": "right",
-      "events": 26650,
-      "reach": 750646,
-      "avg_attendance": 28.2,
+      "events": 26783,
+      "reach": 753616,
+      "avg_attendance": 28.1,
       "top_thanas": [
         {
           "name": "2026-09-07",
-          "events": 6600,
-          "reach": 188175
+          "events": 6733,
+          "reach": 191145
         },
         {
           "name": "Devbhog",
@@ -42,7 +42,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 21907
+          "count": 22040
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
