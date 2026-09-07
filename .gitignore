@@ -1,0 +1,22 @@
+# Large SQLite database and raw data dumps (exceeds GitHub file size limits)
+events.db
+events.db*
+*.db
+*.csv
+
+# Local caches & credentials
+.auth_cache.json
+live_sync_status.json
+com.cyberjagriti.dailymonitor.plist
+
+# Media previews & PDF reports
+*.png
+reports/
+
+# Python & OS artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+.vscode/
+.idea/
