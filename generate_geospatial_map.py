@@ -40,180 +40,10 @@ ARTIFACT_HTML = '/Users/abhijeet/.gemini/antigravity-ide/brain/0c3c7ae5-0856-43d
 FEED_JSON = os.path.join(BASE_DIR, 'live_feed.json')
 ARTIFACT_FEED_JSON = '/Users/abhijeet/.gemini/antigravity-ide/brain/0c3c7ae5-0856-43de-a5ff-16b779c049ff/live_feed.json'
 
-# Master 33 Districts list with coordinates, flank side, and aliases
+# Master 33 Districts list with official police portal IDs, coordinates, flank side, and aliases
 DISTRICTS_33 = [
     {
         "id": 1,
-        "name_en": "Kondagaon",
-        "name_hi": "कोंडागांव",
-        "lat": 19.598,
-        "lng": 81.662,
-        "division": "Bastar",
-        "flank": "left",
-        "aliases": ["Kondagaon", "कोंडागांव", "कोंडागाँव"]
-    },
-    {
-        "id": 2,
-        "name_en": "Gariaband",
-        "name_hi": "गरियाबंद",
-        "lat": 20.958,
-        "lng": 82.072,
-        "division": "Raipur",
-        "flank": "right",
-        "aliases": ["Gariaband", "Gariyaband", "गरियाबंद"]
-    },
-    {
-        "id": 3,
-        "name_en": "Durg",
-        "name_hi": "दुर्ग",
-        "lat": 21.190,
-        "lng": 81.285,
-        "division": "Durg",
-        "flank": "left",
-        "aliases": ["Durg", "दुर्ग"]
-    },
-    {
-        "id": 4,
-        "name_en": "Bilaspur",
-        "name_hi": "बिलासपुर",
-        "lat": 22.080,
-        "lng": 82.139,
-        "division": "Bilaspur",
-        "flank": "right",
-        "aliases": ["Bilaspur", "बिलासपुर"]
-    },
-    {
-        "id": 5,
-        "name_en": "Balrampur-Ramanujganj",
-        "name_hi": "बलरामपुर-रामानुजगंज",
-        "lat": 23.613,
-        "lng": 83.612,
-        "division": "Surguja",
-        "flank": "right",
-        "aliases": ["Balrampur", "Balrampur-Ramanujganj", "बलरामपुर", "बलरामपुर-रामानुजगंज"]
-    },
-    {
-        "id": 6,
-        "name_en": "Janjgir-Champa",
-        "name_hi": "जांजगीर-चांपा",
-        "lat": 22.008,
-        "lng": 82.571,
-        "division": "Bilaspur",
-        "flank": "right",
-        "aliases": ["Janjgir-Champa", "Janjgir Champa", "जांजगीर-चांपा", "जांजगीर-चाम्पा"]
-    },
-    {
-        "id": 7,
-        "name_en": "Rajnandgaon",
-        "name_hi": "राजनांदगांव",
-        "lat": 21.101,
-        "lng": 81.035,
-        "division": "Durg",
-        "flank": "left",
-        "aliases": ["Rajnandgaon", "राजनांदगांव"]
-    },
-    {
-        "id": 8,
-        "name_en": "Sukma",
-        "name_hi": "सुकमा",
-        "lat": 18.796,
-        "lng": 81.667,
-        "division": "Bastar",
-        "flank": "left",
-        "aliases": ["Sukma", "सुकमा"]
-    },
-    {
-        "id": 9,
-        "name_en": "Bemetara",
-        "name_hi": "बेमेतरा",
-        "lat": 21.701,
-        "lng": 81.547,
-        "division": "Durg",
-        "flank": "left",
-        "aliases": ["Bemetara", "Bametara", "बेमेतरा"]
-    },
-    {
-        "id": 10,
-        "name_en": "Surajpur",
-        "name_hi": "सूरजपुर",
-        "lat": 23.220,
-        "lng": 82.860,
-        "division": "Surguja",
-        "flank": "right",
-        "aliases": ["Surajpur", "सूरजपुर"]
-    },
-    {
-        "id": 11,
-        "name_en": "Manendragarh-Chirmiri-Bharatpur",
-        "name_hi": "मनेंद्रगढ़-चिरमिरी-भरतपुर",
-        "lat": 23.213,
-        "lng": 82.352,
-        "division": "Surguja",
-        "flank": "right",
-        "aliases": ["Manendragarh-Chirmiri-Bharatpur", "MCB", "मनेंद्रगढ़-चिरमिरी-भरतपुर"]
-    },
-    {
-        "id": 12,
-        "name_en": "Bastar",
-        "name_hi": "बस्तर",
-        "lat": 19.074,
-        "lng": 82.031,
-        "division": "Bastar",
-        "flank": "left",
-        "aliases": ["Bastar", "बस्तर"]
-    },
-    {
-        "id": 13,
-        "name_en": "Baloda Bazar-Bhatapara",
-        "name_hi": "बलौदाबाजार-भाटापारा",
-        "lat": 21.658,
-        "lng": 82.164,
-        "division": "Raipur",
-        "flank": "right",
-        "aliases": ["Baloda Bazar", "Balodabazar-Bhatapara", "बलौदाबाजार-भाटापारा", "बलौदा बाजार"]
-    },
-    {
-        "id": 14,
-        "name_en": "Raigarh",
-        "name_hi": "रायगढ़",
-        "lat": 21.897,
-        "lng": 83.395,
-        "division": "Bilaspur",
-        "flank": "right",
-        "aliases": ["Raigarh", "रायगढ़"]
-    },
-    {
-        "id": 15,
-        "name_en": "Dantewada",
-        "name_hi": "दंतेवाड़ा",
-        "lat": 18.895,
-        "lng": 81.349,
-        "division": "Bastar",
-        "flank": "left",
-        "aliases": ["Dantewada", "Dakshin Bastar Dantewada", "दंतेवाड़ा", "दक्षिण बस्तर दंतेवाड़ा"]
-    },
-    {
-        "id": 16,
-        "name_en": "Bijapur",
-        "name_hi": "बीजापुर",
-        "lat": 18.797,
-        "lng": 80.817,
-        "division": "Bastar",
-        "flank": "left",
-        "aliases": ["Bijapur", "बीजापुर"]
-    },
-    {
-        "id": 17,
-        "name_en": "Raipur",
-        "name_hi": "रायपुर",
-        "lat": 21.251,
-        "lng": 81.630,
-        "division": "Raipur",
-        "flank": "right",
-        "aliases": ["Raipur Gramin", "Raipur Commissionerate", "Raipur", "रायपुर", "रायपुर ग्रामीण", "रायपुर कमिश्नरेट"]
-    },
-    {
-        "id": 18,
         "name_en": "Balod",
         "name_hi": "बालोद",
         "lat": 20.730,
@@ -223,57 +53,77 @@ DISTRICTS_33 = [
         "aliases": ["Balod", "बालोद"]
     },
     {
-        "id": 19,
-        "name_en": "Koriya",
-        "name_hi": "कोरिया",
-        "lat": 23.268,
-        "lng": 82.557,
+        "id": 2,
+        "name_en": "Baloda Bazar-Bhatapara",
+        "name_hi": "बलौदाबाजार-भाटापारा",
+        "lat": 21.658,
+        "lng": 82.164,
+        "division": "Raipur",
+        "flank": "right",
+        "aliases": ["Baloda Bazar", "Baloda Bazar-Bhatapara", "Balodabazar-Bhatapara", "बलौदाबाजार-भाटापारा", "बलौदा बाजार"]
+    },
+    {
+        "id": 3,
+        "name_en": "Balrampur-Ramanujganj",
+        "name_hi": "बलरामपुर-रामानुजगंज",
+        "lat": 23.613,
+        "lng": 83.612,
         "division": "Surguja",
         "flank": "right",
-        "aliases": ["Koriya", "Korea", "कोरिया"]
+        "aliases": ["Balrampur", "Balrampur-Ramanujganj", "बलरामपुर", "बलरामपुर-रामानुजगंज"]
     },
     {
-        "id": 20,
-        "name_en": "Mungeli",
-        "name_hi": "मुंगेली",
-        "lat": 22.068,
-        "lng": 81.691,
-        "division": "Bilaspur",
-        "flank": "right",
-        "aliases": ["Mungeli", "मुंगेली"]
+        "id": 4,
+        "name_en": "Bastar",
+        "name_hi": "बस्तर",
+        "lat": 19.074,
+        "lng": 82.031,
+        "division": "Bastar",
+        "flank": "left",
+        "aliases": ["Bastar", "बस्तर"]
     },
     {
-        "id": 21,
-        "name_en": "Khairagarh-Chhuikhadan-Gandai",
-        "name_hi": "खैरागढ़-छुईखदान-गंडई",
-        "lat": 21.417,
-        "lng": 80.978,
+        "id": 5,
+        "name_en": "Bemetara",
+        "name_hi": "बेमेतरा",
+        "lat": 21.701,
+        "lng": 81.547,
         "division": "Durg",
         "flank": "left",
-        "aliases": ["Khairagarh-Chhuikhadan-Gandai", "Khairagarh", "खैरागढ़-छुईखदान-गंडई"]
+        "aliases": ["Bemetara", "Bametara", "बेमेतरा"]
     },
     {
-        "id": 22,
-        "name_en": "Kabirdham",
-        "name_hi": "कबीरधाम (कवर्धा)",
-        "lat": 22.012,
-        "lng": 81.248,
-        "division": "Durg",
+        "id": 6,
+        "name_en": "Bijapur",
+        "name_hi": "बीजापुर",
+        "lat": 18.797,
+        "lng": 80.817,
+        "division": "Bastar",
         "flank": "left",
-        "aliases": ["Kabirdham", "Kabeerdham", "Kawardha", "कबीरधाम", "कवर्धा"]
+        "aliases": ["Bijapur", "बीजापुर"]
     },
     {
-        "id": 23,
-        "name_en": "Korba",
-        "name_hi": "कोरबा",
-        "lat": 22.360,
-        "lng": 82.750,
+        "id": 7,
+        "name_en": "Bilaspur",
+        "name_hi": "बिलासपुर",
+        "lat": 22.080,
+        "lng": 82.139,
         "division": "Bilaspur",
         "flank": "right",
-        "aliases": ["Korba", "कोरबा"]
+        "aliases": ["Bilaspur", "बिलासपुर"]
     },
     {
-        "id": 24,
+        "id": 8,
+        "name_en": "Dantewada",
+        "name_hi": "दंतेवाड़ा",
+        "lat": 18.895,
+        "lng": 81.349,
+        "division": "Bastar",
+        "flank": "left",
+        "aliases": ["Dantewada", "Dakshin Bastar Dantewada", "दंतेवाड़ा", "दक्षिण बस्तर दंतेवाड़ा"]
+    },
+    {
+        "id": 9,
         "name_en": "Dhamtari",
         "name_hi": "धमतरी",
         "lat": 20.707,
@@ -283,37 +133,27 @@ DISTRICTS_33 = [
         "aliases": ["Dhamtari", "धमतरी"]
     },
     {
-        "id": 25,
-        "name_en": "Jashpur",
-        "name_hi": "जशपुर",
-        "lat": 22.888,
-        "lng": 84.142,
-        "division": "Surguja",
-        "flank": "right",
-        "aliases": ["Jashpur", "जशपुर"]
-    },
-    {
-        "id": 26,
-        "name_en": "Mohla-Manpur-Ambagarh Chowki",
-        "name_hi": "मोहला-मानपुर-चौकी",
-        "lat": 20.578,
-        "lng": 80.742,
+        "id": 10,
+        "name_en": "Durg",
+        "name_hi": "दुर्ग",
+        "lat": 21.190,
+        "lng": 81.285,
         "division": "Durg",
         "flank": "left",
-        "aliases": ["Mohla-Manpur-Ambagarh Chowki", "Mohla-Manpur", "मोहला-मानपुर-अंबागढ़ चौकी", "मोहला-मानपुर-चौकी"]
+        "aliases": ["Durg", "दुर्ग"]
     },
     {
-        "id": 27,
-        "name_en": "Surguja",
-        "name_hi": "सरगुजा",
-        "lat": 23.121,
-        "lng": 83.197,
-        "division": "Surguja",
+        "id": 11,
+        "name_en": "Gariaband",
+        "name_hi": "गरियाबंद",
+        "lat": 20.958,
+        "lng": 82.072,
+        "division": "Raipur",
         "flank": "right",
-        "aliases": ["Surguja", "सरगुजा", "Ambikapur", "अंबिकापुर"]
+        "aliases": ["Gariaband", "Gariyaband", "गरियाबंद"]
     },
     {
-        "id": 28,
+        "id": 12,
         "name_en": "Gaurela-Pendra-Marwahi",
         "name_hi": "गौरेला-पेंड्रा-मरवाही",
         "lat": 22.755,
@@ -323,7 +163,37 @@ DISTRICTS_33 = [
         "aliases": ["Gaurela-Pendra-Marwahi", "GPM", "गौरेला-पेंड्रा-मरवाही", "गौरेला-पेण्ड्रा-मरवाही"]
     },
     {
-        "id": 29,
+        "id": 13,
+        "name_en": "Janjgir-Champa",
+        "name_hi": "जांजगीर-चांपा",
+        "lat": 22.008,
+        "lng": 82.571,
+        "division": "Bilaspur",
+        "flank": "right",
+        "aliases": ["Janjgir-Champa", "Janjgir Champa", "जांजगीर-चांपा", "जांजगीर-चाम्पा"]
+    },
+    {
+        "id": 14,
+        "name_en": "Jashpur",
+        "name_hi": "जशपुर",
+        "lat": 22.888,
+        "lng": 84.142,
+        "division": "Surguja",
+        "flank": "right",
+        "aliases": ["Jashpur", "जशपुर"]
+    },
+    {
+        "id": 15,
+        "name_en": "Kabirdham",
+        "name_hi": "कबीरधाम (कवर्धा)",
+        "lat": 22.012,
+        "lng": 81.248,
+        "division": "Durg",
+        "flank": "left",
+        "aliases": ["Kabirdham", "Kabeerdham", "Kawardha", "कबीरधाम", "कवर्धा"]
+    },
+    {
+        "id": 16,
         "name_en": "Kanker",
         "name_hi": "कांकेर",
         "lat": 20.272,
@@ -333,7 +203,47 @@ DISTRICTS_33 = [
         "aliases": ["Kanker", "Uttar Bastar Kanker", "कांकेर", "उत्तर बस्तर कांकेर"]
     },
     {
-        "id": 30,
+        "id": 17,
+        "name_en": "Khairagarh-Chhuikhadan-Gandai",
+        "name_hi": "खैरागढ़-छुईखदान-गंडई",
+        "lat": 21.417,
+        "lng": 80.978,
+        "division": "Durg",
+        "flank": "left",
+        "aliases": ["Khairagarh-Chhuikhadan-Gandai", "Khairagarh", "खैरागढ़-छुईखदान-गंडई"]
+    },
+    {
+        "id": 18,
+        "name_en": "Kondagaon",
+        "name_hi": "कोंडागांव",
+        "lat": 19.598,
+        "lng": 81.662,
+        "division": "Bastar",
+        "flank": "left",
+        "aliases": ["Kondagaon", "कोंडागांव", "कोंडागाँव"]
+    },
+    {
+        "id": 19,
+        "name_en": "Korba",
+        "name_hi": "कोरबा",
+        "lat": 22.360,
+        "lng": 82.750,
+        "division": "Bilaspur",
+        "flank": "right",
+        "aliases": ["Korba", "कोरबा"]
+    },
+    {
+        "id": 20,
+        "name_en": "Koriya",
+        "name_hi": "कोरिया",
+        "lat": 23.268,
+        "lng": 82.557,
+        "division": "Surguja",
+        "flank": "right",
+        "aliases": ["Koriya", "Korea", "कोरिया"]
+    },
+    {
+        "id": 21,
         "name_en": "Mahasamund",
         "name_hi": "महासमुंद",
         "lat": 21.109,
@@ -343,17 +253,78 @@ DISTRICTS_33 = [
         "aliases": ["Mahasamund", "महासमुंद"]
     },
     {
-        "id": 31,
-        "name_en": "Sakti",
-        "name_hi": "सक्ती",
-        "lat": 22.029,
-        "lng": 82.958,
-        "division": "Bilaspur",
+        "id": 22,
+        "name_en": "Manendragarh-Chirmiri-Bharatpur",
+        "name_hi": "मनेंद्रगढ़-चिरमिरी-भरतपुर",
+        "lat": 23.213,
+        "lng": 82.352,
+        "division": "Surguja",
         "flank": "right",
-        "aliases": ["Sakti", "सक्ती"]
+        "aliases": ["Manendragarh-Chirmiri-Bharatpur", "MCB", "मनेंद्रगढ़-चिरमिरी-भरतपुर"]
     },
     {
-        "id": 32,
+        "id": 23,
+        "name_en": "Mohla-Manpur-Ambagarh Chowki",
+        "name_hi": "मोहला-मानपुर-चौकी",
+        "lat": 20.578,
+        "lng": 80.742,
+        "division": "Durg",
+        "flank": "left",
+        "aliases": ["Mohla-Manpur-Ambagarh Chowki", "Mohla-Manpur", "मोहला-मानपुर-अंबागढ़ चौकी", "मोहला-मानपुर-चौकी"]
+    },
+    {
+        "id": 24,
+        "name_en": "Mungeli",
+        "name_hi": "मुंगेली",
+        "lat": 22.068,
+        "lng": 81.691,
+        "division": "Bilaspur",
+        "flank": "right",
+        "aliases": ["Mungeli", "मुंगेली"]
+    },
+    {
+        "id": 25,
+        "name_en": "Narayanpur",
+        "name_hi": "नारायणपुर",
+        "lat": 19.721,
+        "lng": 81.252,
+        "division": "Bastar",
+        "flank": "left",
+        "aliases": ["Narayanpur", "नारायणपुर"]
+    },
+    {
+        "id": 26,
+        "name_en": "Raigarh",
+        "name_hi": "रायगढ़",
+        "lat": 21.897,
+        "lng": 83.395,
+        "division": "Bilaspur",
+        "flank": "right",
+        "aliases": ["Raigarh", "रायगढ़"]
+    },
+    {
+        "id": 27,
+        "name_en": "Raipur",
+        "name_hi": "रायपुर",
+        "lat": 21.251,
+        "lng": 81.630,
+        "division": "Raipur",
+        "flank": "right",
+        "portal_ids": [27, 34],
+        "aliases": ["Raipur Gramin", "Raipur Commissionerate", "Raipur", "रायपुर", "रायपुर ग्रामीण", "रायपुर कमिश्नरेट"]
+    },
+    {
+        "id": 28,
+        "name_en": "Rajnandgaon",
+        "name_hi": "राजनांदगांव",
+        "lat": 21.101,
+        "lng": 81.035,
+        "division": "Durg",
+        "flank": "left",
+        "aliases": ["Rajnandgaon", "राजनांदगांव"]
+    },
+    {
+        "id": 29,
         "name_en": "Sarangarh-Bilaigarh",
         "name_hi": "सारंगढ़-बिलाईगढ़",
         "lat": 21.583,
@@ -363,14 +334,44 @@ DISTRICTS_33 = [
         "aliases": ["Sarangarh-Bilaigarh", "सारंगढ़-बिलाईगढ़"]
     },
     {
-        "id": 33,
-        "name_en": "Narayanpur",
-        "name_hi": "नारायणपुर",
-        "lat": 19.721,
-        "lng": 81.252,
+        "id": 30,
+        "name_en": "Sakti",
+        "name_hi": "सक्ती",
+        "lat": 22.029,
+        "lng": 82.958,
+        "division": "Bilaspur",
+        "flank": "right",
+        "aliases": ["Sakti", "सक्ती"]
+    },
+    {
+        "id": 31,
+        "name_en": "Sukma",
+        "name_hi": "सुकमा",
+        "lat": 18.796,
+        "lng": 81.667,
         "division": "Bastar",
         "flank": "left",
-        "aliases": ["Narayanpur", "नारायणपुर"]
+        "aliases": ["Sukma", "सुकमा"]
+    },
+    {
+        "id": 32,
+        "name_en": "Surajpur",
+        "name_hi": "सूरजपुर",
+        "lat": 23.220,
+        "lng": 82.860,
+        "division": "Surguja",
+        "flank": "right",
+        "aliases": ["Surajpur", "सूरजपुर"]
+    },
+    {
+        "id": 33,
+        "name_en": "Surguja",
+        "name_hi": "सरगुजा",
+        "lat": 23.121,
+        "lng": 83.197,
+        "division": "Surguja",
+        "flank": "right",
+        "aliases": ["Surguja", "सरगुजा", "Ambikapur", "अंबिकापुर"]
     }
 ]
 
@@ -438,11 +439,13 @@ def main():
 
     for d in DISTRICTS_33:
         aliases = d["aliases"]
+        p_ids = d.get("portal_ids", [d["id"]])
         placeholders = ','.join(['?'] * len(aliases))
+        id_placeholders = ','.join(['?'] * len(p_ids))
         q = f'''SELECT COUNT(*), SUM(total_members), ROUND(AVG(total_members), 1) 
                 FROM events 
-                WHERE district_name_en IN ({placeholders}) OR district_name_hi IN ({placeholders})'''
-        cursor.execute(q, aliases + aliases)
+                WHERE (district_name_en IN ({placeholders}) OR district_name_hi IN ({placeholders}) OR district_id IN ({id_placeholders}))'''
+        cursor.execute(q, aliases + aliases + p_ids)
         row = cursor.fetchone()
         events = row[0] or 0
         reach = row[1] or 0
@@ -451,21 +454,21 @@ def main():
         # Query top thanas for this district
         q_thana = f'''SELECT police_station, COUNT(*), SUM(total_members)
                       FROM events
-                      WHERE (district_name_en IN ({placeholders}) OR district_name_hi IN ({placeholders}))
+                      WHERE (district_name_en IN ({placeholders}) OR district_name_hi IN ({placeholders}) OR district_id IN ({id_placeholders}))
                         AND police_station IS NOT NULL AND police_station != ''
                       GROUP BY police_station
                       ORDER BY COUNT(*) DESC LIMIT 4'''
-        cursor.execute(q_thana, aliases + aliases)
+        cursor.execute(q_thana, aliases + aliases + p_ids)
         top_thanas = [{"name": r[0], "events": r[1], "reach": r[2]} for r in cursor.fetchall()]
 
         # Query top cyber crime topics for this district
         q_topic = f'''SELECT topic, COUNT(*)
                       FROM events
-                      WHERE (district_name_en IN ({placeholders}) OR district_name_hi IN ({placeholders}))
+                      WHERE (district_name_en IN ({placeholders}) OR district_name_hi IN ({placeholders}) OR district_id IN ({id_placeholders}))
                         AND topic IS NOT NULL AND topic != ''
                       GROUP BY topic
                       ORDER BY COUNT(*) DESC LIMIT 3'''
-        cursor.execute(q_topic, aliases + aliases)
+        cursor.execute(q_topic, aliases + aliases + p_ids)
         top_topics = [{"name": r[0], "count": r[1]} for r in cursor.fetchall()]
 
         d_obj = {
@@ -3031,73 +3034,75 @@ def main():
                 return;
             }}
 
-            function updateDistrictAndThanaMetrics(nd) {{
-                const target = DISTRICTS_DATA.find(d => d.id === nd.id);
-                if (!target) return false;
-                const hasChanged = target.events !== nd.events || target.reach !== nd.reach;
-                if (!hasChanged) return false;
-
-                target.events = nd.events;
-                target.reach = nd.reach;
-                target.avg_attendance = nd.avg_attendance;
-                if (nd.top_thanas) target.top_thanas = nd.top_thanas;
-                if (nd.top_topics) target.top_topics = nd.top_topics;
-
-                // 1. Update Flank Card if visible (with Emerald Green glow odometer)
-                const flankEvEl = document.getElementById(`flank-events-${{nd.id}}`);
-                if (flankEvEl) {{
-                    animateOdometer(flankEvEl, nd.events, 750);
-                }}
-                const flankRchEl = document.getElementById(`flank-reach-${{nd.id}}`);
-                if (flankRchEl) {{
-                    const isLakh = nd.reach >= 100000;
-                    const rVal = isLakh ? parseFloat((nd.reach / 100000).toFixed(2)) : nd.reach;
-                    animateOdometer(flankRchEl, rVal, 750, {{ suffix: isLakh ? 'लाख' : '' }});
-                }}
-
-                // 2. Update Sidebar Row if visible (with Emerald Green glow odometer)
-                const sbEvEl = document.getElementById(`sidebar-events-${{nd.id}}`);
-                if (sbEvEl) {{
-                    animateOdometer(sbEvEl, nd.events, 750);
-                }}
-                const sbRchEl = document.getElementById(`sidebar-reach-${{nd.id}}`);
-                if (sbRchEl) {{
-                    const isLakh = nd.reach >= 100000;
-                    const rVal = isLakh ? parseFloat((nd.reach / 100000).toFixed(2)) : nd.reach;
-                    animateOdometer(sbRchEl, rVal, 750, {{ suffix: isLakh ? 'लाख' : '' }});
-                }}
-                const sbAvgEl = document.getElementById(`sidebar-avg-${{nd.id}}`);
-                if (sbAvgEl) {{
-                    animateOdometer(sbAvgEl, nd.avg_attendance, 750, {{ isDecimal: true }});
-                }}
-
-                // 3. Update Modal if this district is currently inspected
-                if (activeDistrictId === nd.id) {{
-                    openDistrictModal(target);
-                }}
-
-                // 4. Update Map Polygon Color and Properties
-                geojsonLayer.eachLayer(layer => {{
-                    const p = layer.feature.properties;
-                    const name = p.name_hi || p.district;
-                    if (name === target.name_hi || name === target.name_en) {{
-                        p.events = target.events;
-                        p.reach = target.reach;
-                        p.avg_attendance = target.avg_attendance;
-                        layer.setStyle({{
-                            fillColor: getColor(target.events)
-                        }});
-                    }}
+            function findDistrictTarget(nd) {{
+                const nid = parseInt(nd.id || 0);
+                const nEn = (nd.name_en || '').toLowerCase().trim();
+                const nHi = (nd.name_hi || '').trim();
+                return DISTRICTS_DATA.find(d => {{
+                    if (d.id === nid) return true;
+                    if (d.portal_ids && d.portal_ids.includes(nid)) return true;
+                    const dEn = d.name_en.toLowerCase().trim();
+                    if (nEn && (dEn === nEn || dEn.includes(nEn) || nEn.includes(dEn))) return true;
+                    if (nHi && d.name_hi === nHi) return true;
+                    return false;
                 }});
-
-                return true;
             }}
 
             let anyChanged = false;
             if (feed.districts && Array.isArray(feed.districts)) {{
                 feed.districts.forEach(nd => {{
-                    const changed = updateDistrictAndThanaMetrics(nd);
-                    if (changed) anyChanged = true;
+                    const target = findDistrictTarget(nd);
+                    if (!target) return;
+                    const ev = parseInt(nd.events || 0);
+                    const rch = parseInt(nd.reach || 0);
+                    if (target.events !== ev || target.reach !== rch) {{
+                        target.events = ev;
+                        target.reach = rch;
+                        target.avg_attendance = nd.avg_attendance || (ev > 0 ? parseFloat((rch / ev).toFixed(1)) : 0);
+                        if (nd.top_thanas) target.top_thanas = nd.top_thanas;
+                        if (nd.top_topics) target.top_topics = nd.top_topics;
+                        anyChanged = true;
+                    }}
+                }});
+            }}
+
+            if (anyChanged) {{
+                // Re-sort districts by events descending
+                DISTRICTS_DATA.sort((a, b) => b.events - a.events);
+                DISTRICTS_DATA.forEach((d, idx) => {{
+                    d.rank = idx + 1;
+                }});
+
+                // Re-render sidebar drawer list with accurate dynamic order and ranks!
+                renderSidebarList();
+                renderFlankCards();
+
+                // Update open modal if inspected
+                if (activeDistrictId) {{
+                    const curD = DISTRICTS_DATA.find(d => d.id === activeDistrictId);
+                    if (curD) openDistrictModal(curD);
+                }}
+
+                // Update Map Polygon Colors and Tooltips
+                geojsonLayer.eachLayer(layer => {{
+                    const p = layer.feature.properties;
+                    const d = DISTRICTS_DATA.find(x => x.name_hi === p.name_hi || x.name_en === p.district || x.id === p.id);
+                    if (d) {{
+                        p.events = d.events;
+                        p.reach = d.reach;
+                        p.rank = d.rank;
+                        layer.setStyle(styleFeature(layer.feature));
+                        layer.setTooltipContent(`
+                            <div style="font-family:'Inter',sans-serif; min-width:140px; padding:2px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:4px; margin-bottom:5px;">
+                                    <strong style="color:#ffffff; font-size:13px;">${{p.name_hi || p.district}}</strong>
+                                    <span style="font-size:10px; font-weight:700; background:#2563eb; color:#ffffff; padding:1px 6px; border-radius:4px;">#${{d.rank}}</span>
+                                </div>
+                                <div style="font-size:11px; color:#cbd5e1; margin-bottom:2px;">आयोजन: <b style="color:#60a5fa;">${{d.events.toLocaleString('en-IN')}}</b></div>
+                                <div style="font-size:11px; color:#cbd5e1;">नागरिक: <b style="color:#34d399;">${{(d.reach/100000).toFixed(2)}} लाख</b></div>
+                            </div>
+                        `);
+                    }}
                 }});
             }}
 

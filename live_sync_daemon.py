@@ -107,17 +107,44 @@ def fast_pulse_check(session, token, last_feed_events):
         feed_data["avg_attendance"] = avg_att
         feed_data["status"] = "LIVE_PULSE"
 
-        # Update district entries if present
+        # Update district entries accurately
         remote_districts = data.get("districts", [])
-        if remote_districts and "districts" in feed_data:
-            dist_map = {d.get("district_id"): d for d in remote_districts}
-            for d in feed_data["districts"]:
-                did = d.get("id")
-                if did in dist_map:
-                    rd = dist_map[did]
-                    d["events"] = rd.get("total", d["events"])
-                    d["reach"] = rd.get("total_members", d["reach"])
-                    d["avg_attendance"] = round(d["reach"] / d["events"], 1) if d["events"] > 0 else 0
+        if remote_districts:
+            portal_by_id = {int(d.get("district_id", 0)): d for d in remote_districts}
+            portal_by_name = {d.get("district_name_en", "").lower().strip(): d for d in remote_districts}
+
+            # Raipur combined (Commissionerate 27 + Gramin 34)
+            raipur_events = 0
+            raipur_reach = 0
+            for r_id in [27, 34]:
+                if r_id in portal_by_id:
+                    raipur_events += int(portal_by_id[r_id].get("total", 0))
+                    raipur_reach += int(portal_by_id[r_id].get("total_members", 0))
+
+            if "districts" in feed_data and feed_data["districts"]:
+                for d in feed_data["districts"]:
+                    did = int(d.get("id", 0))
+                    name_clean = d.get("name_en", "").lower().strip()
+                    if did == 27 or "raipur" in name_clean:
+                        d["id"] = 27
+                        d["events"] = raipur_events
+                        d["reach"] = raipur_reach
+                        d["avg_attendance"] = round(raipur_reach / raipur_events, 1) if raipur_events > 0 else 0
+                    elif did in portal_by_id:
+                        rd = portal_by_id[did]
+                        d["events"] = int(rd.get("total", d.get("events", 0)))
+                        d["reach"] = int(rd.get("total_members", d.get("reach", 0)))
+                        d["avg_attendance"] = round(d["reach"] / d["events"], 1) if d["events"] > 0 else 0
+                    elif name_clean in portal_by_name:
+                        rd = portal_by_name[name_clean]
+                        d["id"] = int(rd.get("district_id", did))
+                        d["events"] = int(rd.get("total", d.get("events", 0)))
+                        d["reach"] = int(rd.get("total_members", d.get("reach", 0)))
+                        d["avg_attendance"] = round(d["reach"] / d["events"], 1) if d["events"] > 0 else 0
+
+                feed_data["districts"].sort(key=lambda x: x.get("events", 0), reverse=True)
+                for idx, d in enumerate(feed_data["districts"], 1):
+                    d["rank"] = idx
 
         with open(FEED_JSON, 'w', encoding='utf-8') as f:
             json.dump(feed_data, f, ensure_ascii=False, indent=2)

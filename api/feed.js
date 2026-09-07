@@ -59,14 +59,40 @@ export default async function handler(req, res) {
     const totalReach = parseInt(counter.total_members || 0);
     const avgAttendance = totalEvents > 0 ? parseFloat((totalReach / totalEvents).toFixed(1)) : 0;
 
-    const districts = (data.districts || []).map(d => ({
-      id: d.district_id,
-      name_en: d.district_name_en,
-      name_hi: d.district_name_hi,
-      events: d.total,
-      reach: d.total_members,
-      avg_attendance: d.total > 0 ? parseFloat((d.total_members / d.total).toFixed(1)) : 0
-    }));
+    let raipurEvents = 0;
+    let raipurReach = 0;
+    const districtsMap = new Map();
+
+    (data.districts || []).forEach(d => {
+      const did = parseInt(d.district_id);
+      const ev = parseInt(d.total || 0);
+      const rch = parseInt(d.total_members || 0);
+      if (did === 27 || did === 34) {
+        raipurEvents += ev;
+        raipurReach += rch;
+      } else {
+        districtsMap.set(did, {
+          id: did,
+          name_en: d.district_name_en,
+          name_hi: d.district_name_hi,
+          events: ev,
+          reach: rch,
+          avg_attendance: ev > 0 ? parseFloat((rch / ev).toFixed(1)) : 0
+        });
+      }
+    });
+
+    districtsMap.set(27, {
+      id: 27,
+      name_en: "Raipur",
+      name_hi: "रायपुर",
+      events: raipurEvents,
+      reach: raipurReach,
+      avg_attendance: raipurEvents > 0 ? parseFloat((raipurReach / raipurEvents).toFixed(1)) : 0
+    });
+
+    const districts = Array.from(districtsMap.values()).sort((a, b) => b.events - a.events);
+    districts.forEach((d, idx) => { d.rank = idx + 1; });
 
     return res.status(200).json({
       status: "LIVE_EDGE",
