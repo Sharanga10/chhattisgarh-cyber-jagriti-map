@@ -3006,8 +3006,10 @@ def main():
 
         async function checkLiveFeed(isManual = false) {{
             const endpoints = [
+                '/api/feed?t=' + Date.now(),
+                'http://localhost:8080/live_feed.json?t=' + Date.now(),
                 'live_feed.json?t=' + Date.now(),
-                'http://localhost:8080/live_feed.json?t=' + Date.now()
+                'https://raw.githubusercontent.com/Kodanda10/chhattisgarh-cyber-jagriti-map/main/live_feed.json?t=' + Date.now()
             ];
             let feed = null;
             for (const ep of endpoints) {{
@@ -3115,8 +3117,8 @@ def main():
             checkLiveFeed(true);
         }});
 
-        // Periodic live check every 30 seconds
-        setInterval(() => checkLiveFeed(false), 30000);
+        // Periodic ultra-fast live feed check every 5 seconds (Zero lag)
+        setInterval(() => checkLiveFeed(false), 5000);
 
         // Density Scale Dock Pin Toggle on Click
         const densityScaleDock = document.getElementById('densityScaleDock');
