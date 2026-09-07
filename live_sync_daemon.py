@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Cyber Jagriti Abhiyan - Stealth Under-The-Radar Live Sync Daemon
+Cyber Jagriti Abhiyan - Stealth Under-The-Radar Two-Tier Live Sync Daemon
 Features:
-- Emulates macOS Chrome browser headers (Zero tracing / Under the radar)
-- Lightweight 2KB pre-flight counter check before fetching any data
-- Micro-delta ingestion (only fetches new event records where id > max_id)
-- Zero CPU / RAM footprint when idle
-- Automatically re-compiles chhattisgarh_cyber_jagriti_map.html upon new events
-- Supports one-shot (--once) or continuous daemon (--daemon with random jitter)
+- Tier 1: Ultra-Fast 5-8s Stealth Pulse (Fetches 2KB dashboard summary, updates live_feed.json instantly with zero lag)
+- Tier 2: Deep 5-minute Batch Ingestion (Paginates new records into SQLite, backfills police stations, recompiles HTML, pushes to GitHub)
+- Zero TLS Handshake Footprint (Persistent HTTP Keep-Alive session)
+- Emulates native macOS Chrome Browser headers (Completely under the radar)
+- Serves local dashboard & live_feed.json with CORS on port 8080
 """
 
 import os
@@ -18,14 +17,19 @@ import random
 import sqlite3
 import argparse
 import requests
+import subprocess
 from datetime import datetime
 
 BASE_DIR = '/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor'
 DB_PATH = os.path.join(BASE_DIR, 'events.db')
 STATUS_FILE = os.path.join(BASE_DIR, 'live_sync_status.json')
+FEED_JSON = os.path.join(BASE_DIR, 'live_feed.json')
+INDEX_HTML = os.path.join(BASE_DIR, 'index.html')
 MAP_GENERATOR_SCRIPT = os.path.join(BASE_DIR, 'generate_geospatial_map.py')
+BACKFILL_SCRIPT = os.path.join(BASE_DIR, 'backfill_districts.py')
+AUTH_CACHE_FILE = os.path.join(BASE_DIR, '.auth_cache.json')
 
-# Stealth Browser Emulation Headers
+# Stealth Chrome Browser Headers
 CHROME_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
     "Accept": "application/json, text/plain, */*",
@@ -37,110 +41,118 @@ CHROME_HEADERS = {
     "Sec-Fetch-Site": "same-origin"
 }
 
-AUTH_CACHE_FILE = os.path.join(BASE_DIR, '.auth_cache.json')
-
 def get_stealth_session():
     session = requests.Session()
     session.headers.update(CHROME_HEADERS)
     return session
 
 def get_auth_token(session):
-    # Check cached token
     if os.path.exists(AUTH_CACHE_FILE):
         try:
             with open(AUTH_CACHE_FILE, 'r') as f:
                 cached = json.load(f)
-                # If cached within last 4 hours, test token
                 if time.time() - cached.get('timestamp', 0) < 14400:
-                    test_headers = {"Authorization": cached.get('token')}
-                    r = session.get("https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard", headers=test_headers, timeout=10)
+                    token = cached.get('token')
+                    test_headers = {"Authorization": token}
+                    r = session.get("https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard", headers=test_headers, timeout=8)
                     if r.status_code == 200:
-                        return cached.get('token')
+                        return token
         except:
             pass
 
-    # Authenticate stealthily
     login_url = "https://cyberjagriti.policemitanrpr.com/api/login/check"
-    resp = session.post(login_url, json={"username": "admin", "***REMOVED***": "***REMOVED***"}, timeout=15)
-    resp.raise_for_status()
-    token = resp.json().get("token")
-    if not token:
-        raise ValueError("Auth token missing from response.")
-
-    with open(AUTH_CACHE_FILE, 'w') as f:
-        json.dump({"token": token, "timestamp": time.time()}, f)
+    r = session.post(login_url, json={"username": "admin", "***REMOVED***": "***REMOVED***"}, timeout=10)
+    token = r.json().get("token")
+    if token:
+        with open(AUTH_CACHE_FILE, 'w') as f:
+            json.dump({"token": token, "timestamp": time.time()}, f)
     return token
 
-def check_and_sync_delta(verbose=True):
-    start_time = time.time()
-    session = get_stealth_session()
+def fast_pulse_check(session, token, last_feed_events):
+    """
+    Tier 1: Lightweight 2KB dashboard pulse check.
+    Takes ~150ms. If counter changed, updates live_feed.json immediately.
+    """
+    dash_url = "https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard"
+    try:
+        r = session.get(dash_url, headers={"Authorization": token}, timeout=8)
+        if r.status_code != 200:
+            return None, last_feed_events
+        data = r.json()
+    except Exception as e:
+        return None, last_feed_events
 
-    # Step 1: Query local DB state
+    counter = data.get("counter", {})
+    remote_total = int(counter.get("total_entries", 0))
+    remote_reach = int(counter.get("total_members", 0))
+    if remote_total == 0:
+        return None, last_feed_events
+
+    if remote_total != last_feed_events:
+        delta = remote_total - last_feed_events
+        avg_att = round(remote_reach / remote_total, 1) if remote_total > 0 else 0
+
+        # Load existing feed to update top-level metrics while keeping district structure
+        feed_data = {}
+        if os.path.exists(FEED_JSON):
+            try:
+                with open(FEED_JSON, 'r', encoding='utf-8') as f:
+                    feed_data = json.load(f)
+            except:
+                pass
+
+        feed_data["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        feed_data["total_events"] = remote_total
+        feed_data["total_reach"] = remote_reach
+        feed_data["avg_attendance"] = avg_att
+        feed_data["status"] = "LIVE_PULSE"
+
+        # Update district entries if present
+        remote_districts = data.get("districts", [])
+        if remote_districts and "districts" in feed_data:
+            dist_map = {d.get("district_id"): d for d in remote_districts}
+            for d in feed_data["districts"]:
+                did = d.get("id")
+                if did in dist_map:
+                    rd = dist_map[did]
+                    d["events"] = rd.get("total", d["events"])
+                    d["reach"] = rd.get("total_members", d["reach"])
+                    d["avg_attendance"] = round(d["reach"] / d["events"], 1) if d["events"] > 0 else 0
+
+        with open(FEED_JSON, 'w', encoding='utf-8') as f:
+            json.dump(feed_data, f, ensure_ascii=False, indent=2)
+
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] [FAST PULSE] Remote: {remote_total:,} (+{delta} new) | Reach: {remote_reach:,} -> live_feed.json updated!", flush=True)
+        return remote_total, remote_total
+
+    return remote_total, last_feed_events
+
+def deep_event_ingestion(session, token, verbose=True):
+    """
+    Tier 2: Detailed batch event ingestion into SQLite events.db.
+    Runs every 5 minutes or when delta threshold is reached.
+    """
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("SELECT COUNT(*), MAX(id) FROM events")
     local_count, local_max_id = cur.fetchone()
     local_max_id = local_max_id or 0
 
-    # Step 2: Stealth counter check (2KB payload)
-    try:
-        token = get_auth_token(session)
-    except Exception as e:
-        if verbose:
-            print(f"[*] Auth failed ({e}). Retrying next cycle.")
-        conn.close()
-        return False, 0
-
-    dash_url = "https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard"
-    try:
-        r = session.get(dash_url, headers={"Authorization": token}, timeout=15)
-        if r.status_code != 200:
-            conn.close()
-            return False, 0
-        dash_data = r.json()
-    except Exception as e:
-        if verbose:
-            print(f"[*] Dashboard ping failed ({e}).")
-        conn.close()
-        return False, 0
-
-    counter = dash_data.get("counter", {})
-    remote_count = int(counter.get("total_entries", local_count))
-    remote_reach = int(counter.get("total_members", 0))
-
     list_url = "https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?page=1&limit=1"
     try:
-        lr = session.get(list_url, headers={"Authorization": token}, timeout=15)
+        lr = session.get(list_url, headers={"Authorization": token}, timeout=10)
         latest_items = lr.json().get("result", [])
         portal_max_id = int(latest_items[0].get("id")) if latest_items else 0
     except Exception as e:
-        if verbose:
-            print(f"[*] Portal check failed: {e}")
         conn.close()
-        return False, 0
+        return 0
 
-    # Step 3: Check parity against portal counts and max ID
-    if remote_count == local_count and portal_max_id <= local_max_id:
-        duration = round(time.time() - start_time, 2)
-        if verbose:
-            print(f"[{datetime.now().strftime('%H:%M:%S')}] [STEALTH PARITY 100%] Local: {local_count:,} | Portal: {remote_count:,} (Checked in {duration}s - Zero trace)")
-        
-        status = {
-            "last_sync_timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "total_events": local_count,
-            "total_reach": remote_reach,
-            "delta_synced": 0,
-            "status": "HEALTHY_STEALTH_PARITY"
-        }
-        with open(STATUS_FILE, "w") as f:
-            json.dump(status, f, indent=2)
+    if portal_max_id <= local_max_id:
         conn.close()
-        return True, 0
+        return 0
 
-    # Step 4: Pull delta records
-    delta_est = max(remote_count - local_count, portal_max_id - local_max_id)
     if verbose:
-        print(f"[{datetime.now().strftime('%H:%M:%S')}] [DELTA DETECTED] Local: {local_count:,}, Portal: {remote_count:,} (~{delta_est} new events). Fetching...")
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] [DEEP SYNC] Ingesting delta events (Local Max ID: {local_max_id} -> Portal Max ID: {portal_max_id})...", flush=True)
 
     cur.execute("SELECT id FROM events ORDER BY id DESC LIMIT 5000")
     existing_ids = set([r[0] for r in cur.fetchall()])
@@ -148,20 +160,18 @@ def check_and_sync_delta(verbose=True):
     new_records = []
     page = 1
     consecutive_existing = 0
-    while page <= 10:
-        list_url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?page={page}&limit=500"
+    while page <= 15:
+        page_url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?page={page}&limit=500"
         try:
-            lr = session.get(list_url, headers={"Authorization": token}, timeout=15)
-            new_items = lr.json().get("result", [])
-            if not new_items:
+            lr = session.get(page_url, headers={"Authorization": token}, timeout=15)
+            items = lr.json().get("result", [])
+            if not items:
                 break
-        except Exception as e:
-            if verbose:
-                print(f"[*] Delta pull failed at page {page}: {e}")
+        except:
             break
 
-        stop_pulling = False
-        for item in new_items:
+        stop = False
+        for item in items:
             try:
                 eid = int(item.get("id"))
             except:
@@ -169,34 +179,35 @@ def check_and_sync_delta(verbose=True):
 
             if eid in existing_ids:
                 consecutive_existing += 1
-                if consecutive_existing >= 25 and len(new_records) >= max(0, remote_count - local_count):
-                    stop_pulling = True
+                if consecutive_existing >= 25:
+                    stop = True
                     break
                 continue
 
             consecutive_existing = 0
             existing_ids.add(eid)
 
+            members = 0
             try:
-                members = int(item.get("total_members", 0))
+                members = int(item.get("total_members", 0) or 0)
             except:
-                members = 0
+                pass
 
             new_records.append((
                 eid,
-                item.get("subject", ""),
-                (item.get("police_station") or "").strip(),
-                int(item.get("district", 0)) if str(item.get("district", "")).isdigit() else 0,
-                (item.get("district_name_en") or "").strip(),
-                (item.get("district_name_hi") or "").strip(),
-                (item.get("officer_name") or "").strip(),
-                (item.get("designation") or "").strip(),
-                (item.get("officer_contact_no") or "").strip(),
+                item.get("police_station", ""),
                 item.get("date", ""),
                 item.get("time", ""),
-                item.get("upload_datetime", ""),
-                (item.get("village_name") or "").strip(),
-                (item.get("panchayat_name") or "").strip(),
+                item.get("location", ""),
+                item.get("photo_1", ""),
+                item.get("photo_2", ""),
+                item.get("photo_3", ""),
+                item.get("photo_4", ""),
+                item.get("photo_5", ""),
+                item.get("pdf", ""),
+                item.get("district_name_hi", ""),
+                item.get("district_name_en", ""),
+                item.get("created_at", ""),
                 members,
                 item.get("remarks", ""),
                 item.get("cyber_topic", ""),
@@ -204,39 +215,47 @@ def check_and_sync_delta(verbose=True):
                 item.get("week_name", ""),
                 item.get("topic", "")
             ))
-        if stop_pulling:
+        if stop:
             break
         page += 1
 
     if new_records:
-        cur.executemany("""
-            INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-        """, new_records)
+        cur.executemany("INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", new_records)
         conn.commit()
-        if verbose:
-            print(f"[*] Ingested {len(new_records)} new events into SQLite.")
+        conn.close()
 
-        # Re-generate the map HTML automatically
-        os.system(f"python3 {MAP_GENERATOR_SCRIPT} > /dev/null 2>&1")
-        if verbose:
-            print(f"[*] Re-compiled chhattisgarh_cyber_jagriti_map.html with updated metrics.")
+        # Run station backfill
+        subprocess.run([sys.executable, BACKFILL_SCRIPT], cwd=BASE_DIR, capture_output=True)
 
-    cur.execute("SELECT COUNT(*), SUM(total_members) FROM events")
-    final_count, final_reach = cur.fetchone()
+        # Recompile dashboard
+        subprocess.run([sys.executable, MAP_GENERATOR_SCRIPT], cwd=BASE_DIR, capture_output=True)
+
+        if verbose:
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] [DEEP SYNC] Ingested {len(new_records)} new events into SQLite & recompiled map.", flush=True)
+
+        return len(new_records)
+
     conn.close()
+    return 0
 
-    # Save status
-    status = {
-        "last_sync_timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "total_events": final_count,
-        "total_reach": final_reach or remote_reach,
-        "delta_synced": len(new_records),
-        "status": "HEALTHY_STEALTH"
-    }
-    with open(STATUS_FILE, "w") as f:
-        json.dump(status, f, indent=2)
-
-    return True, len(new_records)
+def git_push_batch(verbose=True):
+    """
+    Pushes recent updates to GitHub Pages repository.
+    Runs every 3-5 minutes to avoid spamming git commits.
+    """
+    try:
+        subprocess.run(["git", "add", "index.html", "chhattisgarh_cyber_jagriti_map.html", "live_feed.json"], cwd=BASE_DIR, check=True)
+        # Check if diff exists
+        diff = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd=BASE_DIR)
+        if diff.returncode != 0:
+            msg = f"Auto-sync live telemetry: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+            subprocess.run(["git", "commit", "-m", msg], cwd=BASE_DIR, check=True)
+            subprocess.run(["git", "push", "origin", "main"], cwd=BASE_DIR, check=True)
+            if verbose:
+                print(f"[{datetime.now().strftime('%H:%M:%S')}] [GIT PUSH] Deployed latest batch to GitHub Pages.", flush=True)
+    except Exception as e:
+        if verbose:
+            print(f"[*] Git auto-push notice: {e}", flush=True)
 
 def start_local_server(port=8080):
     import http.server
@@ -253,59 +272,91 @@ def start_local_server(port=8080):
             super().end_headers()
 
         def log_message(self, format, *args):
-            pass # Silent logs to keep terminal clean
+            pass
 
     def serve():
         socketserver.TCPServer.allow_reuse_address = True
         try:
             with socketserver.TCPServer(("", port), CORSRequestHandler) as httpd:
-                print(f"[*] Local Live Server running at: http://localhost:{port}/chhattisgarh_cyber_jagriti_map.html")
+                print(f"[*] Local Live Server running at: http://localhost:{port}/index.html", flush=True)
                 httpd.serve_forever()
         except Exception as e:
-            print(f"[*] Local server error on port {port}: {e}")
+            print(f"[*] Local server error on port {port}: {e}", flush=True)
 
     t = threading.Thread(target=serve, daemon=True)
     t.start()
 
-def run_daemon(interval_sec=900, serve_port=None):
-    print("="*65)
-    print("CYBER JAGRITI ABHIYAN - STEALTH LIVE FEED SYNC DAEMON")
-    print(f"Base Interval: {interval_sec//60} mins with ±120s randomized stealth jitter")
-    print("Mode: Under The Radar (Emulating macOS Chrome Headers)")
+def run_two_tier_daemon(pulse_sec=6, deep_sync_sec=300, git_push_sec=300, serve_port=8080):
+    print("="*68, flush=True)
+    print("CYBER JAGRITI ABHIYAN - TWO-TIER UNDER-THE-RADAR LIVE SYNC DAEMON", flush=True)
+    print(f"Tier 1 (Fast Pulse): Every {pulse_sec}s (2KB Dashboard Summary -> live_feed.json)", flush=True)
+    print(f"Tier 2 (Deep Ingestion): Every {deep_sync_sec//60}m (Detailed Events -> SQLite & Recompile)", flush=True)
+    print(f"Tier 3 (Cloud Deploy): Every {git_push_sec//60}m (Batch Push to GitHub Pages)", flush=True)
+    print("Connection: Persistent HTTP Keep-Alive (Zero TLS Handshake Spikes)", flush=True)
     if serve_port:
         start_local_server(serve_port)
-    print("="*65)
+    print("="*68, flush=True)
+
+    session = get_stealth_session()
+    token = None
+
+    last_feed_events = 0
+    if os.path.exists(FEED_JSON):
+        try:
+            with open(FEED_JSON, 'r') as f:
+                last_feed_events = json.load(f).get("total_events", 0)
+        except:
+            pass
+
+    last_deep_sync = time.time()
+    last_git_push = time.time()
+    accumulated_delta = 0
 
     while True:
         try:
-            check_and_sync_delta(verbose=True)
-        except Exception as e:
-            print(f"[*] Unexpected loop error: {e}")
+            if not token:
+                token = get_auth_token(session)
 
-        # Randomize jitter so poll intervals are never periodic clock spikes
-        jitter = random.randint(-120, 120)
-        sleep_duration = max(300, interval_sec + jitter)
-        print(f"[*] Sleeping for {sleep_duration//60}m {sleep_duration%60}s before next stealth check...")
-        time.sleep(sleep_duration)
+            remote_total, last_feed_events = fast_pulse_check(session, token, last_feed_events)
+            if remote_total:
+                accumulated_delta = max(0, remote_total - last_feed_events)
+
+            now = time.time()
+            # Deep sync every 5 minutes OR if delta > 100
+            if (now - last_deep_sync >= deep_sync_sec) or (accumulated_delta >= 100):
+                ingested = deep_event_ingestion(session, token, verbose=True)
+                last_deep_sync = now
+                if ingested > 0:
+                    accumulated_delta = 0
+
+            # Git push every 5 minutes
+            if now - last_git_push >= git_push_sec:
+                git_push_batch(verbose=True)
+                last_git_push = now
+
+        except Exception as e:
+            print(f"[*] Daemon cycle notice: {e}", flush=True)
+            token = None # Refresh token on error
+
+        # Small jitter on the 5-6s pulse so timing looks human/organic
+        time.sleep(pulse_sec + random.uniform(0.5, 1.5))
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Stealth Live Sync Daemon")
-    parser.add_argument("--once", action="store_true", help="Run once and exit")
-    parser.add_argument("--daemon", action="store_true", help="Run continuously in background")
-    parser.add_argument("--interval", type=int, default=900, help="Interval in seconds (default: 900s / 15m)")
-    parser.add_argument("--serve", type=int, nargs="?", const=8080, default=None, help="Serve dashboard locally (default port: 8080)")
+    parser = argparse.ArgumentParser(description="Two-Tier Live Sync Daemon")
+    parser.add_argument("--once", action="store_true", help="Run one-time sync and exit")
+    parser.add_argument("--daemon", action="store_true", help="Run continuous two-tier daemon")
+    parser.add_argument("--pulse", type=int, default=6, help="Pulse interval in seconds (default: 6s)")
+    parser.add_argument("--deep", type=int, default=300, help="Deep sync interval in seconds (default: 300s / 5m)")
+    parser.add_argument("--serve", type=int, nargs="?", const=8080, default=8080, help="Serve locally on port (default: 8080)")
     args = parser.parse_args()
 
-    if args.serve and not args.daemon:
-        start_local_server(args.serve)
-        check_and_sync_delta(verbose=True)
-        print(f"[*] Press Ctrl+C to stop local server.")
-        try:
-            while True:
-                time.sleep(1)
-        except KeyboardInterrupt:
-            print("\n[*] Exiting.")
+    if args.once:
+        session = get_stealth_session()
+        token = get_auth_token(session)
+        fast_pulse_check(session, token, 0)
+        deep_event_ingestion(session, token, verbose=True)
+        git_push_batch(verbose=True)
     elif args.daemon:
-        run_daemon(interval_sec=args.interval, serve_port=args.serve)
+        run_two_tier_daemon(pulse_sec=args.pulse, deep_sync_sec=args.deep, git_push_sec=args.deep, serve_port=args.serve)
     else:
-        check_and_sync_delta(verbose=True)
+        run_two_tier_daemon(pulse_sec=6, deep_sync_sec=300, git_push_sec=300, serve_port=8080)
