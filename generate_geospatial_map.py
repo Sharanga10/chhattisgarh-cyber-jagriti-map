@@ -30,6 +30,30 @@ import base64
 import re
 from datetime import datetime
 
+def format_indian(num):
+    """Indian financial accounting numerical format (e.g. 1,00,000 / 10,00,000 / 1,00,00,000)."""
+    if num is None:
+        return "0"
+    try:
+        num = int(round(float(num)))
+    except (ValueError, TypeError):
+        return str(num)
+    s = str(abs(num))
+    if len(s) <= 3:
+        res = s
+    else:
+        last3 = s[-3:]
+        rem = s[:-3]
+        groups = []
+        while len(rem) > 2:
+            groups.append(rem[-2:])
+            rem = rem[:-2]
+        if rem:
+            groups.append(rem)
+        groups.reverse()
+        res = ",".join(groups) + "," + last3
+    return f"-{res}" if num < 0 else res
+
 BASE_DIR = '/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor'
 DB_PATH = os.path.join(BASE_DIR, 'events.db')
 LOGO_PATH = os.path.join(BASE_DIR, 'logo_white.jpg')
@@ -575,7 +599,7 @@ def main():
     avg_state_att = round(total_reach / total_events, 1) if total_events else 0
 
     logo_b64 = get_base64_logo()
-    print(f"[3/4] Compiling High-Contrast Dashboard (Events: {total_events:,}, Reach: {total_reach:,})...")
+    print(f"[3/4] Compiling High-Contrast Dashboard (Events: {format_indian(total_events)}, Reach: {format_indian(total_reach)})...")
 
     html_content = f"""<!DOCTYPE html>
 <html lang="hi">
@@ -2125,7 +2149,7 @@ def main():
         </div>
         <div class="jumbo-kpi-container">
             <div class="jumbo-kpi-block">
-                <div class="jumbo-kpi-value odometer-val" id="kpiTotalEvents" data-raw-val="{total_events}"><span class="odo-num-val">{total_events:,}</span></div>
+                <div class="jumbo-kpi-value odometer-val" id="kpiTotalEvents" data-raw-val="{total_events}"><span class="odo-num-val">{format_indian(total_events)}</span></div>
                 <div class="jumbo-kpi-label">कुल जागरूकता कार्यक्रम</div>
             </div>
             <div class="kpi-divider"></div>
@@ -2145,7 +2169,7 @@ def main():
     <div class="mobile-telemetry-strip" id="mobileTelemetryStrip">
         <div class="m-kpi-pill">
             <div class="m-kpi-val-row odometer-val" id="mKpiEvents" data-raw-val="{total_events}">
-                <span class="odo-num-val">{total_events:,}</span>
+                <span class="odo-num-val">{format_indian(total_events)}</span>
             </div>
             <div class="m-kpi-label">कुल कार्यक्रम</div>
         </div>
@@ -2255,7 +2279,7 @@ def main():
         <!-- Toast Notification for Live Status -->
         <div class="toast-notification" id="toastSync">
             <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e;"></span>
-            <span>लाइव सिंक सक्रिय: {total_events:,} कार्यक्रम पूर्णतः सत्यापित एवं अपडेटेड हैं।</span>
+            <span>लाइव सिंक सक्रिय: {format_indian(total_events)} कार्यक्रम पूर्णतः सत्यापित एवं अपडेटेड हैं।</span>
         </div>
 
         <!-- Slide-Over Deep-Dive Modal -->
@@ -2328,7 +2352,7 @@ def main():
                 </div>
                 <div class="drawer-filter-stats-bar" id="drawerFilterStatsBar">
                     <span class="drawer-filter-badge" id="drawerFilterBadge">सभी 33 जिले</span>
-                    <span class="drawer-filter-summary" id="drawerFilterSummary">कुल {total_events:,} कार्यक्रम • {total_reach/100000:.2f} लाख नागरिक</span>
+                    <span class="drawer-filter-summary" id="drawerFilterSummary">कुल {format_indian(total_events)} कार्यक्रम • {total_reach/100000:.2f} लाख नागरिक</span>
                 </div>
                 <div class="search-container">
                     <span class="search-icon-svg">🔍</span>
@@ -2428,6 +2452,12 @@ def main():
             tileLayers[e.target.value].addTo(map);
         }});
 
+        // Indian Financial Accounting Numerical Formatter (1,00,000 style)
+        function formatIN(val) {{
+            if (val === null || val === undefined || isNaN(val)) return '0';
+            return Number(val).toLocaleString('en-IN');
+        }}
+
         // 5 High-Contrast Distinct Colors for Ultra-Legibility
         function getColor(events) {{
             if (events >= 10000) return '#2563eb'; // Royal Azure Blue
@@ -2470,8 +2500,8 @@ def main():
                 const dNameHi = p.name_hi || p.district;
                 const distObj = DISTRICTS_DATA.find(d => d.name_hi === dNameHi || d.name_en === dNameHi);
                 
-                const eventsStr = p.events ? p.events.toLocaleString() : '0';
-                const reachStr = p.reach ? (p.reach >= 100000 ? (p.reach / 100000).toFixed(2) + ' लाख' : p.reach.toLocaleString()) : '0';
+                const eventsStr = p.events ? formatIN(p.events) : '0';
+                const reachStr = p.reach ? (p.reach >= 100000 ? (p.reach / 100000).toFixed(2) + ' लाख' : formatIN(p.reach)) : '0';
                 const topThana = (distObj && distObj.top_thanas && distObj.top_thanas[0]) ? distObj.top_thanas[0].name : 'सक्रिय थाना';
 
                 // Rich Apple-Style Tooltip anchored directly to polygon
@@ -2559,7 +2589,7 @@ def main():
                 fillOpacity: 0.9
             }});
 
-            const reachFormatted = t.reach >= 100000 ? (t.reach / 100000).toFixed(2) + ' लाख' : t.reach.toLocaleString();
+            const reachFormatted = t.reach >= 100000 ? (t.reach / 100000).toFixed(2) + ' लाख' : formatIN(t.reach);
 
             // Distinct Crimson Thana Hover Tooltip (Zero white border, auto-closes on mouseout)
             circle.bindTooltip(`
@@ -2571,7 +2601,7 @@ def main():
                     <div style="font-size:11px; color:#cbd5e1; margin-bottom:7px;">${{t.name_en}} &bull; जिला: <strong style="color:#ffffff;">${{t.district}}</strong></div>
                     <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:3px;">
                         <span style="color:#94a3b8;">जागरूकता कार्यक्रम:</span>
-                        <strong style="color:#ffffff;">${{t.events.toLocaleString()}}</strong>
+                        <strong style="color:#ffffff;">${{formatIN(t.events)}}</strong>
                     </div>
                     <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:3px;">
                         <span style="color:#94a3b8;">जागरूक नागरिक:</span>
@@ -2632,11 +2662,11 @@ def main():
                 card.id = `card-${{d.id}}`;
                 card.dataset.id = d.id;
 
-                const eventsFormatted = d.events.toLocaleString();
+                const eventsFormatted = formatIN(d.events);
                 const isLakh = d.reach >= 100000;
                 const reachFormatted = isLakh 
                     ? (d.reach / 100000).toFixed(2) + ' लाख' 
-                    : d.reach.toLocaleString();
+                    : formatIN(d.reach);
                 const reachRaw = isLakh ? parseFloat((d.reach / 100000).toFixed(2)) : d.reach;
                 const reachSuffix = isLakh ? 'लाख' : '';
 
@@ -2651,7 +2681,7 @@ def main():
                         <span class="odometer-val" id="flank-events-${{d.id}}" data-raw-val="${{d.events}}"><span class="odo-num-val">${{eventsFormatted}}</span></span> कार्यक्रम
                     </div>
                     <div class="callout-card-substat">
-                        <span class="odometer-val" id="flank-reach-${{d.id}}" data-raw-val="${{reachRaw}}"><span class="odo-num-val">${{isLakh ? (d.reach / 100000).toFixed(2) : d.reach.toLocaleString()}}</span>${{reachSuffix ? ` <span class="odo-unit-suffix">${{reachSuffix}}</span>` : ''}}</span> जागरूक नागरिक
+                        <span class="odometer-val" id="flank-reach-${{d.id}}" data-raw-val="${{reachRaw}}"><span class="odo-num-val">${{isLakh ? (d.reach / 100000).toFixed(2) : formatIN(d.reach)}}</span>${{reachSuffix ? ` <span class="odo-unit-suffix">${{reachSuffix}}</span>` : ''}}</span> जागरूक नागरिक
                     </div>
                 `;
 
@@ -2720,7 +2750,7 @@ def main():
                 const isLakh = d.reach >= 100000;
                 const reachStr = isLakh 
                     ? (d.reach / 100000).toFixed(2) + ' लाख' 
-                    : d.reach.toLocaleString();
+                    : formatIN(d.reach);
                 const reachRaw = isLakh ? parseFloat((d.reach / 100000).toFixed(2)) : d.reach;
                 const reachSuffix = isLakh ? 'लाख' : '';
 
@@ -2733,8 +2763,8 @@ def main():
                         <span class="item-rank-tag">#${{d.rank}}</span>
                     </div>
                     <div class="item-metrics-subrow">
-                        <span>कार्यक्रम: <span class="item-bold-val odometer-val" id="sidebar-events-${{d.id}}" data-raw-val="${{d.events}}"><span class="odo-num-val">${{d.events.toLocaleString()}}</span></span></span>
-                        <span>नागरिक: <span class="item-bold-val odometer-val" id="sidebar-reach-${{d.id}}" data-raw-val="${{reachRaw}}"><span class="odo-num-val">${{isLakh ? (d.reach / 100000).toFixed(2) : d.reach.toLocaleString()}}</span>${{reachSuffix ? ` <span class="odo-unit-suffix">${{reachSuffix}}</span>` : ''}}</span></span>
+                        <span>कार्यक्रम: <span class="item-bold-val odometer-val" id="sidebar-events-${{d.id}}" data-raw-val="${{d.events}}"><span class="odo-num-val">${{formatIN(d.events)}}</span></span></span>
+                        <span>नागरिक: <span class="item-bold-val odometer-val" id="sidebar-reach-${{d.id}}" data-raw-val="${{reachRaw}}"><span class="odo-num-val">${{isLakh ? (d.reach / 100000).toFixed(2) : formatIN(d.reach)}}</span>${{reachSuffix ? ` <span class="odo-unit-suffix">${{reachSuffix}}</span>` : ''}}</span></span>
                         <span>औसत: <span class="odometer-val" id="sidebar-avg-${{d.id}}" data-raw-val="${{d.avg_attendance}}"><span class="odo-num-val">${{d.avg_attendance}}</span></span></span>
                     </div>
                 `;
@@ -2744,6 +2774,11 @@ def main():
                     sidebarCounterEl.textContent = `${{filtered.length}} जिले सक्रिय`;
                 }}
             }});
+        }}
+
+        // Alias for flank cards rendering
+        function renderFlankCards() {{
+            renderCalloutFlanks();
         }}
 
         // Odometer Rolling Number Animation Engine (Smooth RequestAnimationFrame)
@@ -2800,8 +2835,11 @@ def main():
             }} else if (suffix.includes('लाख')) {{
                 numStr = val.toFixed(2);
             }} else {{
-                numStr = Math.round(val).toLocaleString('en-IN');
+                numStr = formatIN(Math.round(val));
             }}
+
+            el.innerHTML = `${{prefix}}<span class="odo-num-val">${{numStr}}</span>${{suffix ? ` <span class="odo-unit-suffix">${{suffix}}</span>` : ''}}`;
+        }}
 
             el.innerHTML = `${{prefix}}<span class="odo-num-val">${{numStr}}</span>${{suffix ? ` <span class="odo-unit-suffix">${{suffix}}</span>` : ''}}`;
         }}
@@ -2858,7 +2896,7 @@ def main():
 
             if (activeFilter === 'all' && !searchQuery) {{
                 if (badgeEl) badgeEl.textContent = 'सभी 33 जिले';
-                if (summaryEl) summaryEl.textContent = `कुल ${{stateMasterEvents.toLocaleString('en-IN')}} कार्यक्रम • ${{(stateMasterReach/100000).toFixed(2)}} लाख नागरिक`;
+                if (summaryEl) summaryEl.textContent = `कुल ${{formatIN(stateMasterEvents)}} कार्यक्रम • ${{(stateMasterReach/100000).toFixed(2)}} लाख नागरिक`;
             }} else {{
                 let filterLabel = activeFilter;
                 if (activeFilter === '10k') filterLabel = '> 10,000';
@@ -2868,7 +2906,7 @@ def main():
                 else if (activeFilter === 'under500') filterLabel = '< 500';
 
                 if (badgeEl) badgeEl.textContent = searchQuery ? `खोज: "${{searchQuery}}"` : `फ़िल्टर: ${{filterLabel}}`;
-                if (summaryEl) summaryEl.textContent = `${{filteredDistricts.length}} जिले • ${{fEv.toLocaleString('en-IN')}} कार्यक्रम • ${{fReachLakh}} लाख नागरिक`;
+                if (summaryEl) summaryEl.textContent = `${{filteredDistricts.length}} जिले • ${{formatIN(fEv)}} कार्यक्रम • ${{fReachLakh}} लाख नागरिक`;
             }}
         }}
 
@@ -2914,7 +2952,7 @@ def main():
                 d.top_topics.forEach(top => {{
                     const chip = document.createElement('span');
                     chip.className = 'modal-topic-chip';
-                    chip.textContent = `${{top.name}} (${{top.count}})`;
+                    chip.textContent = `${{top.name}} (${{formatIN(top.count)}})`;
                     topicsContainer.appendChild(chip);
                 }});
             }} else {{
@@ -3008,114 +3046,118 @@ def main():
         }}
 
         async function checkLiveFeed(isManual = false) {{
-            const endpoints = [
-                'https://atom-leonard-formula-starting.trycloudflare.com/live_feed.json?t=' + Date.now(),
-                'http://localhost:8080/live_feed.json?t=' + Date.now(),
-                '/api/feed?t=' + Date.now(),
-                'live_feed.json?t=' + Date.now(),
-                'https://raw.githubusercontent.com/Kodanda10/chhattisgarh-cyber-jagriti-map/main/live_feed.json?t=' + Date.now()
-            ];
-            let feed = null;
-            for (const ep of endpoints) {{
-                try {{
-                    const res = await fetch(ep);
-                    if (res.ok) {{
-                        feed = await res.json();
-                        break;
-                    }}
-                }} catch (e) {{}}
-            }}
-
-            if (!feed) {{
-                if (isManual) {{
-                    const curTotal = DISTRICTS_DATA.reduce((a, b) => a + b.events, 0);
-                    showSyncToast(`लाइव पोर्टल सिंक सक्रिय: ${{curTotal.toLocaleString('en-IN')}} कार्यक्रम पूर्णतः सत्यापित हैं।`);
-                }}
-                return;
-            }}
-
-            function findDistrictTarget(nd) {{
-                const nid = parseInt(nd.id || 0);
-                const nEn = (nd.name_en || '').toLowerCase().trim();
-                const nHi = (nd.name_hi || '').trim();
-                return DISTRICTS_DATA.find(d => {{
-                    if (d.id === nid) return true;
-                    if (d.portal_ids && d.portal_ids.includes(nid)) return true;
-                    const dEn = d.name_en.toLowerCase().trim();
-                    if (nEn && (dEn === nEn || dEn.includes(nEn) || nEn.includes(dEn))) return true;
-                    if (nHi && d.name_hi === nHi) return true;
-                    return false;
-                }});
-            }}
-
-            let anyChanged = false;
-            if (feed.districts && Array.isArray(feed.districts)) {{
-                feed.districts.forEach(nd => {{
-                    const target = findDistrictTarget(nd);
-                    if (!target) return;
-                    const ev = parseInt(nd.events || 0);
-                    const rch = parseInt(nd.reach || 0);
-                    if (target.events !== ev || target.reach !== rch) {{
-                        target.events = ev;
-                        target.reach = rch;
-                        target.avg_attendance = nd.avg_attendance || (ev > 0 ? parseFloat((rch / ev).toFixed(1)) : 0);
-                        if (nd.top_thanas) target.top_thanas = nd.top_thanas;
-                        if (nd.top_topics) target.top_topics = nd.top_topics;
-                        anyChanged = true;
-                    }}
-                }});
-            }}
-
-            if (anyChanged) {{
-                // Re-sort districts by events descending
-                DISTRICTS_DATA.sort((a, b) => b.events - a.events);
-                DISTRICTS_DATA.forEach((d, idx) => {{
-                    d.rank = idx + 1;
-                }});
-
-                // Re-render sidebar drawer list with accurate dynamic order and ranks!
-                renderSidebarList();
-                renderFlankCards();
-
-                // Update open modal if inspected
-                if (activeDistrictId) {{
-                    const curD = DISTRICTS_DATA.find(d => d.id === activeDistrictId);
-                    if (curD) openDistrictModal(curD);
+            try {{
+                const endpoints = [
+                    'https://atom-leonard-formula-starting.trycloudflare.com/live_feed.json?t=' + Date.now(),
+                    'http://localhost:8080/live_feed.json?t=' + Date.now(),
+                    '/api/feed?t=' + Date.now(),
+                    'live_feed.json?t=' + Date.now(),
+                    'https://raw.githubusercontent.com/Kodanda10/chhattisgarh-cyber-jagriti-map/main/live_feed.json?t=' + Date.now()
+                ];
+                let feed = null;
+                for (const ep of endpoints) {{
+                    try {{
+                        const res = await fetch(ep);
+                        if (res.ok) {{
+                            feed = await res.json();
+                            break;
+                        }}
+                    }} catch (e) {{}}
                 }}
 
-                // Update Map Polygon Colors and Tooltips
-                geojsonLayer.eachLayer(layer => {{
-                    const p = layer.feature.properties;
-                    const d = DISTRICTS_DATA.find(x => x.name_hi === p.name_hi || x.name_en === p.district || x.id === p.id);
-                    if (d) {{
-                        p.events = d.events;
-                        p.reach = d.reach;
-                        p.rank = d.rank;
-                        layer.setStyle(styleFeature(layer.feature));
-                        layer.setTooltipContent(`
-                            <div style="font-family:'Inter',sans-serif; min-width:140px; padding:2px;">
-                                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:4px; margin-bottom:5px;">
-                                    <strong style="color:#ffffff; font-size:13px;">${{p.name_hi || p.district}}</strong>
-                                    <span style="font-size:10px; font-weight:700; background:#2563eb; color:#ffffff; padding:1px 6px; border-radius:4px;">#${{d.rank}}</span>
+                if (!feed) {{
+                    if (isManual) {{
+                        const curTotal = DISTRICTS_DATA.reduce((a, b) => a + b.events, 0);
+                        showSyncToast(`लाइव पोर्टल सिंक सक्रिय: ${{formatIN(curTotal)}} कार्यक्रम पूर्णतः सत्यापित हैं।`);
+                    }}
+                    return;
+                }}
+
+                function findDistrictTarget(nd) {{
+                    const nid = parseInt(nd.id || 0);
+                    const nEn = (nd.name_en || '').toLowerCase().trim();
+                    const nHi = (nd.name_hi || '').trim();
+                    return DISTRICTS_DATA.find(d => {{
+                        if (d.id === nid) return true;
+                        if (d.portal_ids && d.portal_ids.includes(nid)) return true;
+                        const dEn = d.name_en.toLowerCase().trim();
+                        if (nEn && (dEn === nEn || dEn.includes(nEn) || nEn.includes(dEn))) return true;
+                        if (nHi && d.name_hi === nHi) return true;
+                        return false;
+                    }});
+                }}
+
+                let anyChanged = false;
+                if (feed.districts && Array.isArray(feed.districts)) {{
+                    feed.districts.forEach(nd => {{
+                        const target = findDistrictTarget(nd);
+                        if (!target) return;
+                        const ev = parseInt(nd.events || 0);
+                        const rch = parseInt(nd.reach || 0);
+                        if (target.events !== ev || target.reach !== rch) {{
+                            target.events = ev;
+                            target.reach = rch;
+                            target.avg_attendance = nd.avg_attendance || (ev > 0 ? parseFloat((rch / ev).toFixed(1)) : 0);
+                            if (nd.top_thanas) target.top_thanas = nd.top_thanas;
+                            if (nd.top_topics) target.top_topics = nd.top_topics;
+                            anyChanged = true;
+                        }}
+                    }});
+                }}
+
+                if (anyChanged) {{
+                    // Re-sort districts by events descending
+                    DISTRICTS_DATA.sort((a, b) => b.events - a.events);
+                    DISTRICTS_DATA.forEach((d, idx) => {{
+                        d.rank = idx + 1;
+                    }});
+
+                    // Re-render sidebar drawer list with accurate dynamic order and ranks!
+                    renderSidebarList();
+                    renderCalloutFlanks();
+
+                    // Update open modal if inspected
+                    if (activeDistrictId) {{
+                        const curD = DISTRICTS_DATA.find(d => d.id === activeDistrictId);
+                        if (curD) openDistrictModal(curD);
+                    }}
+
+                    // Update Map Polygon Colors and Tooltips
+                    geojsonLayer.eachLayer(layer => {{
+                        const p = layer.feature.properties;
+                        const d = DISTRICTS_DATA.find(x => x.name_hi === p.name_hi || x.name_en === p.district || x.id === p.id);
+                        if (d) {{
+                            p.events = d.events;
+                            p.reach = d.reach;
+                            p.rank = d.rank;
+                            layer.setStyle(styleFeature(layer.feature));
+                            layer.setTooltipContent(`
+                                <div style="font-family:'Inter',sans-serif; min-width:140px; padding:2px;">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:4px; margin-bottom:5px;">
+                                        <strong style="color:#ffffff; font-size:13px;">${{p.name_hi || p.district}}</strong>
+                                        <span style="font-size:10px; font-weight:700; background:#2563eb; color:#ffffff; padding:1px 6px; border-radius:4px;">#${{d.rank}}</span>
+                                    </div>
+                                    <div style="font-size:11px; color:#cbd5e1; margin-bottom:2px;">आयोजन: <b style="color:#60a5fa;">${{formatIN(d.events)}}</b></div>
+                                    <div style="font-size:11px; color:#cbd5e1;">नागरिक: <b style="color:#34d399;">${{(d.reach/100000).toFixed(2)}} लाख</b></div>
                                 </div>
-                                <div style="font-size:11px; color:#cbd5e1; margin-bottom:2px;">आयोजन: <b style="color:#60a5fa;">${{d.events.toLocaleString('en-IN')}}</b></div>
-                                <div style="font-size:11px; color:#cbd5e1;">नागरिक: <b style="color:#34d399;">${{(d.reach/100000).toFixed(2)}} लाख</b></div>
-                            </div>
-                        `);
-                    }}
-                }});
-            }}
+                            `);
+                        }}
+                    }});
+                }}
 
-            if (anyChanged || (feed.total_events && feed.total_events !== stateMasterEvents)) {{
-                if (feed.total_events) stateMasterEvents = feed.total_events;
-                if (feed.total_reach) stateMasterReach = feed.total_reach;
-                stateMasterAvgAtt = stateMasterEvents > 0 ? parseFloat((stateMasterReach / stateMasterEvents).toFixed(1)) : 0;
+                if (anyChanged || (feed.total_events && feed.total_events !== stateMasterEvents)) {{
+                    if (feed.total_events) stateMasterEvents = feed.total_events;
+                    if (feed.total_reach) stateMasterReach = feed.total_reach;
+                    stateMasterAvgAtt = stateMasterEvents > 0 ? parseFloat((stateMasterReach / stateMasterEvents).toFixed(1)) : 0;
 
-                updateStateHeaderKPIs();
-                updateDrawerFilterStats();
-                showSyncToast(`नया लाइव डाटा प्राप्त: ${{stateMasterEvents.toLocaleString('en-IN')}} कुल कार्यक्रम (${{feed.timestamp || 'अभी'}})` );
-            }} else if (isManual) {{
-                showSyncToast(`लाइव सिंक 100% सत्यापित: ${{stateMasterEvents.toLocaleString('en-IN')}} कार्यक्रम एवं ${{(stateMasterReach / 100000).toFixed(2)}} लाख नागरिक पूर्णतः अपडेटेड हैं।`);
+                    updateStateHeaderKPIs();
+                    updateDrawerFilterStats();
+                    showSyncToast(`नया लाइव डाटा प्राप्त: ${{formatIN(stateMasterEvents)}} कुल कार्यक्रम (${{feed.timestamp || 'अभी'}})` );
+                }} else if (isManual) {{
+                    showSyncToast(`लाइव सिंक 100% सत्यापित: ${{formatIN(stateMasterEvents)}} कार्यक्रम एवं ${{(stateMasterReach / 100000).toFixed(2)}} लाख नागरिक पूर्णतः अपडेटेड हैं।`);
+                }}
+            }} catch (err) {{
+                console.error("[LiveFeed Sync Error]", err);
             }}
         }}
 
