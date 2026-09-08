@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-09 02:19:02",
-  "total_events": 120623,
-  "total_reach": 4822916,
+  "timestamp": "2026-09-09 02:44:08",
+  "total_events": 120624,
+  "total_reach": 4822928,
   "avg_attendance": 40.0,
   "districts_count": 33,
   "status": "ONLINE",
@@ -63,8 +63,8 @@
       "lng": 81.662,
       "division": "Bastar",
       "flank": "left",
-      "events": 27097,
-      "reach": 699568,
+      "events": 27098,
+      "reach": 699580,
       "avg_attendance": 25.8,
       "top_thanas": [
         {
@@ -91,7 +91,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 21885
+          "count": 21886
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
