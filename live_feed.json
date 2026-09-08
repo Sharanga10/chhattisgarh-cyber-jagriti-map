@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-09 01:18:13",
-  "total_events": 120617,
-  "total_reach": 4822867,
+  "timestamp": "2026-09-09 01:33:27",
+  "total_events": 120619,
+  "total_reach": 4822912,
   "avg_attendance": 40.0,
   "districts_count": 33,
   "status": "ONLINE",
@@ -455,8 +455,8 @@
       "lng": 81.035,
       "division": "Durg",
       "flank": "left",
-      "events": 2337,
-      "reach": 90072,
+      "events": 2338,
+      "reach": 90097,
       "avg_attendance": 38.5,
       "top_thanas": [
         {
@@ -471,8 +471,8 @@
         },
         {
           "name": "डोंगरगांव",
-          "events": 109,
-          "reach": 3890
+          "events": 110,
+          "reach": 3915
         },
         {
           "name": "somni",
@@ -483,7 +483,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1553
+          "count": 1554
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -553,9 +553,9 @@
       "lng": 82.557,
       "division": "Surguja",
       "flank": "right",
-      "events": 1936,
-      "reach": 96913,
-      "avg_attendance": 50.1,
+      "events": 1937,
+      "reach": 96933,
+      "avg_attendance": 50.0,
       "top_thanas": [
         {
           "name": "Baikunthpur",
@@ -581,7 +581,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1817
+          "count": 1818
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
