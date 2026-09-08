@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-09 01:08:06",
-  "total_events": 120615,
-  "total_reach": 4822817,
+  "timestamp": "2026-09-09 01:13:08",
+  "total_events": 120616,
+  "total_reach": 4822842,
   "avg_attendance": 40.0,
   "districts_count": 33,
   "status": "ONLINE",
@@ -455,8 +455,8 @@
       "lng": 81.035,
       "division": "Durg",
       "flank": "left",
-      "events": 2336,
-      "reach": 90047,
+      "events": 2337,
+      "reach": 90072,
       "avg_attendance": 38.5,
       "top_thanas": [
         {
@@ -470,20 +470,20 @@
           "reach": 2934
         },
         {
+          "name": "डोंगरगांव",
+          "events": 109,
+          "reach": 3890
+        },
+        {
           "name": "somni",
           "events": 108,
           "reach": 2078
-        },
-        {
-          "name": "डोंगरगांव",
-          "events": 108,
-          "reach": 3865
         }
       ],
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1552
+          "count": 1553
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
