@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.cyberjagriti.livesync</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/opt/python@3.11/libexec/bin/python3</string>
+        <string>/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor/live_sync_daemon.py</string>
+        <string>--daemon</string>
+        <string>--pulse</string>
+        <string>6</string>
+        <string>--deep</string>
+        <string>300</string>
+        <string>--serve</string>
+        <string>8080</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor/reports/livesync_daemon.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor/reports/livesync_daemon_err.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>GIT_TERMINAL_PROMPT</key>
+        <string>0</string>
+    </dict>
+</dict>
+</plist>

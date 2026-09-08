@@ -3056,9 +3056,9 @@ def main():
         async function checkLiveFeed(isManual = false) {{
             try {{
                 const endpoints = [
+                    'http://localhost:8080/live_feed.json?t=' + Date.now(),
                     './live_feed.json?t=' + Date.now(),
                     'live_feed.json?t=' + Date.now(),
-                    'http://localhost:8080/live_feed.json?t=' + Date.now(),
                     '/api/feed?t=' + Date.now(),
                     'https://raw.githubusercontent.com/Kodanda10/chhattisgarh-cyber-jagriti-map/main/live_feed.json?t=' + Date.now()
                 ];
@@ -3066,8 +3066,8 @@ def main():
                 for (const ep of endpoints) {{
                     try {{
                         const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 2000);
-                        const res = await fetch(ep, {{ signal: controller.signal }});
+                        const timeoutId = setTimeout(() => controller.abort(), 1800);
+                        const res = await fetch(ep, {{ signal: controller.signal, cache: 'no-store' }});
                         clearTimeout(timeoutId);
                         if (res.ok) {{
                             feed = await res.json();

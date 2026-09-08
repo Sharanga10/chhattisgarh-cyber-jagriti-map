@@ -18,6 +18,7 @@ import sqlite3
 import argparse
 import requests
 import subprocess
+import threading
 from datetime import datetime
 
 BASE_DIR = '/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor'
@@ -149,6 +150,7 @@ def fast_pulse_check(session, token, last_feed_events):
         with open(FEED_JSON, 'w', encoding='utf-8') as f:
             json.dump(feed_data, f, ensure_ascii=False, indent=2)
 
+        update_heartbeat("HEALTHY", remote_total, delta)
         print(f"[{datetime.now().strftime('%H:%M:%S')}] [FAST PULSE] Remote: {remote_total:,} (+{delta} new) | Reach: {remote_reach:,} -> live_feed.json updated!", flush=True)
         return remote_total, remote_total
 
@@ -271,24 +273,59 @@ def deep_event_ingestion(session, token, verbose=True):
     conn.close()
     return 0
 
-def git_push_batch(verbose=True):
-    """
-    Pushes recent updates to GitHub Pages repository.
-    Runs every 3-5 minutes to avoid spamming git commits.
-    """
+_git_push_lock = threading.Lock()
+HEARTBEAT_FILE = os.path.join(BASE_DIR, "reports", "livesync_heartbeat.json")
+
+def update_heartbeat(status="HEALTHY", last_events=0, delta=0):
     try:
-        subprocess.run(["git", "add", "index.html", "chhattisgarh_cyber_jagriti_map.html", "live_feed.json"], cwd=BASE_DIR, check=True)
-        # Check if diff exists
-        diff = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd=BASE_DIR)
+        os.makedirs(os.path.dirname(HEARTBEAT_FILE), exist_ok=True)
+        data = {
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "pid": os.getpid(),
+            "status": status,
+            "total_events": last_events,
+            "recent_delta": delta
+        }
+        with open(HEARTBEAT_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except Exception:
+        pass
+
+def _git_push_worker(verbose=True):
+    if not _git_push_lock.acquire(blocking=False):
+        if verbose:
+            print("[*] Git push already running in background, skipping redundant trigger.", flush=True)
+        return
+
+    try:
+        env = os.environ.copy()
+        env["GIT_TERMINAL_PROMPT"] = "0"
+        env["GIT_SSH_COMMAND"] = "ssh -o BatchMode=yes -o ConnectTimeout=10"
+        
+        subprocess.run(["git", "add", "index.html", "chhattisgarh_cyber_jagriti_map.html", "live_feed.json"], cwd=BASE_DIR, check=True, timeout=15, env=env)
+        diff = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd=BASE_DIR, timeout=10, env=env)
         if diff.returncode != 0:
             msg = f"Auto-sync live telemetry: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-            subprocess.run(["git", "commit", "-m", msg], cwd=BASE_DIR, check=True)
-            subprocess.run(["git", "push", "origin", "main"], cwd=BASE_DIR, check=True)
+            subprocess.run(["git", "commit", "-m", msg], cwd=BASE_DIR, check=True, timeout=15, env=env)
+            subprocess.run(["git", "push", "origin", "main"], cwd=BASE_DIR, check=True, timeout=30, env=env)
             if verbose:
                 print(f"[{datetime.now().strftime('%H:%M:%S')}] [GIT PUSH] Deployed latest batch to GitHub Pages.", flush=True)
+    except subprocess.TimeoutExpired:
+        if verbose:
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] [GIT PUSH] Warning: Git operation timed out (>30s) — aborted safely to avoid stalling sync.", flush=True)
     except Exception as e:
         if verbose:
             print(f"[*] Git auto-push notice: {e}", flush=True)
+    finally:
+        _git_push_lock.release()
+
+def git_push_batch(verbose=True):
+    """
+    Pushes recent updates to GitHub Pages in a detached background thread.
+    Strict 30s timeout and non-blocking lock ensure data ingestion NEVER stalls.
+    """
+    t = threading.Thread(target=_git_push_worker, args=(verbose,), daemon=True)
+    t.start()
 
 def start_local_server(port=8080):
     import http.server
