@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-09 01:33:27",
-  "total_events": 120619,
-  "total_reach": 4822912,
+  "timestamp": "2026-09-09 02:14:13",
+  "total_events": 120620,
+  "total_reach": 4822913,
   "avg_attendance": 40.0,
   "districts_count": 33,
   "status": "ONLINE",
@@ -63,8 +63,8 @@
       "lng": 81.662,
       "division": "Bastar",
       "flank": "left",
-      "events": 27093,
-      "reach": 699564,
+      "events": 27094,
+      "reach": 699565,
       "avg_attendance": 25.8,
       "top_thanas": [
         {
@@ -74,8 +74,8 @@
         },
         {
           "name": "Keshkal",
-          "events": 1119,
-          "reach": 9611
+          "events": 1120,
+          "reach": 9612
         },
         {
           "name": "Bayanar",
@@ -91,7 +91,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 21881
+          "count": 21882
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
