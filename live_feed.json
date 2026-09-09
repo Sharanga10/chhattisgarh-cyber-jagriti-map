@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-10 02:11:30",
-  "total_events": 145021,
-  "total_reach": 5491453,
+  "timestamp": "2026-09-10 02:33:26",
+  "total_events": 145022,
+  "total_reach": 5491455,
   "avg_attendance": 37.9,
   "districts_count": 33,
   "status": "ONLINE",
@@ -1141,14 +1141,14 @@
       "lng": 80.742,
       "division": "Durg",
       "flank": "left",
-      "events": 1071,
-      "reach": 45021,
+      "events": 1072,
+      "reach": 45023,
       "avg_attendance": 42.0,
       "top_thanas": [
         {
           "name": "अंबागढ़ चौकी",
-          "events": 154,
-          "reach": 2010
+          "events": 155,
+          "reach": 2012
         },
         {
           "name": "Mohla",
@@ -1169,7 +1169,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 875
+          "count": 876
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
