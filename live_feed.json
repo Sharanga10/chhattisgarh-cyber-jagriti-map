@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-10 00:00:06",
-  "total_events": 144999,
-  "total_reach": 5491143,
+  "timestamp": "2026-09-10 00:10:06",
+  "total_events": 145000,
+  "total_reach": 5491153,
   "avg_attendance": 37.9,
   "districts_count": 33,
   "status": "ONLINE",
@@ -1582,9 +1582,9 @@
       "lng": 82.958,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 274,
-      "reach": 16498,
-      "avg_attendance": 60.2,
+      "events": 275,
+      "reach": 16508,
+      "avg_attendance": 60.0,
       "top_thanas": [
         {
           "name": "डभरा",
@@ -1610,7 +1610,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 227
+          "count": 228
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
