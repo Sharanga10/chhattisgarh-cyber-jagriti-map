@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-09 23:44:57",
-  "total_events": 144990,
-  "total_reach": 5490852,
+  "timestamp": "2026-09-09 23:49:58",
+  "total_events": 144993,
+  "total_reach": 5491002,
   "avg_attendance": 37.9,
   "districts_count": 33,
   "status": "ONLINE",
@@ -945,8 +945,8 @@
       "lng": 81.349,
       "division": "Bastar",
       "flank": "left",
-      "events": 1531,
-      "reach": 55711,
+      "events": 1532,
+      "reach": 55791,
       "avg_attendance": 36.4,
       "top_thanas": [
         {
@@ -973,7 +973,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1434
+          "count": 1435
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -1190,9 +1190,9 @@
       "lng": 83.197,
       "division": "Surguja",
       "flank": "right",
-      "events": 1032,
-      "reach": 74835,
-      "avg_attendance": 72.5,
+      "events": 1034,
+      "reach": 74905,
+      "avg_attendance": 72.4,
       "top_thanas": [
         {
           "name": "लुण्ड्रा",
@@ -1218,7 +1218,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 896
+          "count": 898
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
