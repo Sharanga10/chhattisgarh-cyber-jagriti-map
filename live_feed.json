@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-10 01:00:57",
-  "total_events": 145016,
-  "total_reach": 5491395,
+  "timestamp": "2026-09-10 01:05:55",
+  "total_events": 145019,
+  "total_reach": 5491436,
   "avg_attendance": 37.9,
   "districts_count": 33,
   "status": "ONLINE",
@@ -112,8 +112,8 @@
       "lng": 81.285,
       "division": "Durg",
       "flank": "left",
-      "events": 13589,
-      "reach": 625012,
+      "events": 13592,
+      "reach": 625053,
       "avg_attendance": 46.0,
       "top_thanas": [
         {
@@ -140,7 +140,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 8414
+          "count": 8417
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
