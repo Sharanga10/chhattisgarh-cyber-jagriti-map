@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-10 02:33:26",
-  "total_events": 145022,
-  "total_reach": 5491455,
+  "timestamp": "2026-09-10 03:21:29",
+  "total_events": 145024,
+  "total_reach": 5491481,
   "avg_attendance": 37.9,
   "districts_count": 33,
   "status": "ONLINE",
@@ -112,8 +112,8 @@
       "lng": 81.285,
       "division": "Durg",
       "flank": "left",
-      "events": 13593,
-      "reach": 625065,
+      "events": 13594,
+      "reach": 625087,
       "avg_attendance": 46.0,
       "top_thanas": [
         {
@@ -123,8 +123,8 @@
         },
         {
           "name": "Mohan Nagar",
-          "events": 587,
-          "reach": 12345
+          "events": 588,
+          "reach": 12367
         },
         {
           "name": "Mohan nagar",
@@ -140,7 +140,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 8418
+          "count": 8419
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -896,8 +896,8 @@
       "lng": 82.75,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 1565,
-      "reach": 52264,
+      "events": 1566,
+      "reach": 52268,
       "avg_attendance": 33.4,
       "top_thanas": [
         {
@@ -924,7 +924,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1319
+          "count": 1320
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
