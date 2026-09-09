@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-10 03:21:29",
-  "total_events": 145024,
-  "total_reach": 5491481,
+  "timestamp": "2026-09-10 03:37:50",
+  "total_events": 145025,
+  "total_reach": 5491490,
   "avg_attendance": 37.9,
   "districts_count": 33,
   "status": "ONLINE",
@@ -896,8 +896,8 @@
       "lng": 82.75,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 1566,
-      "reach": 52268,
+      "events": 1567,
+      "reach": 52277,
       "avg_attendance": 33.4,
       "top_thanas": [
         {
@@ -924,7 +924,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1320
+          "count": 1321
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
