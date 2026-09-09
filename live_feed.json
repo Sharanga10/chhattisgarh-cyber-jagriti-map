@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-09 23:55:00",
-  "total_events": 144998,
-  "total_reach": 5491113,
+  "timestamp": "2026-09-10 00:00:06",
+  "total_events": 144999,
+  "total_reach": 5491143,
   "avg_attendance": 37.9,
   "districts_count": 33,
   "status": "ONLINE",
@@ -1190,9 +1190,9 @@
       "lng": 83.197,
       "division": "Surguja",
       "flank": "right",
-      "events": 1036,
-      "reach": 74975,
-      "avg_attendance": 72.4,
+      "events": 1037,
+      "reach": 75005,
+      "avg_attendance": 72.3,
       "top_thanas": [
         {
           "name": "लुण्ड्रा",
@@ -1218,7 +1218,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 900
+          "count": 901
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
