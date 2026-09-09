@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-10 00:15:12",
-  "total_events": 145001,
-  "total_reach": 5491165,
+  "timestamp": "2026-09-10 00:21:37",
+  "total_events": 145002,
+  "total_reach": 5491173,
   "avg_attendance": 37.9,
   "districts_count": 33,
   "status": "ONLINE",
@@ -161,8 +161,8 @@
       "lng": 82.139,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 12248,
-      "reach": 901415,
+      "events": 12249,
+      "reach": 901423,
       "avg_attendance": 73.6,
       "top_thanas": [
         {
@@ -189,7 +189,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 11120
+          "count": 11121
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
