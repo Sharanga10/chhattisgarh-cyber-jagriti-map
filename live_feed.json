@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-09-10 11:24:50",
-  "total_events": 148586,
-  "total_reach": 5608297,
-  "avg_attendance": 37.7,
+  "timestamp": "2026-09-10 11:36:59",
+  "total_events": 148964,
+  "total_reach": 5632079,
+  "avg_attendance": 37.8,
   "districts_count": 33,
   "status": "ONLINE",
   "districts": [
@@ -14,8 +14,8 @@
       "lng": 82.072,
       "division": "Raipur",
       "flank": "right",
-      "events": 35625,
-      "reach": 797177,
+      "events": 35702,
+      "reach": 798138,
       "avg_attendance": 22.4,
       "top_thanas": [
         {
@@ -25,24 +25,24 @@
         },
         {
           "name": "फिंगेश्वर",
-          "events": 2553,
-          "reach": 65416
+          "events": 2564,
+          "reach": 65665
         },
         {
           "name": "Panduka",
-          "events": 2034,
-          "reach": 47872
+          "events": 2036,
+          "reach": 47882
         },
         {
           "name": "Mainpur",
-          "events": 1557,
-          "reach": 26916
+          "events": 1558,
+          "reach": 26921
         }
       ],
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 30882
+          "count": 30959
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -63,9 +63,9 @@
       "lng": 81.662,
       "division": "Bastar",
       "flank": "left",
-      "events": 29768,
-      "reach": 755370,
-      "avg_attendance": 25.4,
+      "events": 29810,
+      "reach": 766158,
+      "avg_attendance": 25.7,
       "top_thanas": [
         {
           "name": "विश्रामपुरी",
@@ -74,8 +74,8 @@
         },
         {
           "name": "Keshkal",
-          "events": 1178,
-          "reach": 9860
+          "events": 1179,
+          "reach": 9865
         },
         {
           "name": "Vishrampuri",
@@ -91,7 +91,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 24556
+          "count": 24598
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -112,9 +112,9 @@
       "lng": 81.285,
       "division": "Durg",
       "flank": "left",
-      "events": 13887,
-      "reach": 634463,
-      "avg_attendance": 45.7,
+      "events": 13909,
+      "reach": 641018,
+      "avg_attendance": 46.1,
       "top_thanas": [
         {
           "name": "पुरानी भिलाई",
@@ -128,8 +128,8 @@
         },
         {
           "name": "Mohan nagar",
-          "events": 566,
-          "reach": 36734
+          "events": 582,
+          "reach": 43134
         },
         {
           "name": "पुलगांव",
@@ -140,7 +140,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 8712
+          "count": 8734
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -161,19 +161,19 @@
       "lng": 82.139,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 13288,
-      "reach": 965551,
+      "events": 13327,
+      "reach": 968505,
       "avg_attendance": 72.7,
       "top_thanas": [
         {
           "name": "Police line",
-          "events": 5033,
-          "reach": 296293
+          "events": 5053,
+          "reach": 297043
         },
         {
           "name": "Police line bilaspur",
-          "events": 2555,
-          "reach": 129894
+          "events": 2566,
+          "reach": 131213
         },
         {
           "name": "Police line Bilaspur",
@@ -182,14 +182,14 @@
         },
         {
           "name": "Police Line bilaspur",
-          "events": 776,
-          "reach": 75582
+          "events": 783,
+          "reach": 76462
         }
       ],
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 12160
+          "count": 12199
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -259,14 +259,14 @@
       "lng": 81.667,
       "division": "Bastar",
       "flank": "left",
-      "events": 4510,
-      "reach": 121825,
+      "events": 4525,
+      "reach": 122218,
       "avg_attendance": 27.0,
       "top_thanas": [
         {
           "name": "Chintagufa",
-          "events": 358,
-          "reach": 6808
+          "events": 361,
+          "reach": 6868
         },
         {
           "name": "Konta",
@@ -287,7 +287,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 4255
+          "count": 4270
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -308,8 +308,8 @@
       "lng": 82.164,
       "division": "Raipur",
       "flank": "right",
-      "events": 4368,
-      "reach": 42892,
+      "events": 4385,
+      "reach": 42942,
       "avg_attendance": 9.8,
       "top_thanas": [
         {
@@ -336,7 +336,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 4134
+          "count": 4151
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -406,24 +406,24 @@
       "lng": 82.031,
       "division": "Bastar",
       "flank": "left",
-      "events": 4121,
-      "reach": 97653,
-      "avg_attendance": 23.7,
+      "events": 4157,
+      "reach": 97872,
+      "avg_attendance": 23.5,
       "top_thanas": [
         {
           "name": "Parpa",
-          "events": 264,
-          "reach": 4426
+          "events": 271,
+          "reach": 4531
         },
         {
           "name": "Kondagaon",
-          "events": 214,
-          "reach": 642
+          "events": 218,
+          "reach": 654
         },
         {
           "name": "Lohandiguda",
-          "events": 183,
-          "reach": 1422
+          "events": 185,
+          "reach": 1425
         },
         {
           "name": "Bodhghat",
@@ -434,7 +434,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 3443
+          "count": 3479
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -553,14 +553,14 @@
       "lng": 82.557,
       "division": "Surguja",
       "flank": "right",
-      "events": 2485,
-      "reach": 113703,
-      "avg_attendance": 45.8,
+      "events": 2499,
+      "reach": 113898,
+      "avg_attendance": 45.6,
       "top_thanas": [
         {
           "name": "Baikunthpur",
-          "events": 685,
-          "reach": 24565
+          "events": 696,
+          "reach": 24725
         },
         {
           "name": "Patna",
@@ -569,8 +569,8 @@
         },
         {
           "name": "थाना चरचा",
-          "events": 195,
-          "reach": 12557
+          "events": 198,
+          "reach": 12592
         },
         {
           "name": "बैकुंठपुर",
@@ -581,7 +581,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 2366
+          "count": 2380
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -602,9 +602,9 @@
       "lng": 83.395,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 2028,
-      "reach": 58144,
-      "avg_attendance": 28.7,
+      "events": 2042,
+      "reach": 58214,
+      "avg_attendance": 28.5,
       "top_thanas": [
         {
           "name": "Tamnar",
@@ -630,7 +630,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1526
+          "count": 1540
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -651,8 +651,8 @@
       "lng": 82.352,
       "division": "Surguja",
       "flank": "right",
-      "events": 1883,
-      "reach": 68114,
+      "events": 1884,
+      "reach": 68134,
       "avg_attendance": 36.2,
       "top_thanas": [
         {
@@ -679,7 +679,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1686
+          "count": 1687
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -700,9 +700,9 @@
       "lng": 81.547,
       "division": "Durg",
       "flank": "left",
-      "events": 1754,
-      "reach": 202314,
-      "avg_attendance": 115.3,
+      "events": 1765,
+      "reach": 202454,
+      "avg_attendance": 114.7,
       "top_thanas": [
         {
           "name": "Bemetara",
@@ -728,7 +728,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1096
+          "count": 1107
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -749,9 +749,9 @@
       "lng": 81.205,
       "division": "Durg",
       "flank": "left",
-      "events": 1676,
-      "reach": 100791,
-      "avg_attendance": 60.1,
+      "events": 1680,
+      "reach": 100830,
+      "avg_attendance": 60.0,
       "top_thanas": [
         {
           "name": "Cyber cell balod",
@@ -777,7 +777,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1551
+          "count": 1555
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -798,8 +798,8 @@
       "lng": 82.86,
       "division": "Surguja",
       "flank": "right",
-      "events": 1607,
-      "reach": 51498,
+      "events": 1609,
+      "reach": 51519,
       "avg_attendance": 32.0,
       "top_thanas": [
         {
@@ -826,7 +826,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1111
+          "count": 1113
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -847,14 +847,14 @@
       "lng": 81.63,
       "division": "Raipur",
       "flank": "right",
-      "events": 1604,
-      "reach": 60253,
-      "avg_attendance": 37.6,
+      "events": 1606,
+      "reach": 60255,
+      "avg_attendance": 37.5,
       "top_thanas": [
         {
           "name": "Rakhi",
-          "events": 166,
-          "reach": 2073
+          "events": 168,
+          "reach": 2075
         },
         {
           "name": "गोबरा नवापारा",
@@ -875,7 +875,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1205
+          "count": 1207
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -896,9 +896,9 @@
       "lng": 80.817,
       "division": "Bastar",
       "flank": "left",
-      "events": 1595,
-      "reach": 69783,
-      "avg_attendance": 43.8,
+      "events": 1598,
+      "reach": 69851,
+      "avg_attendance": 43.7,
       "top_thanas": [
         {
           "name": "Bijapur",
@@ -917,14 +917,14 @@
         },
         {
           "name": "मददेड",
-          "events": 45,
-          "reach": 1888
+          "events": 46,
+          "reach": 1911
         }
       ],
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1512
+          "count": 1515
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -945,9 +945,9 @@
       "lng": 82.75,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 1589,
-      "reach": 52836,
-      "avg_attendance": 33.3,
+      "events": 1595,
+      "reach": 52928,
+      "avg_attendance": 33.2,
       "top_thanas": [
         {
           "name": "Civil line rampur",
@@ -973,7 +973,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1343
+          "count": 1349
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
@@ -994,9 +994,9 @@
       "lng": 81.349,
       "division": "Bastar",
       "flank": "left",
-      "events": 1547,
-      "reach": 56544,
-      "avg_attendance": 36.6,
+      "events": 1552,
+      "reach": 56645,
+      "avg_attendance": 36.5,
       "top_thanas": [
         {
           "name": "Kirandul",
@@ -1022,7 +1022,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1450
+          "count": 1455
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -1043,19 +1043,19 @@
       "lng": 81.55,
       "division": "Raipur",
       "flank": "right",
-      "events": 1344,
-      "reach": 27393,
-      "avg_attendance": 20.4,
+      "events": 1355,
+      "reach": 27427,
+      "avg_attendance": 20.2,
       "top_thanas": [
         {
           "name": "City kotwali",
-          "events": 204,
-          "reach": 399
+          "events": 209,
+          "reach": 404
         },
         {
           "name": "साइबर थाना धमतरी",
-          "events": 112,
-          "reach": 416
+          "events": 116,
+          "reach": 422
         },
         {
           "name": "Cyber",
@@ -1071,7 +1071,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1156
+          "count": 1167
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -1092,9 +1092,9 @@
       "lng": 81.248,
       "division": "Durg",
       "flank": "left",
-      "events": 1331,
-      "reach": 37957,
-      "avg_attendance": 28.5,
+      "events": 1333,
+      "reach": 38112,
+      "avg_attendance": 28.6,
       "top_thanas": [
         {
           "name": "सहसपुर लोहारा",
@@ -1120,7 +1120,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1196
+          "count": 1198
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -1141,9 +1141,9 @@
       "lng": 80.742,
       "division": "Durg",
       "flank": "left",
-      "events": 1101,
-      "reach": 45216,
-      "avg_attendance": 41.1,
+      "events": 1109,
+      "reach": 45244,
+      "avg_attendance": 40.8,
       "top_thanas": [
         {
           "name": "अंबागढ़ चौकी",
@@ -1152,8 +1152,8 @@
         },
         {
           "name": "Mohla",
-          "events": 88,
-          "reach": 7520
+          "events": 89,
+          "reach": 7527
         },
         {
           "name": "Manpur",
@@ -1162,14 +1162,14 @@
         },
         {
           "name": "Ambagarh chauki",
-          "events": 59,
-          "reach": 181
+          "events": 61,
+          "reach": 183
         }
       ],
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 905
+          "count": 913
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -1190,9 +1190,9 @@
       "lng": 83.197,
       "division": "Surguja",
       "flank": "right",
-      "events": 1079,
-      "reach": 76418,
-      "avg_attendance": 70.8,
+      "events": 1092,
+      "reach": 76733,
+      "avg_attendance": 70.3,
       "top_thanas": [
         {
           "name": "लुण्ड्रा",
@@ -1218,7 +1218,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 943
+          "count": 956
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
@@ -1288,24 +1288,24 @@
       "lng": 81.491,
       "division": "Bastar",
       "flank": "left",
-      "events": 988,
-      "reach": 52236,
-      "avg_attendance": 52.9,
+      "events": 1002,
+      "reach": 52595,
+      "avg_attendance": 52.5,
       "top_thanas": [
         {
           "name": "पखांजूर",
-          "events": 131,
-          "reach": 4078
+          "events": 132,
+          "reach": 4243
         },
         {
           "name": "Bhanupratappur",
-          "events": 84,
-          "reach": 1180
+          "events": 88,
+          "reach": 1188
         },
         {
           "name": "Pakhanjur",
-          "events": 61,
-          "reach": 1579
+          "events": 65,
+          "reach": 1684
         },
         {
           "name": "चौकी दमकसा",
@@ -1316,7 +1316,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 834
+          "count": 848
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -1337,9 +1337,9 @@
       "lng": 81.252,
       "division": "Bastar",
       "flank": "left",
-      "events": 925,
-      "reach": 14952,
-      "avg_attendance": 16.2,
+      "events": 937,
+      "reach": 15101,
+      "avg_attendance": 16.1,
       "top_thanas": [
         {
           "name": "नारायणपुर",
@@ -1358,14 +1358,14 @@
         },
         {
           "name": "भरण्डा",
-          "events": 44,
-          "reach": 591
+          "events": 45,
+          "reach": 604
         }
       ],
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 880
+          "count": 892
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
@@ -1386,14 +1386,14 @@
       "lng": 82.097,
       "division": "Raipur",
       "flank": "right",
-      "events": 746,
-      "reach": 25303,
-      "avg_attendance": 33.9,
+      "events": 751,
+      "reach": 25322,
+      "avg_attendance": 33.7,
       "top_thanas": [
         {
           "name": "Police line",
-          "events": 320,
-          "reach": 4700
+          "events": 324,
+          "reach": 4704
         },
         {
           "name": "Police line mahasamund",
@@ -1414,7 +1414,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 737
+          "count": 742
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
@@ -1435,9 +1435,9 @@
       "lng": 81.954,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 681,
-      "reach": 32595,
-      "avg_attendance": 47.9,
+      "events": 682,
+      "reach": 32605,
+      "avg_attendance": 47.8,
       "top_thanas": [
         {
           "name": "Thana pendra",
@@ -1463,7 +1463,7 @@
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 540
+          "count": 541
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
@@ -1582,9 +1582,9 @@
       "lng": 82.958,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 278,
-      "reach": 16562,
-      "avg_attendance": 59.6,
+      "events": 280,
+      "reach": 16607,
+      "avg_attendance": 59.3,
       "top_thanas": [
         {
           "name": "डभरा",
@@ -1597,20 +1597,20 @@
           "reach": 2361
         },
         {
+          "name": "बाराद्वार",
+          "events": 21,
+          "reach": 660
+        },
+        {
           "name": "चंद्रपुर",
           "events": 20,
           "reach": 1193
-        },
-        {
-          "name": "बाराद्वार",
-          "events": 20,
-          "reach": 635
         }
       ],
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 231
+          "count": 233
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
