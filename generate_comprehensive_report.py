@@ -29,13 +29,13 @@ from datetime import datetime, timedelta
 # Import independent Data Audit Agent
 from data_audit_agent import DataAuditAgent, get_audited_events_query_filter
 
-BASE_DIR = "/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "events.db")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
-ARTIFACT_DIR = "/Users/abhijeet/.gemini/antigravity-ide/brain/0c3c7ae5-0856-43de-a5ff-16b779c049ff"
+ARTIFACT_DIR = os.path.join(BASE_DIR, 'reports')
 LOGO_PATH = os.path.join(BASE_DIR, "logo.png")
 CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-RECIPIENTS = ["pinakcorp@agentmail.to", "abhijeetshesh@icloud.com"]
+RECIPIENTS = ["pinakcorp@agentmail.to", "abhijeetshesh@icloud.com", "pinakcorp@mail.instinct.com"]
 
 os.makedirs(REPORTS_DIR, exist_ok=True)
 os.makedirs(ARTIFACT_DIR, exist_ok=True)

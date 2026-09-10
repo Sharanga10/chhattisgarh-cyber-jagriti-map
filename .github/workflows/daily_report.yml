@@ -1,0 +1,44 @@
+name: Daily Cyber Jagriti Report & Data Audit Dispatch
+
+on:
+  schedule:
+    - cron: '0 17 * * *' # Daily at 17:00 UTC (10:30 PM IST)
+  workflow_dispatch: # Allows manual trigger anytime from GitHub Actions UI
+
+jobs:
+  audit-and-report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests playwright
+
+      - name: Install Playwright Chromium
+        run: |
+          playwright install chromium
+
+      - name: Execute Live Telemetry Sync & Data Audit Agent
+        run: |
+          python3 live_sync_daemon.py --once
+          python3 data_audit_agent.py
+
+      - name: Generate Audited PDF Report & Verify Parity
+        run: |
+          python3 generate_comprehensive_report.py
+
+      - name: Commit Updated Database & Report Artifacts
+        run: |
+          git config user.name "GitHub Action [Bot]"
+          git config user.email "actions@github.com"
+          git add live_feed.json index.html chhattisgarh_cyber_jagriti_map.html events.db reports/ || true
+          git diff --staged --quiet || (git commit -m "Auto-generated Daily Audited Report [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]" && git push)
