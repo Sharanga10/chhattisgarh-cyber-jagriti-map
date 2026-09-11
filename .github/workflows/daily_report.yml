@@ -27,9 +27,9 @@ jobs:
         run: |
           playwright install chromium
 
-      - name: Execute Live Telemetry Sync & Data Audit Agent
+      - name: Fetch 100% Full Telemetry & Run Data Audit
         run: |
-          python3 live_sync_daemon.py --once
+          python3 fetch_all_events.py
           python3 data_audit_agent.py
 
       - name: Generate Audited PDF Report & Verify Parity
