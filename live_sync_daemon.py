@@ -1,3 +1,31 @@
+def init_db(conn):
+    cur = conn.cursor()
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS events (
+        id INTEGER PRIMARY KEY,
+        subject TEXT,
+        police_station TEXT,
+        district_id INTEGER,
+        district_name_en TEXT,
+        district_name_hi TEXT,
+        officer_name TEXT,
+        designation TEXT,
+        officer_contact_no TEXT,
+        event_date TEXT,
+        event_time TEXT,
+        upload_datetime TEXT,
+        village_name TEXT,
+        panchayat_name TEXT,
+        total_members INTEGER,
+        remarks TEXT,
+        cyber_topic TEXT,
+        week_id INTEGER,
+        week_name TEXT,
+        topic TEXT
+    )
+    """)
+    conn.commit()
+
 #!/usr/bin/env python3
 """
 Cyber Jagriti Abhiyan - Stealth Under-The-Radar Two-Tier Live Sync Daemon
@@ -162,6 +190,7 @@ def deep_event_ingestion(session, token, verbose=True):
     Runs every 5 minutes or when delta threshold is reached.
     """
     conn = sqlite3.connect(DB_PATH)
+    init_db(conn)
     cur = conn.cursor()
     cur.execute("SELECT COUNT(*), MAX(id) FROM events")
     local_count, local_max_id = cur.fetchone()
