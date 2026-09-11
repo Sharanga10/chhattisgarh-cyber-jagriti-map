@@ -26,49 +26,40 @@ def init_db(conn):
     """)
     conn.commit()
 
-#!/usr/bin/env python3
-"""
-Cyber Jagriti Abhiyan - Stealth Under-The-Radar Two-Tier Live Sync Daemon
-Features:
-- Tier 1: Ultra-Fast 5-8s Stealth Pulse (Fetches 2KB dashboard summary, updates live_feed.json instantly with zero lag)
-- Tier 2: Deep 5-minute Batch Ingestion (Paginates new records into SQLite, backfills police stations, recompiles HTML, pushes to GitHub)
-- Zero TLS Handshake Footprint (Persistent HTTP Keep-Alive session)
-- Emulates native macOS Chrome Browser headers (Completely under the radar)
-- Serves local dashboard & live_feed.json with CORS on port 8080
-"""
+    cur.execute("SELECT COUNT(*) FROM events")
+    cnt = cur.fetchone()[0]
+    csv_path = os.path.join(BASE_DIR, "cyber_jagriti_all_events.csv")
+    if cnt == 0 and os.path.exists(csv_path):
+        import csv
+        print(f"[*] Initializing SQLite DB from master CSV: {csv_path}...")
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            to_db = [(
+                int(r.get('id', 0) or 0),
+                r.get('subject', ''),
+                r.get('police_station', ''),
+                int(r.get('district_id', 0) or 0),
+                r.get('district_name_en', ''),
+                r.get('district_name_hi', ''),
+                r.get('officer_name', ''),
+                r.get('designation', ''),
+                r.get('officer_contact_no', ''),
+                r.get('event_date', ''),
+                r.get('event_time', ''),
+                r.get('upload_datetime', ''),
+                r.get('village_name', ''),
+                r.get('panchayat_name', ''),
+                int(float(r.get('total_members', 0) or 0)),
+                r.get('remarks', ''),
+                r.get('cyber_topic', ''),
+                int(r.get('week_id', 0) or 0),
+                r.get('week_name', ''),
+                r.get('topic', '')
+            ) for r in reader if r.get('id')]
+            cur.executemany("INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", to_db)
+            conn.commit()
+            print(f"[✓] Initialized {len(to_db):,} events into events.db!")
 
-import os
-import sys
-import time
-import json
-import random
-import sqlite3
-import argparse
-import requests
-import subprocess
-import threading
-from datetime import datetime
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, 'events.db')
-STATUS_FILE = os.path.join(BASE_DIR, 'live_sync_status.json')
-FEED_JSON = os.path.join(BASE_DIR, 'live_feed.json')
-INDEX_HTML = os.path.join(BASE_DIR, 'index.html')
-MAP_GENERATOR_SCRIPT = os.path.join(BASE_DIR, 'generate_geospatial_map.py')
-BACKFILL_SCRIPT = os.path.join(BASE_DIR, 'backfill_districts.py')
-AUTH_CACHE_FILE = os.path.join(BASE_DIR, '.auth_cache.json')
-
-# Stealth Chrome Browser Headers
-CHROME_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "en-US,en;q=0.9,hi;q=0.8",
-    "Origin": "https://cyberjagriti.policemitanrpr.com",
-    "Referer": "https://cyberjagriti.policemitanrpr.com/dashboard",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "same-origin"
-}
 
 def get_stealth_session():
     session = requests.Session()

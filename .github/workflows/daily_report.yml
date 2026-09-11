@@ -27,18 +27,18 @@ jobs:
         run: |
           playwright install chromium
 
-      - name: Fetch 100% Full Telemetry & Run Data Audit
+      - name: Sync Telemetry & Run Data Audit Agent
         run: |
-          python3 fetch_all_events.py
+          python3 live_sync_daemon.py --once
           python3 data_audit_agent.py
 
       - name: Generate Audited PDF Report & Verify Parity
         run: |
           python3 generate_comprehensive_report.py
 
-      - name: Commit Updated Database & Report Artifacts
+      - name: Commit Updated Master CSV & Report Artifacts
         run: |
           git config user.name "GitHub Action [Bot]"
           git config user.email "actions@github.com"
-          git add live_feed.json index.html chhattisgarh_cyber_jagriti_map.html events.db reports/ || true
+          git add live_feed.json index.html chhattisgarh_cyber_jagriti_map.html cyber_jagriti_all_events.csv reports/ || true
           git diff --staged --quiet || (git commit -m "Auto-generated Daily Audited Report [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]" && git push)
