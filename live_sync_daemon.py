@@ -108,12 +108,16 @@ def get_auth_token(session):
             pass
 
     login_url = "https://cyberjagriti.policemitanrpr.com/api/login/check"
-    r = session.post(login_url, json={"username": "admin", "***REMOVED***": "***REMOVED***"}, timeout=10)
-    token = r.json().get("token")
-    if token:
-        with open(AUTH_CACHE_FILE, 'w') as f:
-            json.dump({"token": token, "timestamp": time.time()}, f)
-    return token
+    try:
+        r = session.post(login_url, json={"username": "admin", "***REMOVED***": "***REMOVED***"}, timeout=10)
+        token = r.json().get("token")
+        if token:
+            with open(AUTH_CACHE_FILE, 'w') as f:
+                json.dump({"token": token, "timestamp": time.time()}, f)
+        return token
+    except Exception as e:
+        print(f"[*] Live portal authentication notice: {e}", flush=True)
+        return None
 
 def fast_pulse_check(session, token, last_feed_events):
     """
@@ -501,10 +505,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.once:
+        conn = sqlite3.connect(DB_PATH)
+        init_db(conn)
+        conn.close()
         session = get_stealth_session()
         token = get_auth_token(session)
-        fast_pulse_check(session, token, 0)
-        deep_event_ingestion(session, token, verbose=True)
+        if token:
+            fast_pulse_check(session, token, 0)
+            deep_event_ingestion(session, token, verbose=True)
+        else:
+            print("[*] Portal sync skipped (offline mode) — database successfully initialized.")
         git_push_batch(verbose=True)
     elif args.daemon:
         run_two_tier_daemon(pulse_sec=args.pulse, deep_sync_sec=args.deep, git_push_sec=args.deep, serve_port=args.serve, enable_tunnel=args.tunnel)

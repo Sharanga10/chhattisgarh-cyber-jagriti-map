@@ -1427,7 +1427,8 @@ body {{ background: #F7F2E1; padding: 15px; }}
 
     # Copy PDF to artifact dir
     artifact_pdf_path = os.path.join(ARTIFACT_DIR, f"Cyber_Jagriti_Comprehensive_Report_{target_date}.pdf")
-    shutil.copy2(pdf_path, artifact_pdf_path)
+    if os.path.abspath(pdf_path) != os.path.abspath(artifact_pdf_path):
+        shutil.copy2(pdf_path, artifact_pdf_path)
 
     # Send Email via Mail.app AppleScript
     print(f"[3/4] Dispatching updated email to {', '.join(RECIPIENTS)}...")
