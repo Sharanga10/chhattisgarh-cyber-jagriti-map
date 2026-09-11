@@ -18,7 +18,7 @@ import json
 import sqlite3
 import subprocess
 
-BASE_DIR = "/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INDEX_HTML = os.path.join(BASE_DIR, "index.html")
 MAP_HTML = os.path.join(BASE_DIR, "chhattisgarh_cyber_jagriti_map.html")
 DB_PATH = os.path.join(BASE_DIR, "events.db")

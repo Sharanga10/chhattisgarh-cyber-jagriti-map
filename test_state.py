@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime, timedelta
 
-STATE_FILE = "/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor/reports/last_run.json"
+STATE_FILE = os.path.join(BASE_DIR, 'reports', 'last_run.json')
 
 def should_run(now=None):
     if now is None:

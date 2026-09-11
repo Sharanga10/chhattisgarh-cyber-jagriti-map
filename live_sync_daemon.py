@@ -21,7 +21,7 @@ import subprocess
 import threading
 from datetime import datetime
 
-BASE_DIR = '/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'events.db')
 STATUS_FILE = os.path.join(BASE_DIR, 'live_sync_status.json')
 FEED_JSON = os.path.join(BASE_DIR, 'live_feed.json')

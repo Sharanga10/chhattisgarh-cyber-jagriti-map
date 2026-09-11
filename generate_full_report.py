@@ -5,7 +5,7 @@ import sqlite3
 import subprocess
 from datetime import datetime
 
-BASE_DIR = "/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "events.db")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
 LOGO_PATH = os.path.join(BASE_DIR, "logo.png")

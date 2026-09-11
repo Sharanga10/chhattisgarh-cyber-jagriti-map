@@ -54,15 +54,15 @@ def format_indian(num):
         res = ",".join(groups) + "," + last3
     return f"-{res}" if num < 0 else res
 
-BASE_DIR = '/Users/abhijeet/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'events.db')
 LOGO_PATH = os.path.join(BASE_DIR, 'logo_white.jpg')
 GEOJSON_PATH = os.path.join(BASE_DIR, 'chhattisgarh_districts.geojson')
 OUTPUT_HTML = os.path.join(BASE_DIR, 'chhattisgarh_cyber_jagriti_map.html')
 INDEX_HTML = os.path.join(BASE_DIR, 'index.html')
-ARTIFACT_HTML = '/Users/abhijeet/.gemini/antigravity-ide/brain/0c3c7ae5-0856-43de-a5ff-16b779c049ff/chhattisgarh_cyber_jagriti_map.html'
+ARTIFACT_HTML = os.path.join(BASE_DIR, 'chhattisgarh_cyber_jagriti_map.html')
 FEED_JSON = os.path.join(BASE_DIR, 'live_feed.json')
-ARTIFACT_FEED_JSON = '/Users/abhijeet/.gemini/antigravity-ide/brain/0c3c7ae5-0856-43de-a5ff-16b779c049ff/live_feed.json'
+ARTIFACT_FEED_JSON = os.path.join(BASE_DIR, 'live_feed.json')
 
 # Master 33 Districts list with official police portal IDs, coordinates, flank side, and aliases
 DISTRICTS_33 = [
