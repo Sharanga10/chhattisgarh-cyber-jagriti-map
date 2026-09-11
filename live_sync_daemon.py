@@ -1,3 +1,29 @@
+import os
+import sys
+import time
+import json
+import sqlite3
+import requests
+import argparse
+import random
+import threading
+import subprocess
+from datetime import datetime
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FEED_JSON = os.path.join(BASE_DIR, "live_feed.json")
+DB_PATH = os.path.join(BASE_DIR, "events.db")
+AUTH_CACHE_FILE = os.path.join(BASE_DIR, "auth_cache.json")
+BACKFILL_SCRIPT = os.path.join(BASE_DIR, "backfill_missing_stations.py")
+MAP_GENERATOR_SCRIPT = os.path.join(BASE_DIR, "generate_enhanced_map.py")
+
+CHROME_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Connection": "keep-alive"
+}
+
 def init_db(conn):
     cur = conn.cursor()
     cur.execute("""
@@ -59,6 +85,7 @@ def init_db(conn):
             cur.executemany("INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", to_db)
             conn.commit()
             print(f"[✓] Initialized {len(to_db):,} events into events.db!")
+
 
 
 def get_stealth_session():
