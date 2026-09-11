@@ -34,7 +34,27 @@ DB_PATH = os.path.join(BASE_DIR, "events.db")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
 ARTIFACT_DIR = os.path.join(BASE_DIR, 'reports')
 LOGO_PATH = os.path.join(BASE_DIR, "logo.png")
-CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+import shutil
+
+def get_chrome_bin():
+    if os.environ.get("CHROME_BIN") and os.path.exists(os.environ["CHROME_BIN"]):
+        return os.environ["CHROME_BIN"]
+    candidates = [
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "/usr/bin/google-chrome",
+        "/usr/bin/chromium",
+        "/usr/bin/chromium-browser",
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    for bin_name in ["google-chrome", "google-chrome-stable", "chromium", "chromium-browser", "chrome"]:
+        p = shutil.which(bin_name)
+        if p:
+            return p
+    return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+CHROME_BIN = get_chrome_bin()
 RECIPIENTS = ["pinakcorp@agentmail.to", "abhijeetshesh@icloud.com", "pinakcorp@mail.instinct.com"]
 
 os.makedirs(REPORTS_DIR, exist_ok=True)
@@ -1318,17 +1338,35 @@ def generate_comprehensive_report(target_date=None, dispatch_email=True):
 
     print(f"[1/4] Generated audited 3-page HTML: {html_path}")
 
-    # Render PDF with Chrome
-    cmd_pdf = [
-        CHROME_BIN,
-        "--headless",
-        "--disable-gpu",
-        "--no-pdf-header-footer",
-        f"--print-to-pdf={pdf_path}",
-        f"file://{html_path}"
-    ]
-    res_pdf = subprocess.run(cmd_pdf, capture_output=True, text=True)
-    print(f"[2/4] Rendered PDF ({os.path.getsize(pdf_path):,} bytes) at: {pdf_path}")
+    # Render PDF with Playwright or Chrome CLI
+    pdf_rendered = False
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+            page.goto(f"file://{html_path}", wait_until="load")
+            page.pdf(path=pdf_path, print_background=True, prefer_css_page_size=True)
+            browser.close()
+        if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 0:
+            pdf_rendered = True
+            print(f"[2/4] Rendered PDF via Playwright ({os.path.getsize(pdf_path):,} bytes) at: {pdf_path}")
+    except Exception as e:
+        print(f"[*] Playwright PDF notice: {e}")
+
+    if not pdf_rendered:
+        chrome_bin = get_chrome_bin()
+        cmd_pdf = [
+            chrome_bin,
+            "--headless",
+            "--disable-gpu",
+            "--no-pdf-header-footer",
+            f"--print-to-pdf={pdf_path}",
+            f"file://{html_path}"
+        ]
+        res_pdf = subprocess.run(cmd_pdf, capture_output=True, text=True)
+        if os.path.exists(pdf_path):
+            print(f"[2/4] Rendered PDF via Chrome CLI ({os.path.getsize(pdf_path):,} bytes) at: {pdf_path}")
 
     # Generate individual page HTMLs for preview screenshots (Pages 1, 2, 3)
     for p_num, p_content in [(1, page1_html), (2, page2_html), (3, page3_html)]:
@@ -1352,15 +1390,31 @@ body {{ background: #F7F2E1; padding: 15px; }}
             f.write(p_html_str)
         
         p_png_path = os.path.join(ARTIFACT_DIR, f"report_page_{p_num}.png")
-        cmd_shot = [
-            CHROME_BIN,
-            "--headless",
-            "--disable-gpu",
-            "--screenshot=" + p_png_path,
-            "--window-size=1080,1460",
-            f"file://{p_html_path}"
-        ]
-        subprocess.run(cmd_shot, capture_output=True, text=True)
+        shot_done = False
+        try:
+            from playwright.sync_api import sync_playwright
+            with sync_playwright() as p:
+                browser = p.chromium.launch(headless=True)
+                page = browser.new_page(viewport={"width": 1080, "height": 1460})
+                page.goto(f"file://{p_html_path}", wait_until="load")
+                page.screenshot(path=p_png_path, full_page=True)
+                browser.close()
+            if os.path.exists(p_png_path):
+                shot_done = True
+        except Exception:
+            pass
+
+        if not shot_done:
+            chrome_bin = get_chrome_bin()
+            cmd_shot = [
+                chrome_bin,
+                "--headless",
+                "--disable-gpu",
+                "--screenshot=" + p_png_path,
+                "--window-size=1080,1460",
+                f"file://{p_html_path}"
+            ]
+            subprocess.run(cmd_shot, capture_output=True, text=True)
         print(f"[*] Generated preview screenshot for Page {p_num}: {p_png_path}")
 
     # Clean up any stale Page 4 screenshot
@@ -1373,7 +1427,7 @@ body {{ background: #F7F2E1; padding: 15px; }}
 
     # Copy PDF to artifact dir
     artifact_pdf_path = os.path.join(ARTIFACT_DIR, f"Cyber_Jagriti_Comprehensive_Report_{target_date}.pdf")
-    subprocess.run(["cp", pdf_path, artifact_pdf_path])
+    shutil.copy2(pdf_path, artifact_pdf_path)
 
     # Send Email via Mail.app AppleScript
     print(f"[3/4] Dispatching updated email to {', '.join(RECIPIENTS)}...")
@@ -1407,11 +1461,45 @@ end tell
         f.write(applescript)
 
     if dispatch_email:
-        res_mail = subprocess.run(["osascript", scpt_path], capture_output=True, text=True)
-        if res_mail.returncode != 0:
-            print(f"Warning: Mail dispatch reported: {res_mail.stderr}")
+        if sys.platform == "darwin" and shutil.which("osascript"):
+            res_mail = subprocess.run(["osascript", scpt_path], capture_output=True, text=True)
+            if res_mail.returncode != 0:
+                print(f"Warning: Mail dispatch reported: {res_mail.stderr}")
+            else:
+                print("[4/4] Email successfully dispatched with updated PDF attachment via macOS Mail!")
         else:
-            print("[4/4] Email successfully dispatched with updated PDF attachment!")
+            smtp_server = os.environ.get("SMTP_SERVER")
+            smtp_user = os.environ.get("SMTP_USER")
+            smtp_pass = os.environ.get("SMTP_PASS")
+            smtp_port = int(os.environ.get("SMTP_PORT", 587))
+            if smtp_server and smtp_user and smtp_pass:
+                try:
+                    import smtplib
+                    from email.mime.multipart import MIMEMultipart
+                    from email.mime.text import MIMEText
+                    from email.mime.application import MIMEApplication
+
+                    msg = MIMEMultipart()
+                    msg["Subject"] = subject
+                    msg["From"] = smtp_user
+                    msg["To"] = ", ".join(RECIPIENTS)
+                    msg.attach(MIMEText(body, "plain", "utf-8"))
+
+                    with open(pdf_path, "rb") as f:
+                        part = MIMEApplication(f.read(), Name=os.path.basename(pdf_path))
+                    part["Content-Disposition"] = f"attachment; filename=\"{os.path.basename(pdf_path)}\""
+                    msg.attach(part)
+
+                    server = smtplib.SMTP(smtp_server, smtp_port)
+                    server.starttls()
+                    server.login(smtp_user, smtp_pass)
+                    server.sendmail(smtp_user, RECIPIENTS, msg.as_string())
+                    server.quit()
+                    print("[4/4] Email successfully dispatched via SMTP!")
+                except Exception as e:
+                    print(f"Warning: SMTP dispatch failed: {e}")
+            else:
+                print("[4/4] Non-macOS environment without SMTP credentials. Report rendered & saved to artifacts.")
     else:
         print("[4/4] Email dispatch skipped (test mode).")
 

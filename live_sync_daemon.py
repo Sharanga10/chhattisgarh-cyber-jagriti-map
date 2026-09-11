@@ -55,13 +55,13 @@ def init_db(conn):
     cur.execute("SELECT COUNT(*) FROM events")
     cnt = cur.fetchone()[0]
     csv_path = os.path.join(BASE_DIR, "cyber_jagriti_all_events.csv")
-    if cnt == 0 and os.path.exists(csv_path):
+    if cnt < 100000 and os.path.exists(csv_path):
         import csv
         print(f"[*] Initializing SQLite DB from master CSV: {csv_path}...")
-        with open(csv_path, 'r', encoding='utf-8') as f:
+        with open(csv_path, 'r', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f)
             to_db = [(
-                int(r.get('id', 0) or 0),
+                int(r.get('event_id') or r.get('id') or 0),
                 r.get('subject', ''),
                 r.get('police_station', ''),
                 int(r.get('district_id', 0) or 0),
@@ -81,7 +81,7 @@ def init_db(conn):
                 int(r.get('week_id', 0) or 0),
                 r.get('week_name', ''),
                 r.get('topic', '')
-            ) for r in reader if r.get('id')]
+            ) for r in reader if (r.get('event_id') or r.get('id'))]
             cur.executemany("INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", to_db)
             conn.commit()
             print(f"[✓] Initialized {len(to_db):,} events into events.db!")
