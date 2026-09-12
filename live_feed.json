@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-09-11 19:46:31",
-  "total_events": 187967,
-  "total_reach": 6708462,
-  "avg_attendance": 35.7,
+  "timestamp": "2026-09-12 07:21:02",
+  "total_events": 193446,
+  "total_reach": 6802776,
+  "avg_attendance": 35.2,
   "districts_count": 33,
   "status": "LIVE_PULSE",
   "districts": [
@@ -14,9 +14,9 @@
       "lng": 82.072,
       "division": "Raipur",
       "flank": "right",
-      "events": 40808,
-      "reach": 869383,
-      "avg_attendance": 21.3,
+      "events": 41316,
+      "reach": 877927,
+      "avg_attendance": 21.2,
       "top_thanas": [
         {
           "name": "फिंगेश्वर",
@@ -63,9 +63,9 @@
       "lng": 81.662,
       "division": "Bastar",
       "flank": "left",
-      "events": 31537,
-      "reach": 829393,
-      "avg_attendance": 26.3,
+      "events": 31775,
+      "reach": 831431,
+      "avg_attendance": 26.2,
       "top_thanas": [
         {
           "name": "विश्रामपुरी",
@@ -112,9 +112,9 @@
       "lng": 82.139,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 18193,
-      "reach": 1192651,
-      "avg_attendance": 65.6,
+      "events": 19107,
+      "reach": 1215337,
+      "avg_attendance": 63.6,
       "top_thanas": [
         {
           "name": "Police line",
@@ -161,9 +161,9 @@
       "lng": 81.285,
       "division": "Durg",
       "flank": "left",
-      "events": 16980,
-      "reach": 747028,
-      "avg_attendance": 44.0,
+      "events": 17476,
+      "reach": 758084,
+      "avg_attendance": 43.4,
       "top_thanas": [
         {
           "name": "पुरानी भिलाई",
@@ -259,9 +259,9 @@
       "lng": 82.031,
       "division": "Bastar",
       "flank": "left",
-      "events": 6581,
-      "reach": 131234,
-      "avg_attendance": 19.9,
+      "events": 6791,
+      "reach": 135652,
+      "avg_attendance": 20.0,
       "top_thanas": [
         {
           "name": "Parpa",
@@ -308,9 +308,9 @@
       "lng": 81.667,
       "division": "Bastar",
       "flank": "left",
-      "events": 5413,
-      "reach": 143002,
-      "avg_attendance": 26.4,
+      "events": 5809,
+      "reach": 148687,
+      "avg_attendance": 25.6,
       "top_thanas": [
         {
           "name": "Chintagufa",
@@ -350,6 +350,55 @@
       "rank": 7
     },
     {
+      "id": 26,
+      "name_en": "Raigarh",
+      "name_hi": "रायगढ़",
+      "lat": 21.897,
+      "lng": 83.395,
+      "division": "Bilaspur",
+      "flank": "right",
+      "events": 5479,
+      "reach": 76951,
+      "avg_attendance": 14.0,
+      "top_thanas": [
+        {
+          "name": "Tamnar",
+          "events": 215,
+          "reach": 17069
+        },
+        {
+          "name": "छाल",
+          "events": 171,
+          "reach": 312
+        },
+        {
+          "name": "Mahila thana",
+          "events": 135,
+          "reach": 2077
+        },
+        {
+          "name": "भूपदेवपुर",
+          "events": 133,
+          "reach": 3977
+        }
+      ],
+      "top_topics": [
+        {
+          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
+          "count": 2235
+        },
+        {
+          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
+          "count": 462
+        },
+        {
+          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
+          "count": 36
+        }
+      ],
+      "rank": 8
+    },
+    {
       "id": 2,
       "name_en": "Baloda Bazar-Bhatapara",
       "name_hi": "बलौदाबाजार-भाटापारा",
@@ -357,8 +406,8 @@
       "lng": 82.164,
       "division": "Raipur",
       "flank": "right",
-      "events": 5277,
-      "reach": 47559,
+      "events": 5319,
+      "reach": 47703,
       "avg_attendance": 9.0,
       "top_thanas": [
         {
@@ -396,55 +445,6 @@
           "count": 78
         }
       ],
-      "rank": 8
-    },
-    {
-      "id": 26,
-      "name_en": "Raigarh",
-      "name_hi": "रायगढ़",
-      "lat": 21.897,
-      "lng": 83.395,
-      "division": "Bilaspur",
-      "flank": "right",
-      "events": 5085,
-      "reach": 76241,
-      "avg_attendance": 15.0,
-      "top_thanas": [
-        {
-          "name": "Tamnar",
-          "events": 215,
-          "reach": 17069
-        },
-        {
-          "name": "छाल",
-          "events": 171,
-          "reach": 312
-        },
-        {
-          "name": "Mahila thana",
-          "events": 135,
-          "reach": 2077
-        },
-        {
-          "name": "भूपदेवपुर",
-          "events": 133,
-          "reach": 3977
-        }
-      ],
-      "top_topics": [
-        {
-          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 2235
-        },
-        {
-          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
-          "count": 462
-        },
-        {
-          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
-          "count": 36
-        }
-      ],
       "rank": 9
     },
     {
@@ -455,9 +455,9 @@
       "lng": 82.571,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 4362,
-      "reach": 257003,
-      "avg_attendance": 58.9,
+      "events": 4442,
+      "reach": 258182,
+      "avg_attendance": 58.1,
       "top_thanas": [
         {
           "name": "Saragaon thana janjgir",
@@ -546,6 +546,55 @@
       "rank": 11
     },
     {
+      "id": 32,
+      "name_en": "Surajpur",
+      "name_hi": "सूरजपुर",
+      "lat": 23.22,
+      "lng": 82.86,
+      "division": "Surguja",
+      "flank": "right",
+      "events": 3193,
+      "reach": 78973,
+      "avg_attendance": 24.7,
+      "top_thanas": [
+        {
+          "name": "प्रेम नगर",
+          "events": 131,
+          "reach": 143
+        },
+        {
+          "name": "Pratappur",
+          "events": 123,
+          "reach": 831
+        },
+        {
+          "name": "Surajpur",
+          "events": 110,
+          "reach": 17849
+        },
+        {
+          "name": "चौकी करंजी",
+          "events": 110,
+          "reach": 1291
+        }
+      ],
+      "top_topics": [
+        {
+          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
+          "count": 1198
+        },
+        {
+          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
+          "count": 430
+        },
+        {
+          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
+          "count": 53
+        }
+      ],
+      "rank": 12
+    },
+    {
       "id": 33,
       "name_en": "Surguja",
       "name_hi": "सरगुजा",
@@ -553,9 +602,9 @@
       "lng": 83.197,
       "division": "Surguja",
       "flank": "right",
-      "events": 3023,
-      "reach": 137819,
-      "avg_attendance": 45.6,
+      "events": 3150,
+      "reach": 141556,
+      "avg_attendance": 44.9,
       "top_thanas": [
         {
           "name": "Lakhanpur",
@@ -592,55 +641,6 @@
           "count": 63
         }
       ],
-      "rank": 12
-    },
-    {
-      "id": 5,
-      "name_en": "Bemetara",
-      "name_hi": "बेमेतरा",
-      "lat": 21.701,
-      "lng": 81.547,
-      "division": "Durg",
-      "flank": "left",
-      "events": 2936,
-      "reach": 267586,
-      "avg_attendance": 91.1,
-      "top_thanas": [
-        {
-          "name": "Bemetara",
-          "events": 252,
-          "reach": 37291
-        },
-        {
-          "name": "Chandnu",
-          "events": 228,
-          "reach": 10827
-        },
-        {
-          "name": "बेरला",
-          "events": 174,
-          "reach": 6281
-        },
-        {
-          "name": "बेमेतरा",
-          "events": 136,
-          "reach": 9651
-        }
-      ],
-      "top_topics": [
-        {
-          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1856
-        },
-        {
-          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
-          "count": 621
-        },
-        {
-          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
-          "count": 31
-        }
-      ],
       "rank": 13
     },
     {
@@ -651,9 +651,9 @@
       "lng": 82.557,
       "division": "Surguja",
       "flank": "right",
-      "events": 2888,
-      "reach": 125030,
-      "avg_attendance": 43.3,
+      "events": 2996,
+      "reach": 126310,
+      "avg_attendance": 42.2,
       "top_thanas": [
         {
           "name": "Baikunthpur",
@@ -693,6 +693,55 @@
       "rank": 14
     },
     {
+      "id": 5,
+      "name_en": "Bemetara",
+      "name_hi": "बेमेतरा",
+      "lat": 21.701,
+      "lng": 81.547,
+      "division": "Durg",
+      "flank": "left",
+      "events": 2974,
+      "reach": 268282,
+      "avg_attendance": 90.2,
+      "top_thanas": [
+        {
+          "name": "Bemetara",
+          "events": 252,
+          "reach": 37291
+        },
+        {
+          "name": "Chandnu",
+          "events": 228,
+          "reach": 10827
+        },
+        {
+          "name": "बेरला",
+          "events": 174,
+          "reach": 6281
+        },
+        {
+          "name": "बेमेतरा",
+          "events": 136,
+          "reach": 9651
+        }
+      ],
+      "top_topics": [
+        {
+          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
+          "count": 1856
+        },
+        {
+          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
+          "count": 621
+        },
+        {
+          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
+          "count": 31
+        }
+      ],
+      "rank": 15
+    },
+    {
       "id": 28,
       "name_en": "Rajnandgaon",
       "name_hi": "राजनांदगांव",
@@ -700,9 +749,9 @@
       "lng": 81.035,
       "division": "Durg",
       "flank": "left",
-      "events": 2803,
-      "reach": 111159,
-      "avg_attendance": 39.7,
+      "events": 2806,
+      "reach": 111190,
+      "avg_attendance": 39.6,
       "top_thanas": [
         {
           "name": "डोंगरगढ़",
@@ -739,55 +788,6 @@
           "count": 50
         }
       ],
-      "rank": 15
-    },
-    {
-      "id": 32,
-      "name_en": "Surajpur",
-      "name_hi": "सूरजपुर",
-      "lat": 23.22,
-      "lng": 82.86,
-      "division": "Surguja",
-      "flank": "right",
-      "events": 2487,
-      "reach": 66804,
-      "avg_attendance": 26.9,
-      "top_thanas": [
-        {
-          "name": "प्रेम नगर",
-          "events": 131,
-          "reach": 143
-        },
-        {
-          "name": "Pratappur",
-          "events": 123,
-          "reach": 831
-        },
-        {
-          "name": "Surajpur",
-          "events": 110,
-          "reach": 17849
-        },
-        {
-          "name": "चौकी करंजी",
-          "events": 110,
-          "reach": 1291
-        }
-      ],
-      "top_topics": [
-        {
-          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1198
-        },
-        {
-          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
-          "count": 430
-        },
-        {
-          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
-          "count": 53
-        }
-      ],
       "rank": 16
     },
     {
@@ -798,9 +798,9 @@
       "lng": 82.75,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 2405,
-      "reach": 67696,
-      "avg_attendance": 28.1,
+      "events": 2433,
+      "reach": 68004,
+      "avg_attendance": 28.0,
       "top_thanas": [
         {
           "name": "Civil line rampur",
@@ -840,50 +840,50 @@
       "rank": 17
     },
     {
-      "id": 27,
-      "name_en": "Raipur",
-      "name_hi": "रायपुर",
-      "lat": 21.251,
-      "lng": 81.63,
+      "id": 9,
+      "name_en": "Dhamtari",
+      "name_hi": "धमतरी",
+      "lat": 20.707,
+      "lng": 81.55,
       "division": "Raipur",
       "flank": "right",
-      "events": 2149,
-      "reach": 75493,
-      "avg_attendance": 35.1,
+      "events": 2318,
+      "reach": 31300,
+      "avg_attendance": 13.5,
       "top_thanas": [
         {
-          "name": "Rakhi",
-          "events": 212,
-          "reach": 2256
+          "name": "City kotwali",
+          "events": 219,
+          "reach": 414
         },
         {
-          "name": "गोबरा नवापारा",
-          "events": 113,
-          "reach": 1782
+          "name": "साइबर थाना धमतरी",
+          "events": 122,
+          "reach": 428
         },
         {
-          "name": "अभनपुर",
-          "events": 94,
-          "reach": 4328
+          "name": "Cyber",
+          "events": 103,
+          "reach": 362
         },
         {
-          "name": "मंदिर हसौद",
-          "events": 83,
-          "reach": 4888
+          "name": "City Kotwali",
+          "events": 73,
+          "reach": 129
         }
       ],
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1384
+          "count": 1305
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
-          "count": 263
+          "count": 138
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
-          "count": 76
+          "count": 41
         }
       ],
       "rank": 18
@@ -896,9 +896,9 @@
       "lng": 82.352,
       "division": "Surguja",
       "flank": "right",
-      "events": 2144,
-      "reach": 72625,
-      "avg_attendance": 33.9,
+      "events": 2202,
+      "reach": 73044,
+      "avg_attendance": 33.2,
       "top_thanas": [
         {
           "name": "मनेंद्रगढ़",
@@ -938,6 +938,55 @@
       "rank": 19
     },
     {
+      "id": 27,
+      "name_en": "Raipur",
+      "name_hi": "रायपुर",
+      "lat": 21.251,
+      "lng": 81.63,
+      "division": "Raipur",
+      "flank": "right",
+      "events": 2170,
+      "reach": 75922,
+      "avg_attendance": 35.0,
+      "top_thanas": [
+        {
+          "name": "Rakhi",
+          "events": 212,
+          "reach": 2256
+        },
+        {
+          "name": "गोबरा नवापारा",
+          "events": 113,
+          "reach": 1782
+        },
+        {
+          "name": "अभनपुर",
+          "events": 94,
+          "reach": 4328
+        },
+        {
+          "name": "मंदिर हसौद",
+          "events": 83,
+          "reach": 4888
+        }
+      ],
+      "top_topics": [
+        {
+          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
+          "count": 1384
+        },
+        {
+          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
+          "count": 263
+        },
+        {
+          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
+          "count": 76
+        }
+      ],
+      "rank": 20
+    },
+    {
       "id": 6,
       "name_en": "Bijapur",
       "name_hi": "बीजापुर",
@@ -945,8 +994,8 @@
       "lng": 80.817,
       "division": "Bastar",
       "flank": "left",
-      "events": 1983,
-      "reach": 81109,
+      "events": 2000,
+      "reach": 81763,
       "avg_attendance": 40.9,
       "top_thanas": [
         {
@@ -984,55 +1033,6 @@
           "count": 6
         }
       ],
-      "rank": 20
-    },
-    {
-      "id": 9,
-      "name_en": "Dhamtari",
-      "name_hi": "धमतरी",
-      "lat": 20.707,
-      "lng": 81.55,
-      "division": "Raipur",
-      "flank": "right",
-      "events": 1928,
-      "reach": 30008,
-      "avg_attendance": 15.6,
-      "top_thanas": [
-        {
-          "name": "City kotwali",
-          "events": 219,
-          "reach": 414
-        },
-        {
-          "name": "साइबर थाना धमतरी",
-          "events": 122,
-          "reach": 428
-        },
-        {
-          "name": "Cyber",
-          "events": 103,
-          "reach": 362
-        },
-        {
-          "name": "City Kotwali",
-          "events": 73,
-          "reach": 129
-        }
-      ],
-      "top_topics": [
-        {
-          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1305
-        },
-        {
-          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
-          "count": 138
-        },
-        {
-          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
-          "count": 41
-        }
-      ],
       "rank": 21
     },
     {
@@ -1043,9 +1043,9 @@
       "lng": 81.248,
       "division": "Durg",
       "flank": "left",
-      "events": 1844,
-      "reach": 46371,
-      "avg_attendance": 25.1,
+      "events": 1975,
+      "reach": 50357,
+      "avg_attendance": 25.5,
       "top_thanas": [
         {
           "name": "सहसपुर लोहारा",
@@ -1085,55 +1085,6 @@
       "rank": 22
     },
     {
-      "id": 1,
-      "name_en": "Balod",
-      "name_hi": "बालोद",
-      "lat": 20.73,
-      "lng": 81.205,
-      "division": "Durg",
-      "flank": "left",
-      "events": 1810,
-      "reach": 102998,
-      "avg_attendance": 56.9,
-      "top_thanas": [
-        {
-          "name": "Cyber cell balod",
-          "events": 194,
-          "reach": 31953
-        },
-        {
-          "name": "साइबर सेल",
-          "events": 147,
-          "reach": 6258
-        },
-        {
-          "name": "Balod",
-          "events": 79,
-          "reach": 1739
-        },
-        {
-          "name": "Cyber sell balod",
-          "events": 76,
-          "reach": 3125
-        }
-      ],
-      "top_topics": [
-        {
-          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1612
-        },
-        {
-          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
-          "count": 97
-        },
-        {
-          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
-          "count": 23
-        }
-      ],
-      "rank": 23
-    },
-    {
       "id": 25,
       "name_en": "Narayanpur",
       "name_hi": "नारायणपुर",
@@ -1141,9 +1092,9 @@
       "lng": 81.252,
       "division": "Bastar",
       "flank": "left",
-      "events": 1788,
-      "reach": 26923,
-      "avg_attendance": 15.1,
+      "events": 1854,
+      "reach": 27755,
+      "avg_attendance": 15.0,
       "top_thanas": [
         {
           "name": "नारायणपुर",
@@ -1180,56 +1131,56 @@
           "count": 18
         }
       ],
-      "rank": 24
+      "rank": 23
     },
     {
-      "id": 8,
-      "name_en": "Dantewada",
-      "name_hi": "दंतेवाड़ा",
-      "lat": 18.895,
-      "lng": 81.349,
-      "division": "Bastar",
+      "id": 1,
+      "name_en": "Balod",
+      "name_hi": "बालोद",
+      "lat": 20.73,
+      "lng": 81.205,
+      "division": "Durg",
       "flank": "left",
-      "events": 1660,
-      "reach": 56906,
-      "avg_attendance": 34.3,
+      "events": 1834,
+      "reach": 103750,
+      "avg_attendance": 56.6,
       "top_thanas": [
         {
-          "name": "Kirandul",
-          "events": 125,
-          "reach": 3253
+          "name": "Cyber cell balod",
+          "events": 194,
+          "reach": 31953
         },
         {
-          "name": "सिटी कोतवाली दंतेवाड़ा",
-          "events": 93,
-          "reach": 2224
+          "name": "साइबर सेल",
+          "events": 147,
+          "reach": 6258
         },
         {
-          "name": "किरंदुल",
-          "events": 84,
-          "reach": 2494
+          "name": "Balod",
+          "events": 79,
+          "reach": 1739
         },
         {
-          "name": "गीदम",
-          "events": 73,
-          "reach": 2442
+          "name": "Cyber sell balod",
+          "events": 76,
+          "reach": 3125
         }
       ],
       "top_topics": [
         {
           "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1539
+          "count": 1612
         },
         {
           "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
-          "count": 86
+          "count": 97
         },
         {
           "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
-          "count": 11
+          "count": 23
         }
       ],
-      "rank": 25
+      "rank": 24
     },
     {
       "id": 16,
@@ -1239,9 +1190,9 @@
       "lng": 81.491,
       "division": "Bastar",
       "flank": "left",
-      "events": 1627,
-      "reach": 71319,
-      "avg_attendance": 43.8,
+      "events": 1729,
+      "reach": 74709,
+      "avg_attendance": 43.2,
       "top_thanas": [
         {
           "name": "पखांजूर",
@@ -1278,56 +1229,7 @@
           "count": 58
         }
       ],
-      "rank": 26
-    },
-    {
-      "id": 21,
-      "name_en": "Mahasamund",
-      "name_hi": "महासमुंद",
-      "lat": 21.109,
-      "lng": 82.097,
-      "division": "Raipur",
-      "flank": "right",
-      "events": 1527,
-      "reach": 31810,
-      "avg_attendance": 20.8,
-      "top_thanas": [
-        {
-          "name": "Police line",
-          "events": 474,
-          "reach": 4938
-        },
-        {
-          "name": "Police line mahasamund",
-          "events": 70,
-          "reach": 765
-        },
-        {
-          "name": "बागबाहरा",
-          "events": 46,
-          "reach": 1072
-        },
-        {
-          "name": "Line",
-          "events": 32,
-          "reach": 33
-        }
-      ],
-      "top_topics": [
-        {
-          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
-          "count": 1026
-        },
-        {
-          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
-          "count": 5
-        },
-        {
-          "name": "डिजिटल सतर्कता और बुनियादी सुरक्षा के लिए स्कूल/कॉलेजों में अभियान",
-          "count": 2
-        }
-      ],
-      "rank": 27
+      "rank": 25
     },
     {
       "id": 23,
@@ -1337,9 +1239,9 @@
       "lng": 80.742,
       "division": "Durg",
       "flank": "left",
-      "events": 1526,
-      "reach": 47958,
-      "avg_attendance": 31.4,
+      "events": 1707,
+      "reach": 48667,
+      "avg_attendance": 28.5,
       "top_thanas": [
         {
           "name": "अंबागढ़ चौकी",
@@ -1376,6 +1278,104 @@
           "count": 48
         }
       ],
+      "rank": 26
+    },
+    {
+      "id": 8,
+      "name_en": "Dantewada",
+      "name_hi": "दंतेवाड़ा",
+      "lat": 18.895,
+      "lng": 81.349,
+      "division": "Bastar",
+      "flank": "left",
+      "events": 1673,
+      "reach": 57238,
+      "avg_attendance": 34.2,
+      "top_thanas": [
+        {
+          "name": "Kirandul",
+          "events": 125,
+          "reach": 3253
+        },
+        {
+          "name": "सिटी कोतवाली दंतेवाड़ा",
+          "events": 93,
+          "reach": 2224
+        },
+        {
+          "name": "किरंदुल",
+          "events": 84,
+          "reach": 2494
+        },
+        {
+          "name": "गीदम",
+          "events": 73,
+          "reach": 2442
+        }
+      ],
+      "top_topics": [
+        {
+          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
+          "count": 1539
+        },
+        {
+          "name": "डिजिटल अरेस्ट और फ़र्ज़ी कॉल के विषय पर वरिष्ठ नागरिकों के संग टाउन हॉल का आयोजन",
+          "count": 86
+        },
+        {
+          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
+          "count": 11
+        }
+      ],
+      "rank": 27
+    },
+    {
+      "id": 21,
+      "name_en": "Mahasamund",
+      "name_hi": "महासमुंद",
+      "lat": 21.109,
+      "lng": 82.097,
+      "division": "Raipur",
+      "flank": "right",
+      "events": 1536,
+      "reach": 32341,
+      "avg_attendance": 21.1,
+      "top_thanas": [
+        {
+          "name": "Police line",
+          "events": 474,
+          "reach": 4938
+        },
+        {
+          "name": "Police line mahasamund",
+          "events": 70,
+          "reach": 765
+        },
+        {
+          "name": "बागबाहरा",
+          "events": 46,
+          "reach": 1072
+        },
+        {
+          "name": "Line",
+          "events": 32,
+          "reach": 33
+        }
+      ],
+      "top_topics": [
+        {
+          "name": "स्मार्टफोन प्राइवेसी और सेफ ब्राउज़िंग पर महिला कॉलेजों, सामुदायिक समूहों के बीच अभियान",
+          "count": 1026
+        },
+        {
+          "name": "वित्तीय धोखाधड़ी और UPI सुरक्षा पर बैंकिंग एवं वित्तीय संस्थानों में अभियान",
+          "count": 5
+        },
+        {
+          "name": "डिजिटल सतर्कता और बुनियादी सुरक्षा के लिए स्कूल/कॉलेजों में अभियान",
+          "count": 2
+        }
+      ],
       "rank": 28
     },
     {
@@ -1386,9 +1386,9 @@
       "lng": 80.978,
       "division": "Durg",
       "flank": "left",
-      "events": 1188,
-      "reach": 261417,
-      "avg_attendance": 220.0,
+      "events": 1197,
+      "reach": 262072,
+      "avg_attendance": 218.9,
       "top_thanas": [
         {
           "name": "Khairagarh",
@@ -1435,9 +1435,9 @@
       "lng": 81.954,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 814,
-      "reach": 34696,
-      "avg_attendance": 42.6,
+      "events": 863,
+      "reach": 35471,
+      "avg_attendance": 41.1,
       "top_thanas": [
         {
           "name": "Thana pendra",
@@ -1484,9 +1484,9 @@
       "lng": 84.142,
       "division": "Surguja",
       "flank": "right",
-      "events": 588,
-      "reach": 54185,
-      "avg_attendance": 92.2,
+      "events": 607,
+      "reach": 55239,
+      "avg_attendance": 91.0,
       "top_thanas": [
         {
           "name": "Tapkara",
@@ -1533,9 +1533,9 @@
       "lng": 83.083,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 507,
-      "reach": 56089,
-      "avg_attendance": 110.6,
+      "events": 522,
+      "reach": 57919,
+      "avg_attendance": 111.0,
       "top_thanas": [
         {
           "name": "भटगांव",
@@ -1582,9 +1582,9 @@
       "lng": 82.958,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 342,
-      "reach": 18445,
-      "avg_attendance": 53.9,
+      "events": 346,
+      "reach": 18550,
+      "avg_attendance": 53.6,
       "top_thanas": [
         {
           "name": "डभरा",
