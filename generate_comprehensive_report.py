@@ -1492,14 +1492,19 @@ end tell
                     part["Content-Disposition"] = f"attachment; filename=\"{os.path.basename(pdf_path)}\""
                     msg.attach(part)
 
-                    server = smtplib.SMTP(smtp_server, smtp_port)
-                    server.starttls()
+                    if smtp_port == 465:
+                        server = smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=30)
+                    else:
+                        server = smtplib.SMTP(smtp_server, smtp_port, timeout=30)
+                        server.starttls()
+
                     server.login(smtp_user, smtp_pass)
                     server.sendmail(smtp_user, RECIPIENTS, msg.as_string())
                     server.quit()
                     print("[4/4] Email successfully dispatched via SMTP!")
                 except Exception as e:
-                    print(f"Warning: SMTP dispatch failed: {e}")
+                    print(f"ERROR: SMTP dispatch failed: {e}")
+                    raise RuntimeError(f"SMTP dispatch failed: {e}") from e
             else:
                 print("[4/4] Non-macOS environment without SMTP credentials. Report rendered & saved to artifacts.")
     else:
