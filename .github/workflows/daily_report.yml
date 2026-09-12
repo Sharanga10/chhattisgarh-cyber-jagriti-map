@@ -18,10 +18,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Install Dependencies
         run: |
-          pip install requests playwright
+          pip install -r requirements.txt
 
       - name: Install Playwright Chromium
         run: |
@@ -32,13 +33,26 @@ jobs:
           python3 live_sync_daemon.py --once
           python3 data_audit_agent.py
 
-      - name: Generate Audited PDF Report & Verify Parity
+      - name: Generate Audited Comprehensive PDF Report
         run: |
           python3 generate_comprehensive_report.py
+        env:
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
 
-      - name: Commit Updated Master CSV & Report Artifacts
+      - name: Generate Audited Top 10 Districts Report
+        run: |
+          python3 generate_top10_report.py
+
+      - name: Export Full Ground Truth Events Data
+        run: |
+          python3 export_ground_truth_all.py
+
+      - name: Commit Updated Master CSV, Database & Report Artifacts
         run: |
           git config user.name "GitHub Action [Bot]"
           git config user.email "actions@github.com"
-          git add live_feed.json index.html chhattisgarh_cyber_jagriti_map.html cyber_jagriti_all_events.csv reports/ || true
-          git diff --staged --quiet || (git commit -m "Auto-generated Daily Audited Report [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]" && git push)
+          git add live_feed.json index.html chhattisgarh_cyber_jagriti_map.html cyber_jagriti_all_events.csv events.db reports/ audit_results.json || true
+          git diff --staged --quiet || (git commit -m "Auto-generated Daily Audited Report & Data Export [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]" && git push)

@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests
+          pip install -r requirements.txt
 
       - name: Execute one-time stealth sync
         run: |
@@ -33,5 +33,5 @@ jobs:
         run: |
           git config user.name "GitHub Action [Bot]"
           git config user.email "actions@github.com"
-          git add live_feed.json index.html chhattisgarh_cyber_jagriti_map.html
+          git add live_feed.json index.html chhattisgarh_cyber_jagriti_map.html events.db reports/ audit_results.json || true
           git diff --staged --quiet || (git commit -m "Auto-sync telemetry [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]" && git push)
