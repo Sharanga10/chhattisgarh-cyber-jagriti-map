@@ -1469,10 +1469,11 @@ end tell
             else:
                 print("[4/4] Email successfully dispatched with updated PDF attachment via macOS Mail!")
         else:
-            smtp_server = os.environ.get("SMTP_SERVER")
-            smtp_user = os.environ.get("SMTP_USER")
-            smtp_pass = os.environ.get("SMTP_PASS")
-            smtp_port = int(os.environ.get("SMTP_PORT", 587))
+            smtp_server = (os.environ.get("SMTP_SERVER") or "").strip()
+            smtp_user = (os.environ.get("SMTP_USER") or "").strip()
+            smtp_pass = (os.environ.get("SMTP_PASS") or "").strip()
+            smtp_port_raw = (os.environ.get("SMTP_PORT") or "587").strip()
+            smtp_port = int(smtp_port_raw) if smtp_port_raw.isdigit() else 587
             if smtp_server and smtp_user and smtp_pass:
                 try:
                     import smtplib
