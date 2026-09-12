@@ -70,6 +70,16 @@ def generate_top10_report(target_date=None):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
+    cur.execute(f"SELECT COUNT(*), SUM(total_members) FROM events WHERE {filter_clause}")
+    tot_events, tot_members = cur.fetchone()
+    tot_events = tot_events or 0
+    tot_members = tot_members or 0
+    if tot_events == 0 or tot_members == 0:
+        conn.close()
+        err_msg = f"EMPTY REPORT GUARD TRIGGERED: Total events ({tot_events}) or total reach ({tot_members}) is 0 (portal fetch HTTP 401 or empty data). Report generation ABORTED."
+        print(f"\n[!] ERROR: {err_msg}\n")
+        raise RuntimeError(err_msg)
+
     # Determine target date
     if not target_date:
         cur.execute(f"SELECT MAX(event_date) FROM events WHERE {filter_clause} AND event_date <= '2026-09-12'")

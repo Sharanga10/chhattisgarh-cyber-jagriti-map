@@ -235,6 +235,17 @@ def generate_comprehensive_report(target_date=None, dispatch_email=True):
     tot_events, tot_members = cur.fetchone()
     tot_events = tot_events or 0
     tot_members = tot_members or 0
+
+    # ---------------------------------------------------------
+    # HARD GUARD: Zero/Empty report check
+    # If events or members total is 0, abort immediately without PDF/email.
+    # ---------------------------------------------------------
+    if tot_events == 0 or tot_members == 0:
+        conn.close()
+        err_msg = f"EMPTY REPORT GUARD TRIGGERED: Total events ({tot_events}) or total reach ({tot_members}) is 0 (portal fetch HTTP 401 or empty data). PDF generation and email dispatch ABORTED."
+        print(f"\n[!] ERROR: {err_msg}\n")
+        raise RuntimeError(err_msg)
+
     tot_members_lakh = f"{(tot_members / 100000.0):.2f}"
 
     # Today's stats
