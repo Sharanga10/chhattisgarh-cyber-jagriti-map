@@ -10,9 +10,10 @@ import sqlite3
 import csv
 import time
 
-BASE_DIR = "/Users/abhi-macmini/.gemini/antigravity-ide/scratch/cyber-jagriti-monitor-repo"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "events.db")
-ARTIFACT_DIR = "/Users/abhi-macmini/.gemini/antigravity-ide/brain/6f59861b-1f45-4be1-a253-027ca122e4a4"
+ARTIFACT_DIR = os.path.join(BASE_DIR, "reports")
+os.makedirs(ARTIFACT_DIR, exist_ok=True)
 
 def export_ground_truth():
     print(f"[*] Connecting to database: {DB_PATH}")
