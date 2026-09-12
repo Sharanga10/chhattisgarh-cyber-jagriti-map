@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-12 07:21:02",
-  "total_events": 193446,
-  "total_reach": 6802776,
+  "timestamp": "2026-09-12 07:25:54",
+  "total_events": 193599,
+  "total_reach": 6805890,
   "avg_attendance": 35.2,
   "districts_count": 33,
   "status": "LIVE_PULSE",
@@ -14,8 +14,8 @@
       "lng": 82.072,
       "division": "Raipur",
       "flank": "right",
-      "events": 41316,
-      "reach": 877927,
+      "events": 41322,
+      "reach": 878006,
       "avg_attendance": 21.2,
       "top_thanas": [
         {
@@ -63,8 +63,8 @@
       "lng": 81.662,
       "division": "Bastar",
       "flank": "left",
-      "events": 31775,
-      "reach": 831431,
+      "events": 31784,
+      "reach": 831524,
       "avg_attendance": 26.2,
       "top_thanas": [
         {
@@ -112,8 +112,8 @@
       "lng": 82.139,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 19107,
-      "reach": 1215337,
+      "events": 19116,
+      "reach": 1216355,
       "avg_attendance": 63.6,
       "top_thanas": [
         {
@@ -161,8 +161,8 @@
       "lng": 81.285,
       "division": "Durg",
       "flank": "left",
-      "events": 17476,
-      "reach": 758084,
+      "events": 17480,
+      "reach": 758154,
       "avg_attendance": 43.4,
       "top_thanas": [
         {
@@ -259,9 +259,9 @@
       "lng": 82.031,
       "division": "Bastar",
       "flank": "left",
-      "events": 6791,
-      "reach": 135652,
-      "avg_attendance": 20.0,
+      "events": 6807,
+      "reach": 135713,
+      "avg_attendance": 19.9,
       "top_thanas": [
         {
           "name": "Parpa",
@@ -308,8 +308,8 @@
       "lng": 81.667,
       "division": "Bastar",
       "flank": "left",
-      "events": 5809,
-      "reach": 148687,
+      "events": 5820,
+      "reach": 148799,
       "avg_attendance": 25.6,
       "top_thanas": [
         {
@@ -357,8 +357,8 @@
       "lng": 83.395,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 5479,
-      "reach": 76951,
+      "events": 5487,
+      "reach": 76976,
       "avg_attendance": 14.0,
       "top_thanas": [
         {
@@ -406,8 +406,8 @@
       "lng": 82.164,
       "division": "Raipur",
       "flank": "right",
-      "events": 5319,
-      "reach": 47703,
+      "events": 5322,
+      "reach": 47708,
       "avg_attendance": 9.0,
       "top_thanas": [
         {
@@ -455,8 +455,8 @@
       "lng": 82.571,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 4442,
-      "reach": 258182,
+      "events": 4443,
+      "reach": 258192,
       "avg_attendance": 58.1,
       "top_thanas": [
         {
@@ -553,9 +553,9 @@
       "lng": 82.86,
       "division": "Surguja",
       "flank": "right",
-      "events": 3193,
-      "reach": 78973,
-      "avg_attendance": 24.7,
+      "events": 3233,
+      "reach": 79635,
+      "avg_attendance": 24.6,
       "top_thanas": [
         {
           "name": "प्रेम नगर",
@@ -602,9 +602,9 @@
       "lng": 83.197,
       "division": "Surguja",
       "flank": "right",
-      "events": 3150,
-      "reach": 141556,
-      "avg_attendance": 44.9,
+      "events": 3156,
+      "reach": 141993,
+      "avg_attendance": 45.0,
       "top_thanas": [
         {
           "name": "Lakhanpur",
@@ -651,8 +651,8 @@
       "lng": 82.557,
       "division": "Surguja",
       "flank": "right",
-      "events": 2996,
-      "reach": 126310,
+      "events": 2997,
+      "reach": 126330,
       "avg_attendance": 42.2,
       "top_thanas": [
         {
@@ -798,9 +798,9 @@
       "lng": 82.75,
       "division": "Bilaspur",
       "flank": "right",
-      "events": 2433,
-      "reach": 68004,
-      "avg_attendance": 28.0,
+      "events": 2436,
+      "reach": 68044,
+      "avg_attendance": 27.9,
       "top_thanas": [
         {
           "name": "Civil line rampur",
@@ -847,8 +847,8 @@
       "lng": 81.55,
       "division": "Raipur",
       "flank": "right",
-      "events": 2318,
-      "reach": 31300,
+      "events": 2327,
+      "reach": 31328,
       "avg_attendance": 13.5,
       "top_thanas": [
         {
@@ -896,9 +896,9 @@
       "lng": 82.352,
       "division": "Surguja",
       "flank": "right",
-      "events": 2202,
-      "reach": 73044,
-      "avg_attendance": 33.2,
+      "events": 2205,
+      "reach": 73051,
+      "avg_attendance": 33.1,
       "top_thanas": [
         {
           "name": "मनेंद्रगढ़",
@@ -945,8 +945,8 @@
       "lng": 81.63,
       "division": "Raipur",
       "flank": "right",
-      "events": 2170,
-      "reach": 75922,
+      "events": 2171,
+      "reach": 75942,
       "avg_attendance": 35.0,
       "top_thanas": [
         {
@@ -994,8 +994,8 @@
       "lng": 80.817,
       "division": "Bastar",
       "flank": "left",
-      "events": 2000,
-      "reach": 81763,
+      "events": 2002,
+      "reach": 81823,
       "avg_attendance": 40.9,
       "top_thanas": [
         {
@@ -1043,8 +1043,8 @@
       "lng": 81.248,
       "division": "Durg",
       "flank": "left",
-      "events": 1975,
-      "reach": 50357,
+      "events": 1984,
+      "reach": 50581,
       "avg_attendance": 25.5,
       "top_thanas": [
         {
@@ -1092,8 +1092,8 @@
       "lng": 81.252,
       "division": "Bastar",
       "flank": "left",
-      "events": 1854,
-      "reach": 27755,
+      "events": 1858,
+      "reach": 27793,
       "avg_attendance": 15.0,
       "top_thanas": [
         {
@@ -1190,8 +1190,8 @@
       "lng": 81.491,
       "division": "Bastar",
       "flank": "left",
-      "events": 1729,
-      "reach": 74709,
+      "events": 1731,
+      "reach": 74754,
       "avg_attendance": 43.2,
       "top_thanas": [
         {
@@ -1239,8 +1239,8 @@
       "lng": 80.742,
       "division": "Durg",
       "flank": "left",
-      "events": 1707,
-      "reach": 48667,
+      "events": 1709,
+      "reach": 48679,
       "avg_attendance": 28.5,
       "top_thanas": [
         {
@@ -1484,9 +1484,9 @@
       "lng": 84.142,
       "division": "Surguja",
       "flank": "right",
-      "events": 607,
-      "reach": 55239,
-      "avg_attendance": 91.0,
+      "events": 608,
+      "reach": 55269,
+      "avg_attendance": 90.9,
       "top_thanas": [
         {
           "name": "Tapkara",
