@@ -13,6 +13,7 @@ import argparse
 import subprocess
 import requests
 from datetime import datetime, timedelta
+from token_utils import get_url_token
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
@@ -101,7 +102,7 @@ def fetch_dashboard_data():
         raise ValueError("Failed to retrieve auth token from login response.")
 
     print("[2/5] Fetching live dashboard telemetry...")
-    dash_url = "https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard"
+    dash_url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard?token={get_url_token()}"
     headers = {"Authorization": token}
     dash_res = requests.get(dash_url, headers=headers, timeout=30)
     dash_res.raise_for_status()

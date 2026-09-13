@@ -11,6 +11,7 @@ import time
 import json
 import requests
 from datetime import datetime
+from token_utils import get_url_token
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FEED_JSON = os.path.join(BASE_DIR, 'live_feed.json')
@@ -48,7 +49,7 @@ def sync_live():
         sys.exit(1)
 
     # 2. Fetch Live Dashboard Metrics
-    dash_url = "https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard"
+    dash_url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard?token={get_url_token()}"
     try:
         r_dash = session.get(dash_url, headers={"Authorization": token}, timeout=15)
         r_dash.raise_for_status()

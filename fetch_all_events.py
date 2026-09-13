@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Gentle, under-the-radar baseline fetcher for all Cyber Jagriti events.
-Fetches in safe batches of 1,000 with a polite pause, storing into SQLite.
+High-throughput baseline fetcher for all Cyber Jagriti events.
+Fetches in fast batches of 5,000 using the vendor URL token signature, storing into SQLite.
 """
 
 import os
@@ -9,6 +9,7 @@ import sys
 import time
 import sqlite3
 import requests
+from token_utils import get_url_token
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "events.db")
@@ -45,14 +46,14 @@ def init_db(conn):
     cur.execute("CREATE INDEX IF NOT EXISTS idx_members ON events(total_members)")
     conn.commit()
 
-def fetch_all():
+def fetch_all(limit=5000):
     print("[*] Authenticating...")
     login_url = "https://cyberjagriti.policemitanrpr.com/api/login/check"
     res = requests.post(login_url, json={"username": "admin", "***REMOVED***": "***REMOVED***"}, timeout=30)
     token = res.json().get("token")
     if not token:
         print("Login failed!")
-        return
+        return 0
 
     headers = {
         "Authorization": token,
@@ -66,13 +67,13 @@ def fetch_all():
     cur = conn.cursor()
 
     page = 1
-    limit = 1000
     total_saved = 0
     total_records = None
 
-    print("[*] Starting gentle batch retrieval (1,000 per request, 0.6s pause)...")
+    print(f"[*] Starting high-speed batch retrieval ({limit:,} per request)...")
     while True:
-        url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?page={page}&limit={limit}"
+        url_token = get_url_token()
+        url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?token={url_token}&page={page}&limit={limit}"
         try:
             r = requests.get(url, headers=headers, timeout=30)
             if r.status_code != 200:
@@ -96,7 +97,7 @@ def fetch_all():
                     continue
 
                 try:
-                    members = int(item.get("total_members", 0))
+                    members = int(item.get("total_members", 0) or 0)
                 except (ValueError, TypeError):
                     members = 0
 
@@ -141,7 +142,7 @@ def fetch_all():
                 break
 
             page += 1
-            time.sleep(0.6) # polite 600ms delay to keep server load negligible
+            time.sleep(0.1)
         except Exception as e:
             print(f"Exception on page {page}: {e}")
             time.sleep(2)
@@ -149,6 +150,7 @@ def fetch_all():
 
     conn.close()
     print(f"\n[+] Finished! Successfully stored {total_saved:,} events in {DB_PATH}")
+    return total_saved
 
 if __name__ == "__main__":
     fetch_all()

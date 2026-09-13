@@ -10,6 +10,7 @@ import json
 import time
 import sqlite3
 import requests
+from token_utils import get_url_token
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "events.db")
@@ -51,7 +52,7 @@ def heal():
     min_target_id = (min_id or 83200) - 50
 
     while True:
-        url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?page={page}&limit=500"
+        url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?token={get_url_token()}&page={page}&limit=500"
         try:
             r = session.get(url, timeout=20)
             if r.status_code != 200:

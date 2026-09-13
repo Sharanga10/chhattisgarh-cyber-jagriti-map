@@ -9,13 +9,14 @@ import random
 import threading
 import subprocess
 from datetime import datetime
+from token_utils import get_url_token
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FEED_JSON = os.path.join(BASE_DIR, "live_feed.json")
 DB_PATH = os.path.join(BASE_DIR, "events.db")
 AUTH_CACHE_FILE = os.path.join(BASE_DIR, "auth_cache.json")
-BACKFILL_SCRIPT = os.path.join(BASE_DIR, "backfill_missing_stations.py")
-MAP_GENERATOR_SCRIPT = os.path.join(BASE_DIR, "generate_enhanced_map.py")
+BACKFILL_SCRIPT = os.path.join(BASE_DIR, "backfill_districts.py")
+MAP_GENERATOR_SCRIPT = os.path.join(BASE_DIR, "generate_geospatial_map.py")
 
 CHROME_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -101,7 +102,7 @@ def get_auth_token(session):
                 if time.time() - cached.get('timestamp', 0) < 14400:
                     token = cached.get('token')
                     test_headers = {"Authorization": token}
-                    r = session.get("https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard", headers=test_headers, timeout=8)
+                    r = session.get(f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard?token={get_url_token()}", headers=test_headers, timeout=8)
                     if r.status_code == 200:
                         return token
         except:
@@ -124,7 +125,7 @@ def fast_pulse_check(session, token, last_feed_events):
     Tier 1: Lightweight 2KB dashboard pulse check.
     Takes ~150ms. If counter changed, updates live_feed.json immediately.
     """
-    dash_url = "https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard"
+    dash_url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard?token={get_url_token()}"
     try:
         r = session.get(dash_url, headers={"Authorization": token}, timeout=8)
         if r.status_code != 200:
@@ -218,7 +219,20 @@ def deep_event_ingestion(session, token, verbose=True):
     local_count, local_max_id = cur.fetchone()
     local_max_id = local_max_id or 0
 
-    list_url = "https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?page=1&limit=1"
+    if local_count == 0 or local_max_id == 0:
+        conn.close()
+        if verbose:
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] [DEEP SYNC] Empty database detected. Performing initial baseline ingestion...", flush=True)
+        from fetch_all_events import fetch_all
+        saved = fetch_all(limit=5000)
+        # Run station backfill & recompile map
+        if os.path.exists(BACKFILL_SCRIPT):
+            subprocess.run([sys.executable, BACKFILL_SCRIPT], cwd=BASE_DIR, capture_output=True)
+        if os.path.exists(MAP_GENERATOR_SCRIPT):
+            subprocess.run([sys.executable, MAP_GENERATOR_SCRIPT], cwd=BASE_DIR, capture_output=True)
+        return saved
+
+    list_url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?token={get_url_token()}&page=1&limit=1"
     try:
         lr = session.get(list_url, headers={"Authorization": token}, timeout=10)
         latest_items = lr.json().get("result", [])
@@ -241,7 +255,7 @@ def deep_event_ingestion(session, token, verbose=True):
     page = 1
     consecutive_existing = 0
     while page <= 15:
-        page_url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?page={page}&limit=500"
+        page_url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?token={get_url_token()}&page={page}&limit=500"
         try:
             lr = session.get(page_url, headers={"Authorization": token}, timeout=15)
             items = lr.json().get("result", [])

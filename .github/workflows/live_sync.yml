@@ -25,6 +25,14 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Cache Events Database
+        uses: actions/cache@v4
+        with:
+          path: events.db
+          key: events-db-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            events-db-${{ runner.os }}-
+
       - name: Execute one-time stealth sync
         run: |
           python3 live_sync_daemon.py --once
@@ -33,5 +41,6 @@ jobs:
         run: |
           git config user.name "GitHub Action [Bot]"
           git config user.email "actions@github.com"
-          git add live_feed.json index.html chhattisgarh_cyber_jagriti_map.html events.db reports/ audit_results.json || true
+          mkdir -p reports
+          git add live_feed.json index.html chhattisgarh_cyber_jagriti_map.html reports/ audit_results.json || true
           git diff --staged --quiet || (git commit -m "Auto-sync telemetry [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]" && git push)

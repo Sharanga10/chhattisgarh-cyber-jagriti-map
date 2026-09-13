@@ -15,6 +15,7 @@ import json
 import sqlite3
 import requests
 from datetime import datetime
+from token_utils import get_url_token
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'events.db')
@@ -85,7 +86,7 @@ def run_audit():
         r_auth.raise_for_status()
         token = r_auth.json().get("token")
         
-        r_dash = session.get("https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard", headers={"Authorization": token}, timeout=15)
+        r_dash = session.get(f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard?token={get_url_token()}", headers={"Authorization": token}, timeout=15)
         r_dash.raise_for_status()
         dash_data = r_dash.json()
         counter = dash_data.get("counter", {})

@@ -51,6 +51,19 @@ def run_backfill():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
+    # Step 0: Auto-heal numeric/phone/date strings in police_station
+    cur.execute("""
+        UPDATE events 
+        SET police_station = 'Cyber cell balod' 
+        WHERE id = 118542 AND police_station = '9630872573'
+    """)
+    cur.execute("""
+        UPDATE events 
+        SET police_station = 'साइबर सेल' 
+        WHERE police_station GLOB '[0-9][0-9][0-9][0-9]*'
+    """)
+    conn.commit()
+
     # Step 1: Build known station mapping from rows that already have a district
     cur.execute('''
         SELECT LOWER(TRIM(police_station)), district_name_en, district_name_hi, COUNT(*) 

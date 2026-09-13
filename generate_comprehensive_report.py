@@ -28,6 +28,7 @@ from datetime import datetime, timedelta
 
 # Import independent Data Audit Agent
 from data_audit_agent import DataAuditAgent, get_audited_events_query_filter
+from token_utils import get_url_token
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "events.db")
@@ -109,7 +110,7 @@ def sync_latest_events_from_portal(db_path=DB_PATH):
     keep_fetching = True
 
     while keep_fetching and page <= 5:
-        url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?page={page}&limit=500"
+        url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/list?token={get_url_token()}&page={page}&limit=500"
         try:
             r = requests.get(url, headers=headers, timeout=20)
             if r.status_code != 200:

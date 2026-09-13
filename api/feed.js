@@ -26,6 +26,14 @@ async function getAuthToken() {
   return cachedToken;
 }
 
+function getUrlToken() {
+  let t = String(Math.floor(Date.now() / 1000));
+  for (let i = 0; i < 5; i++) {
+    t = Buffer.from(t).toString("base64");
+  }
+  return t;
+}
+
 export default async function handler(req, res) {
   // Enable full cross-origin resource sharing
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -41,7 +49,8 @@ export default async function handler(req, res) {
 
   try {
     const token = await getAuthToken();
-    const dashRes = await fetch("https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard", {
+    const urlToken = getUrlToken();
+    const dashRes = await fetch(`https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard?token=${urlToken}`, {
       headers: {
         "Authorization": token,
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",

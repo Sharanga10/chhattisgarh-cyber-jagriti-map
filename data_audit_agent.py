@@ -11,6 +11,7 @@ import json
 import sqlite3
 import requests
 from datetime import datetime
+from token_utils import get_url_token
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "events.db")
@@ -83,7 +84,7 @@ class DataAuditAgent:
         portal_districts = []
 
         login_url = "https://cyberjagriti.policemitanrpr.com/api/login/check"
-        dash_url = "https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard"
+        dash_url = f"https://cyberjagriti.policemitanrpr.com/api/cyber_crime/dashboard?token={get_url_token()}"
 
         try:
             r_auth = requests.post(login_url, json={"username": "admin", "***REMOVED***": "***REMOVED***"}, timeout=10)
