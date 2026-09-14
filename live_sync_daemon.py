@@ -110,7 +110,24 @@ def get_auth_token(session):
 
     login_url = "https://cyberjagriti.policemitanrpr.com/api/login/check"
     try:
-        r = session.post(login_url, json={"username": "admin", "***REMOVED***": "***REMOVED***"}, timeout=10)
+        username = os.environ.get("CYBERJAGRITI_USER") or os.environ.get("CYBERJAGRITI_USERNAME")
+        ***REMOVED*** = os.environ.get("CYBERJAGRITI_PASS") or os.environ.get("CYBERJAGRITI_PASSWORD")
+        if not username or not ***REMOVED***:
+            cred_path = os.path.expanduser("~/.credentials/cyberjagriti.json")
+            if os.path.exists(cred_path):
+                try:
+                    with open(cred_path, "r") as cf:
+                        creds = json.load(cf)
+                        username = username or creds.get("username")
+                        ***REMOVED*** = ***REMOVED*** or creds.get("***REMOVED***")
+                except Exception as ce:
+                    print(f"[*] Notice reading external credentials: {ce}", flush=True)
+
+        if not username or not ***REMOVED***:
+            print("[*] Live portal credentials not configured. Set CYBERJAGRITI_USERNAME and CYBERJAGRITI_PASSWORD.", flush=True)
+            return None
+
+        r = session.post(login_url, json={"username": username, "***REMOVED***": ***REMOVED***}, timeout=10)
         token = r.json().get("token")
         if token:
             with open(AUTH_CACHE_FILE, 'w') as f:
