@@ -111,23 +111,23 @@ def get_auth_token(session):
     login_url = "https://cyberjagriti.policemitanrpr.com/api/login/check"
     try:
         username = os.environ.get("CYBERJAGRITI_USER") or os.environ.get("CYBERJAGRITI_USERNAME")
-        ***REMOVED*** = os.environ.get("CYBERJAGRITI_PASS") or os.environ.get("CYBERJAGRITI_PASSWORD")
-        if not username or not ***REMOVED***:
+        password = os.environ.get("CYBERJAGRITI_PASS") or os.environ.get("CYBERJAGRITI_PASSWORD")
+        if not username or not password:
             cred_path = os.path.expanduser("~/.credentials/cyberjagriti.json")
             if os.path.exists(cred_path):
                 try:
                     with open(cred_path, "r") as cf:
                         creds = json.load(cf)
                         username = username or creds.get("username")
-                        ***REMOVED*** = ***REMOVED*** or creds.get("***REMOVED***")
+                        password = password or creds.get("password")
                 except Exception as ce:
                     print(f"[*] Notice reading external credentials: {ce}", flush=True)
 
-        if not username or not ***REMOVED***:
+        if not username or not password:
             print("[*] Live portal credentials not configured. Set CYBERJAGRITI_USERNAME and CYBERJAGRITI_PASSWORD.", flush=True)
             return None
 
-        r = session.post(login_url, json={"username": username, "***REMOVED***": ***REMOVED***}, timeout=10)
+        r = session.post(login_url, json={"username": username, "password": password}, timeout=10)
         token = r.json().get("token")
         if token:
             with open(AUTH_CACHE_FILE, 'w') as f:
@@ -182,34 +182,25 @@ def fast_pulse_check(session, token, last_feed_events):
             portal_by_id = {int(d.get("district_id", 0)): d for d in remote_districts}
             portal_by_name = {d.get("district_name_en", "").lower().strip(): d for d in remote_districts}
 
-            # Raipur combined (Commissionerate 27 + Gramin 34)
-            raipur_events = 0
-            raipur_reach = 0
-            for r_id in [27, 34]:
-                if r_id in portal_by_id:
-                    raipur_events += int(portal_by_id[r_id].get("total", 0))
-                    raipur_reach += int(portal_by_id[r_id].get("total_members", 0))
-
-            if "districts" in feed_data and feed_data["districts"]:
-                for d in feed_data["districts"]:
-                    did = int(d.get("id", 0))
-                    name_clean = d.get("name_en", "").lower().strip()
-                    if did == 27 or "raipur" in name_clean:
-                        d["id"] = 27
-                        d["events"] = raipur_events
-                        d["reach"] = raipur_reach
-                        d["avg_attendance"] = round(raipur_reach / raipur_events, 1) if raipur_events > 0 else 0
-                    elif did in portal_by_id:
-                        rd = portal_by_id[did]
-                        d["events"] = int(rd.get("total", d.get("events", 0)))
-                        d["reach"] = int(rd.get("total_members", d.get("reach", 0)))
-                        d["avg_attendance"] = round(d["reach"] / d["events"], 1) if d["events"] > 0 else 0
-                    elif name_clean in portal_by_name:
-                        rd = portal_by_name[name_clean]
-                        d["id"] = int(rd.get("district_id", did))
-                        d["events"] = int(rd.get("total", d.get("events", 0)))
-                        d["reach"] = int(rd.get("total_members", d.get("reach", 0)))
-                        d["avg_attendance"] = round(d["reach"] / d["events"], 1) if d["events"] > 0 else 0
+            # Keep portal IDs distinct. District 34 is a non-spatial card until
+            # an authoritative boundary/centroid is available.
+            existing_by_id = {int(d.get("id", 0)): d for d in feed_data.get("districts", [])}
+            for did, rd in portal_by_id.items():
+                if did == 0:
+                    continue
+                d = existing_by_id.get(did)
+                if d is None:
+                    d = {
+                        "id": did,
+                        "name_en": rd.get("district_name_en", ""),
+                        "name_hi": rd.get("district_name_hi", ""),
+                        "spatial": False,
+                    }
+                    feed_data.setdefault("districts", []).append(d)
+                    existing_by_id[did] = d
+                d["events"] = int(rd.get("total", d.get("events", 0)))
+                d["reach"] = int(rd.get("total_members", d.get("reach", 0)))
+                d["avg_attendance"] = round(d["reach"] / d["events"], 1) if d["events"] > 0 else 0
 
                 feed_data["districts"].sort(key=lambda x: x.get("events", 0), reverse=True)
                 for idx, d in enumerate(feed_data["districts"], 1):
@@ -304,17 +295,26 @@ def deep_event_ingestion(session, token, verbose=True):
             except:
                 pass
 
+            district_id = int(item.get("district", 0)) if str(item.get("district", "")).isdigit() else 0
+            event_date = (item.get("date") or "").strip()
+            try:
+                event_day = datetime.strptime(event_date[:10], "%Y-%m-%d").date()
+            except (TypeError, ValueError):
+                continue
+            if district_id == 0 or event_day > datetime.now().date():
+                continue
+
             new_records.append((
                 eid,
                 item.get("subject", ""),
                 (item.get("police_station") or "").strip(),
-                int(item.get("district", 0)) if str(item.get("district", "")).isdigit() else 0,
+                district_id,
                 (item.get("district_name_en") or "").strip(),
                 (item.get("district_name_hi") or "").strip(),
                 (item.get("officer_name") or "").strip(),
                 (item.get("designation") or "").strip(),
                 (item.get("officer_contact_no") or "").strip(),
-                item.get("date", ""),
+                event_date,
                 item.get("time", ""),
                 item.get("date_time", ""),
                 (item.get("village_name") or "").strip(),
